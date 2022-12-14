@@ -2545,7 +2545,8 @@ Smile Technology LLC
 
             ("m" "Metrics Capture")
             ("mw" "Weight" table-line (file+headline "~/org/beorg/org/Metrics.org" "Weight")
-             "| %U | %^{Weight} | %^{Notes} |" :kill-buffer t))))
+             "| %U | %^{Weight} | %^{Notes} |" :kill-buffer t)))
+    (message "org ready ✔"))
 
   ;; (define-key global-map (kbd "C-c j")
   ;;   (lambda () (interactive) (org-capture nil "jj")))
