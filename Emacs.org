@@ -2352,16 +2352,15 @@ Smile Technology LLC
     (org-msg-mode))
 #+end_src
 * Org Mode
-** Org Evil
+** Evil Org 
 #+begin_src emacs-lisp
   (use-package evil-org
     :after (evil org)
-    :diminish EvilOrg 
     :config
     (setq evil-want-C-i-jump nil)
     (require 'evil-org-agenda)
     (evil-org-agenda-set-keys)
-    (message "evil-org loaded"))
+    (message "evil org ready ✔"))
 #+End_src
 ** Custom function
 #+begin_src emacs-lisp
