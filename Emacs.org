@@ -2610,9 +2610,9 @@ Smile Technology LLC
               (add-to-list 'org-structure-template-alist '("sql". "src sql-mode"))))
 #+end_src
 
-#+begin_src emacs-lisp
   (use-package ob
     :ensure nil
+    :hook (org-babel-after-execute . org-redisplay-inline-images)
     :config (progn
               ;; load more languages for org-babel
               (org-babel-do-load-languages
@@ -2632,12 +2632,28 @@ Smile Technology LLC
               (setq org-babel-default-header-args:sh    '((:results . "output replace"))
                     org-babel-default-header-args:bash  '((:results . "output replace"))
                     org-babel-default-header-args:shell '((:results . "output replace"))
-                    ;;org-babel-default-header-args:jupyter-R '((:async . "yes")
-                    ;;                                          (:session . "R"))
-                    ;;org-babel-default-header-args:jupyter-python '((:async . "yes")
-                    ;;                                               (:session . "py"))
                     org-babel-default-header-args:python '((:results . "output")))
               (add-to-list 'org-src-lang-modes (quote ("plantuml" . plantuml)))))
+#+end_src
+** Org Tempo
+#+begin_src emacs-lisp
+  (use-package org-tempo
+    :ensure nil
+    :config (progn
+              (add-to-list 'org-structure-template-alist '("R"  . "src R"))
+              (add-to-list 'org-structure-template-alist '("cl" . "src C"))
+              (add-to-list 'org-structure-template-alist '("cp" . "src C++"))
+              (add-to-list 'org-structure-template-alist '("gp" . "src gnuplot"))
+              (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
+              (add-to-list 'org-structure-template-alist '("jp" . "src jupyter-python"))
+              (add-to-list 'org-structure-template-alist '("jr" . "src jupyter-r"))
+              (add-to-list 'org-structure-template-alist '("np" . "src napkin"))
+              (add-to-list 'org-structure-template-alist '("pu" . "src plantuml"))
+              (add-to-list 'org-structure-template-alist '("py" . "src python"))
+              (add-to-list 'org-structure-template-alist '("rc" . "src restclient"))
+              (add-to-list 'org-structure-template-alist '("sh" . "src shell"))
+              ;;(add-to-list 'org-structure-template-alist '("npp". "src napkin-puml"))
+              (add-to-list 'org-structure-template-alist '("sql". "src sql-mode"))))
 #+end_src
 ** Org Superstar 
 #+begin_src emacs-lisp
