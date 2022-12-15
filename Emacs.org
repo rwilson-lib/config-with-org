@@ -2345,8 +2345,9 @@ Regards,
 #+begin_signature
 ---------------------------
 *Ramus Jabee Lloyd Wilson*
-ICT Consultant
-Smile Technology LLC
+ICT Consultant | Smile Technology LLC
+/email: ramus.wilson@smiletech.com ramus@rjlwjr.com/
+/phone: +231-77-797-8125 +231-88-697-8125/
 /The simple act of paying attention can take you a long way/
 #+end_signature")
     (org-msg-mode))
