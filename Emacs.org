@@ -2665,42 +2665,41 @@ ICT Consultant | Smile Technology LLC
     :defer 3
     :custom (alert-default-style 'notifications)
     ;; :custom (alert-default-style 'fringe)
+    :after org
     :config
     (setq org-alert-interval 300
           org-alert-notification-title "Org Alert Reminder")
     (org-alert-enable)
-    (message "org-alert loaded"))
+    (message "org-alert ready ✔"))
 #+end_src
 ** Org remark
 #+begin_src emacs-lisp
   (use-package org-remark
-    :defer 3
+    :disabled
+    :defer 10
+    :after org
     :config
     (org-remark-create "memorize"
                        '(:foreground "white" :underline "black")
                        '(CATEGORY "exam"))
     (org-remark-create "magnet"
-                       '(modus-themes-nuanced-magenta)))
-#+end_src
-** Flash card
-#+begin_src emacs-lisp
-  (use-package org-anki
-    :disabled
-    :defer 5
-    :config
-    (message "org-anki"))
+                       '(modus-themes-nuanced-magenta))
+    (message "org-remark ready ✔"))
 #+end_src
 ** Org Transclusion
 #+begin_src emacs-lisp
   (use-package org-transclusion
+    :disabled
+    :after org
     :defer 5
     :config
-    (message "org-transclusion"))
+    (message "org-transclusion ready ✔"))
 #+end_src
 ** Org Download
 #+begin_src emacs-lisp
   (use-package org-download
     :defer 5
+    :after org
     :config
     (setq org-download-screenshot-method "screencapture"))
 #+end_src
@@ -3496,4 +3495,12 @@ ICT Consultant | Smile Technology LLC
   ;;   :hook (latex-mode-hook . (lambda ()
   ;;                              (require 'lsp-ltex)
   ;;                              (lsp)))) ; or lsp-deferred
+#+end_src
+** Flash card
+#+begin_src emacs-lisp :tangle no
+  ;; (use-package org-anki
+  ;;   :disabled
+  ;;   :defer 5
+  ;;   :config
+  ;;   (message "org-anki ready ✔"))
 #+end_src
