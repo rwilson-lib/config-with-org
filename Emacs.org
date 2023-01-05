@@ -2346,8 +2346,6 @@ ICT Consultant | Smile Technology LLC
 ** Custom function
 #+begin_src emacs-lisp
   ;; Org Mode Configuration ------------------------------------------------------
-
-
   (defun efs/org-mode-setup ()
     ;; (org-indent-mode)
     ;; (visual-line-mode 1)
