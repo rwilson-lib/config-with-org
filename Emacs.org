@@ -2355,6 +2355,10 @@ ICT Consultant | Smile Technology LLC
     (visual-fill-column-mode 1)
     (hl-todo-mode)
     (setq-local truncate-lines t)
+
+    (setq-local visual-fill-column-width 100
+                visual-fill-column-center-text t)
+    
     (variable-pitch-mode 1))
 
   (defun efs/org-font-setup ()
@@ -2395,9 +2399,6 @@ ICT Consultant | Smile Technology LLC
                ("S-<backspace>" . org-table-blank-field))
 
         :config
-        (setq-local visual-fill-column-width 100
-                    visual-fill-column-center-text t)
-
         ;; (setq org-display-remote-inline-images 'cache) ; org-version 9.5 not working
         (setq org-use-property-inheritance t)
         (setq org-directory (concat (getenv "HOME") "/org"))
