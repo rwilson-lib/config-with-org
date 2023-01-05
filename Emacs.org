@@ -334,7 +334,7 @@
 #+begin_src emacs-lisp
   (use-package try
     :disabled
-    :defer 5
+    ;; :defer 5
     :config
     (message "try ready ✔"))
 #+end_src
@@ -729,13 +729,13 @@
     :after (avy flycheck))
 
   (use-package ace-link
-    :defer 10
+    ;; :defer 10
     :config
     (message "ace-link loaded!"))
 
   
   (use-package link-hint
-    :defer 10
+    ;; :defer 10
     :config
     (general-define-key
      :prefix "C-x / l"
@@ -909,7 +909,7 @@
 ** Tree-Macs
 #+begin_src emacs-lisp
   (use-package treemacs
-    :defer 5
+    ;; :defer 5
     :config
     
     (use-package treemacs-all-the-icons
@@ -927,19 +927,19 @@
 
   (use-package treemacs-projectile
     :after treemacs projectile
-    :defer 5
+    ;; :defer 5
     :config
     (message "treemacs-projectile ready"))
 
   (use-package treemacs-magit
     :after treemacs magit
-    :defer 5
+    ;; :defer 5
     :config
     (message "treemacs-magit ready"))
 
   (use-package treemacs-evil
     :after treemacs evil
-    :defer 5
+    ;; :defer 5
     :config
     (message "treemacs-evil ready"))
 #+end_src
@@ -1045,11 +1045,11 @@
 ** Folds
 #+begin_src emacs-lisp
   (use-package vimish-fold
-    :defer 5 
+    ;; :defer 5 
     :after evil)
 
   (use-package evil-vimish-fold
-    :defer 5
+    ;; :defer 5
     :after vimish-fold
     :hook ((prog-mode conf-mode text-mode) . evil-vimish-fold-mode))
 #+end_src
@@ -1207,10 +1207,12 @@
 ** Magit
 #+begin_src emacs-lisp
   (use-package magit
-    :defer 2
+    ;; :defer 2
     :custom (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1)
     :config
-    (setq git-gutter:hide-gutter t)
+    (setq git-gutter:hide-gutter t
+          git-gutter:visual-line t
+          git-gutter:linum-enabled nil)
     (message "Magit ready ✔"))
 #+end_src
 ** Git Gutter
@@ -1360,7 +1362,7 @@
             ("STUB"   . "#1E90FF"))))
 
   (use-package rainbow-mode
-    :defer 5
+    ;; :defer 5
     :config
     (use-package rainbow-delimiters)
     (setq rainbow-x-colors nil)
@@ -1390,7 +1392,7 @@
 ** Snippet
 #+begin_src emacs-lisp
   (use-package yasnippet
-    :defer 2
+    ;; :defer 2
     :hook
     (yas-minor-mode . (lambda ()
                         (define-key yas-minor-mode-map (kbd "<tab>") nil)
@@ -1417,7 +1419,7 @@
 #+end_src
 #+begin_src emacs-lisp
   (use-package emmet-mode
-    :defer 2
+    ;; :defer 2
     :hook
     (sgml-mode . emmet-mode) ;; Auto-start on any markup modes
     (web-mode  . emmet-mode)
@@ -1574,7 +1576,7 @@
 ** Virtual Envs
 #+begin_src emacs-lisp
   (use-package conda
-    :defer 5
+    ;; :defer 5
     ;; :after (python org-mode)
     ;;:config
     ;;(conda-env-autoactivate-mode nil)
@@ -1591,7 +1593,7 @@
     (message "conda loaded  ✔"))
 
   (use-package pipenv
-    :defer 5
+    ;; :defer 5
     :requires pyvenv
     ;; :after python 
     ;; :hook (python . pipenv-mode)
@@ -1635,9 +1637,10 @@
 ** Universal Modeling Language
 #+begin_src emacs-lisp
   (use-package plantuml-mode
-    :defer 3
+    ;; :defer 3
     :mode (("\\.pu\\'" . plantuml-mode)
            ("\\.iuml\\'" . plantuml-mode)
+           ("\\.uml\\'" . plantuml-mode)
            ("\\.puml\\'" . plantuml-mode))
     :config
     ;; (setq org-plantuml-jar-path (expand-file-name "/usr/local/Cellar/plantuml/1.2022.5/libexec/plantuml.jar"))
@@ -1663,7 +1666,7 @@
   ;;(add-hook 'sql-mode-hook 'lsp) 
 
   (use-package sqlformat
-    :defer 10
+    ;; :defer 10
     :commands (sqlformat sqlformat-buffer sqlformat-region)
     ;; :hook (sql-mode . sqlformat-on-save-mode)
     :init
@@ -1696,7 +1699,7 @@
 ** Rest Client
 #+begin_src emacs-lisp
   (use-package restclient
-    :defer 2
+    ;; :defer 2
     :mode ("\\.http\\'" . restclient-mode)
     ;; :hook (restclient-mode . company-mode)
     :bind (:map restclient-mode-map
@@ -1707,7 +1710,7 @@
 ** Yaml
 #+begin_src emacs-lisp
   (use-package yaml-mode 
-    :defer 2
+    ;; :defer 2
     :mode (("\\.yaml\\'" . yaml-mode)
            ("\\.yml\\'" . yaml-mode))
     :bind ((:map yaml-mode-map
@@ -1718,7 +1721,7 @@
 ** Graphql
 #+begin_src emacs-lisp
   (use-package graphql-mode
-    :defer 2
+    ;; :defer 2
     :config
     (message "graphql loaded"))
 #+end_src
@@ -1727,7 +1730,7 @@
 #+begin_src emacs-lisp
   (use-package jupyter
     :disabled
-    :defer 2
+    ;; :defer 2
     ;; :requires (zmq org python)
     :commands (jupyter-run-server-repl
                jupyter-run-repl
@@ -1740,7 +1743,7 @@
 ** ESS
 #+begin_src emacs-lisp
   (use-package ess
-    :defer 2
+    ;; :defer 2
     :custom
     (inferior-ess-fix-misaligned-output t)
     (ess-eldoc-show-on-symbol t)
@@ -1786,20 +1789,15 @@
   (use-package ess-view-data
     :after ess)
 #+end_src
-** Julia
-#+begin_src emacs-lisp
-  (use-package julia-mode
-    :defer 5)
-#+end_src
-** Gnu Plot
+    ;; :defer 5)
 #+begin_src emacs-lisp
   (use-package gnuplot
-    :defer 5
+    ;; :defer 5
     :config
     (message "gnuplot loaded"))
 
   (use-package gnuplot-mode
-    :defer 5
+    ;; :defer 5
     :config
     (message "gnuplot mode loaded"))
 #+end_src
@@ -1807,7 +1805,7 @@
 #+begin_src emacs-lisp
   (use-package hledger-mode
     :disabled
-    :defer 2
+    ;; :defer 2
 
     ;; To open files with .journal extension in hledger-mode
     :mode ("\\.journal\\'" . hledger-mode)
@@ -1832,7 +1830,7 @@
     :hook (text-mode . flyspell-mode))
 
   (use-package flyspell-lazy
-    :defer 5
+    ;; :defer 5
     :after flyspell
 
     :bind ((:map flyspell-mode-map
@@ -1845,7 +1843,7 @@
 #+begin_src emacs-lisp
   (use-package flycheck-languagetool 	
     :disabled
-    :defer 10
+    ;; :defer 10
     :ensure t
     :hook (text-mode . flycheck-languagetool-setup)
     :init
@@ -1854,7 +1852,7 @@
 ** Dictionary & Thesaurus 
 #+begin_src emacs-lisp
   (use-package mw-thesaurus
-    :defer 10
+    ;; :defer 10
     :bind ((:map evil-normal-state-map
                  ("Z?" . mw-thesaurus-lookup-at-point)
                  ("z?" . mw-thesaurus-lookup-dwim)))
@@ -1862,12 +1860,12 @@
     (message "mw-theasaurus loaded ✔"))
 
   (use-package dictionary
-    :defer 10
+    ;; :defer 10
     :config
     (message "dictionary loaded ✔"))
 
   (use-package powerthesaurus
-    :defer 10
+    ;; :defer 10
     :config
     (message "powerthesaurus loaded  ✔"))
 #+end_src
@@ -2125,7 +2123,7 @@
   ;; (add-hook 'mail-citation-hook 'sc-cite-original)
   (use-package mu4e
     :ensure nil
-    :defer 3
+    ;; :defer 3
     :load-path "/usr/local/share/emacs/site-lisp/mu/mu4e"
 
     :hook (mu4e-view-mode lambda ()
@@ -2293,7 +2291,7 @@
     ;; (setq mu4e-alert-icon "~/.emacs.d/e-mail.svg")
     (add-hook 'after-init-hook #'mu4e-alert-enable-notifications)
     (add-hook 'after-init-hook #'mu4e-alert-enable-mode-line-display)
-    (message "mu4e alert ready"))
+    (message "mu4e-alert ready ✔"))
 #+end_src
 ** GNUS function
 #+begin_src emacs-lisp
@@ -2655,7 +2653,7 @@ ICT Consultant | Smile Technology LLC
 ** Org Present
 #+begin_src emacs-lisp
   (use-package org-present
-    :defer 3
+    ;; :defer 3
     :after org
     :config
     (message "org-present loaded"))
@@ -2663,7 +2661,7 @@ ICT Consultant | Smile Technology LLC
 ** Org Alert
 #+begin_src emacs-lisp
   (use-package org-alert
-    :defer 3
+    ;; :defer 3
     :custom (alert-default-style 'notifications)
     ;; :custom (alert-default-style 'fringe)
     :after org
@@ -2677,7 +2675,7 @@ ICT Consultant | Smile Technology LLC
 #+begin_src emacs-lisp
   (use-package org-remark
     :disabled
-    :defer 10
+    ;; :defer 10
     :after org
     :config
     (org-remark-create "memorize"
@@ -2692,14 +2690,14 @@ ICT Consultant | Smile Technology LLC
   (use-package org-transclusion
     :disabled
     :after org
-    :defer 5
+    ;; :defer 5
     :config
     (message "org-transclusion ready ✔"))
 #+end_src
 ** Org Download
 #+begin_src emacs-lisp
   (use-package org-download
-    :defer 5
+    ;; :defer 5
     :after org
     :config
     (setq org-download-screenshot-method "screencapture"))
@@ -2764,7 +2762,7 @@ ICT Consultant | Smile Technology LLC
 ** Org Roam
 #+begin_src emacs-lisp
   (use-package org-roam
-    :defer 2
+    ;; :defer 2
     :init
     (setq org-roam-v2-ack t)
     (setq org-roam-capture-templates '(("d" "default" plain "%?" :target
@@ -2798,7 +2796,7 @@ ICT Consultant | Smile Technology LLC
 
   (use-package org-roam-ui
     :disabled
-    :defer 2
+    ;; :defer 2
     :requires org-roam
     :after org-roam
     :config
@@ -2832,7 +2830,7 @@ ICT Consultant | Smile Technology LLC
 #+begin_src emacs-lisp
   (use-package  vuiet
     :disabled
-    :defer 5
+    ;; :defer 5
     :requires lastfm
     :config
     (setq vuiet-update-mode-line-automatically t)
@@ -2843,7 +2841,7 @@ ICT Consultant | Smile Technology LLC
 #+begin_src emacs-lisp
   (use-package mpc
     :disabled
-    :defer 5
+    ;; :defer 5
     :config
     (message "mpc loaded  ✔"))
 #+end_src
@@ -2851,7 +2849,7 @@ ICT Consultant | Smile Technology LLC
 #+begin_src emacs-lisp
   (use-package mpv
     :disabled
-    :defer 5
+    ;; :defer 5
     :config
     (message " loaded  ✔"))
 #+end_src
@@ -2859,7 +2857,7 @@ ICT Consultant | Smile Technology LLC
 #+begin_src emacs-lisp
   (use-package newsticker
     :ensure nil
-    :defer 10
+    ;; :defer 10
     :init
     (setq newsticker-url-list '(("stackoverflow.com - emacs" "https://stackoverflow.com/feeds/tag?tagnames=emacs&sort=newest" nil nil nil)
                                 ("More Productive with Emacs" "https://lucidmanager.org/tags/emacs/index.xml" nil nil nil)
@@ -2883,7 +2881,7 @@ ICT Consultant | Smile Technology LLC
 #+begin_src emacs-lisp
   (use-package key-quiz
     :disabled
-    :defer 6
+    ;; :defer 6
     :init
     (evil-set-initial-state 'key-quiz-mode 'insert)
     :config
@@ -2893,7 +2891,7 @@ ICT Consultant | Smile Technology LLC
 #+begin_src emacs-lisp
   (use-package speed-type
     :disabled
-    :defer 6
+    ;; :defer 6
     :hook (speed-type-mode . (lambda ()
                                (text-scale-set 1.5)))
     :init
@@ -2905,7 +2903,7 @@ ICT Consultant | Smile Technology LLC
 #+begin_src emacs-lisp
   (use-package chess
     :disabled
-    :defer 6
+    ;; :defer 6
     :config
     (message "chess ready ✔"))
 #+end_src
@@ -2913,7 +2911,7 @@ ICT Consultant | Smile Technology LLC
 #+begin_src emacs-lisp
   (use-package hammy
     :disabled
-    :defer 10
+    ;; :defer 10
     :config
     (hammy-define (propertize "🍅" 'face '(:foreground "tomato"))
       :documentation "The classic pomodoro timer."
@@ -2941,7 +2939,7 @@ ICT Consultant | Smile Technology LLC
 
   (use-package activity-watch-mode
     :disabled
-    :defer 10
+    ;; :defer 10
     ;; :hook (projectile-after-switch-project . (lambda ()
     ;;                                (activity-watch-mode)))
     :config
@@ -2951,7 +2949,7 @@ ICT Consultant | Smile Technology LLC
 ** Emacs Everywhere
 #+begin_src emacs-lisp
   (use-package emacs-everywhere
-    :defer 10
+    ;; :defer 10
     :config
     (message "emacs-everywhere ready ✔"))
 #+end_src
@@ -2959,7 +2957,7 @@ ICT Consultant | Smile Technology LLC
 ** Atomic Chrome
 #+begin_src emacs-lisp
   (use-package atomic-chrome
-    :defer 10
+    ;; :defer 10
     :hook (after-init . atomic-chrome-start-server)
     :config
     (setq atomic-chrome-default-major-mode 'prog-mode)
@@ -2976,7 +2974,7 @@ ICT Consultant | Smile Technology LLC
 #+begin_src emacs-lisp
   (use-package crdt
     :disabled
-    :defer 5
+    ;; :defer 5
     ;; (crdt-user-menu-mode-map)
     ;; (crdt-buffer-menu-mode-map)
     ;; (crdt-session-menu-mode-map)
@@ -3001,7 +2999,7 @@ ICT Consultant | Smile Technology LLC
 ** Web Search
 #+begin_src emacs-lisp
   (use-package websearch
-    :defer 2
+    ;; :defer 2
     :config
     (general-define-key
      :prefix "C-x /"
@@ -3282,7 +3280,7 @@ ICT Consultant | Smile Technology LLC
 ** Format all
 #+begin_src emacs-lisp :tangle no
   ;; (use-package format-all
-  ;;   :defer
+    ;; :defer 3
   ;;   :bind (("C-=" . 'format-all-buffer))
   ;;   :config
   ;;   (add-hook 'prog-mode-hook 'format-all-mode)
@@ -3459,7 +3457,7 @@ ICT Consultant | Smile Technology LLC
   ;;         (popup-tip msg)))))
 
   ;; (use-package langtool
-  ;;   :defer 10
+    ;; :defer 10
   ;;   :init
   ;;   (setq langtool-language-tool-jar "~/bin/LanguageTool-5.6/languagetool-commandline.jar") 
   ;;   :bind (("\C-x4w" . langtool-check)
@@ -3501,7 +3499,47 @@ ICT Consultant | Smile Technology LLC
 #+begin_src emacs-lisp :tangle no
   ;; (use-package org-anki
   ;;   :disabled
-  ;;   :defer 5
+    ;; :defer 5
   ;;   :config
   ;;   (message "org-anki ready ✔"))
+#+end_src
+** Popper
+#+begin_src emacs-lisp :tangle no
+          ;; (use-package popper
+          ;;   :init
+          ;;   (setq popper-reference-buffers
+          ;;         '(compilation-mode
+          ;;           messages-mode
+          ;;           help-mode
+          ;;           occur-mode
+          ;;           "^\\*Warning\\*"
+          ;;           "^\\*Compile-Log\\*"
+          ;;           "^\\*Messages\\*"
+          ;;           "^\\*Backtrace\\*"
+          ;;           "^\\*evil-registers\*"
+          ;;           "^\\*Apropos\\*"
+          ;;           "^Calc:"
+          ;;           "^\\*ielm\\*"
+          ;;           "^\\*TeX Help\\*"
+          ;;           "^\\*Shell Command Output\\*"
+          ;;           "^\\*Async Shell Command\\*"
+          ;;           "^\\*Completions\\*"
+          ;;           "[Oo]utput\\*"))
+          ;;   :config
+          ;;   ;; Match eshell, shell, term and/or vterm buffers
+          ;;   (setq popper-reference-buffers
+          ;;         (append popper-reference-buffers
+          ;;                 '("^\\*eshell.*\\*$" eshell-mode ;eshell as a popup
+          ;;                   "^\\*shell.*\\*$"  shell-mode  ;shell as a popup
+          ;;                   "^\\*term.*\\*$"   term-mode   ;term as a popup
+          ;;                   "^\\*vterm.*\\*$"  vterm-mode  ;vterm as a popup
+          ;;                   )))
+
+          ;;   (setq popper-mode-line 'nil)
+          ;;   (setq popper-display-control 'user))
+#+end_src
+** Julia
+#+begin_src emacs-lisp
+  ;; (use-package julia-mode
+  ;;  :defer 5)
 #+end_src
