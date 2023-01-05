@@ -2389,157 +2389,169 @@ ICT Consultant | Smile Technology LLC
 #+end_src
 ** Org
 #+begin_src emacs-lisp
-  (use-package org
-    :hook (org-mode . ( lambda ()
-                        (efs/org-mode-setup)))
+      (use-package org
+        :hook (org-mode . ( lambda ()
+                            (efs/org-mode-setup)))
 
-    :bind (("C-c c" . org-capture )
-           :map org-mode-map
-           ("C-;" . org-comment-dwim )
-           ("S-<backspace>" . org-table-blank-field))
+        :bind (("C-c c" . org-capture )
+               :map org-mode-map
+               ("C-;" . org-comment-dwim )
+               ("S-<backspace>" . org-table-blank-field))
 
-    :config
-    (setq org-display-remote-inline-images 'cache) ; org-version 9.5 not working
-    (setq org-use-property-inheritance t)
-    (setq org-directory (concat (getenv "HOME") "/org"))
-    (setq org-ellipsis " ⤸")
-    (setq org-log-done '(time note))
-    (setq org-startup-folded t)
-    (setq org-log-into-drawer t)
-    (setq org-startup-indented t)
-    (setq org-agenda-include-diary t)
-    (setq org-hide-emphasis-markers t)
-    (setq org-agenda-start-with-log-mode t)
-    (setq org-agenda-files '("~/org/beorg/org/Tasks.org"
-                             "~/org/beorg/org/Habits.org"
-                             "~/org/beorg/org/Mails.org"
-                             "~/org/beorg/org/Birthdays.org"))
+        :config
+        (setq-local visual-fill-column-width 100
+                    visual-fill-column-center-text t)
 
-    (setq my/org-latex-scale 2)
-    (setq org-preview-latex-default-process 'dvisvgm)
-    (setq org-format-latex-options (plist-put org-format-latex-options
-                                              :scale my/org-latex-scale))
+        ;; (setq org-display-remote-inline-images 'cache) ; org-version 9.5 not working
+        (setq org-use-property-inheritance t)
+        (setq org-directory (concat (getenv "HOME") "/org"))
+        (setq org-ellipsis " ⤸")
+        (setq org-log-done '(time note))
+        (setq org-startup-folded t)
+        (setq org-log-into-drawer t)
+        (setq org-startup-indented t)
+        (setq org-agenda-include-diary t)
+        (setq org-hide-emphasis-markers t)
+        (setq org-agenda-start-with-log-mode t)
+        (setq org-agenda-files '("~/org/beorg/org/Tasks.org"
+                                 "~/org/beorg/org/Habits.org"
+                                 "~/org/beorg/org/Mails.org"
+                                 "~/org/beorg/org/Birthdays.org"))
 
-    (setq org-cite-csl-styles-dir "~/Zotero/styles")
+        (setq my/org-latex-scale 2)
+        (setq org-preview-latex-default-process 'dvisvgm)
+        (setq org-format-latex-options (plist-put org-format-latex-options
+                                                  :scale my/org-latex-scale))
 
-    (setq org-todo-keywords
-          '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d!)")
-            (sequence "BACKLOG(b)" "PLAN(p)" "READY(r)" "ACTIVE(a)" "REVIEW(v)" "WAIT(w@/!)" "HOLD(h)" "|" "COMPLETED(c)" "CANC(k@)")))
+        (setq org-cite-csl-styles-dir "~/Zotero/styles")
 
-    (setq org-refile-targets
-          '((nil :maxlevel . 4)
-            ("Archive.org" :maxlevel . 1)
-            ("Tasks.org" :maxlevel . 1)))
+        (setq org-todo-keywords
+              '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d!)")
+                (sequence "BACKLOG(b)" "PLAN(p)" "READY(r)" "ACTIVE(a)" "REVIEW(v)" "WAIT(w@/!)" "HOLD(h)" "|" "COMPLETED(c)" "CANC(k@)")))
 
-    ;; Save Org buffers after refiling!
-    (advice-add 'org-refile :after 'org-save-all-org-buffers)
+        (setq org-refile-targets
+              '((nil :maxlevel . 4)
+                ("Archive.org" :maxlevel . 1)
+                ("Tasks.org" :maxlevel . 1)))
 
-    (setq org-tag-alist
-          '((:startgroup)
-            ;; Put mutually exclusive tags here
-            (:endgroup)
-            ("note" . ?n)
-            ("@home" . ?H)
-            ("@work" . ?W)
-            ("batch" . ?b)
-            ("agenda" . ?a)
-            ("publish" . ?P)
-            ("@errand" . ?E)
-            ("planning" . ?p)
-            ("idea" . ?i)))
+        ;; Save Org buffers after refiling!
+        (advice-add 'org-refile :after 'org-save-all-org-buffers)
 
-    ;; Configure custom agenda views
-    (setq org-agenda-custom-commands
-          '(("d" "Dashboard"
-             ((agenda "" ((org-deadline-warning-days 7)))
-              (todo "NEXT"
-                    ((org-agenda-overriding-header "Next Tasks")))
-              (tags-todo "agenda/ACTIVE" ((org-agenda-overriding-header "Active Projects")))))
+        (setq org-tag-alist
+              '((:startgroup)
+                ;; Put mutually exclusive tags here
+                (:endgroup)
+                ("note" . ?n)
+                ("@home" . ?H)
+                ("@work" . ?W)
+                ("batch" . ?b)
+                ("agenda" . ?a)
+                ("publish" . ?P)
+                ("@errand" . ?E)
+                ("planning" . ?p)
+                ("idea" . ?i)))
 
-            ("n" "Next Tasks"
-             ((todo "NEXT"
-                    ((org-agenda-overriding-header "Next Tasks")))))
+        ;; Configure custom agenda views
+        (setq org-agenda-custom-commands
+              '(("d" "Dashboard"
+                 ((agenda "" ((org-deadline-warning-days 7)))
+                  (todo "NEXT"
+                        ((org-agenda-overriding-header "Next Tasks")))
+                  (tags-todo "agenda/ACTIVE" ((org-agenda-overriding-header "Active Projects")))))
 
-            ("W" "Work Tasks" tags-todo "+work-email")
+                ("n" "Next Tasks"
+                 ((todo "NEXT"
+                        ((org-agenda-overriding-header "Next Tasks")))))
 
-            ;; Low-effort next actions
-            ("e" tags-todo "+TODO=\"NEXT\"+Effort<15&+Effort>0"
-             ((org-agenda-overriding-header "Low Effort Tasks")
-              (org-agenda-max-todos 20)
-              (org-agenda-files org-agenda-files)))
+                ("W" "Work Tasks" tags-todo "+work-email")
 
-            ("w" "Workflow Status"
-             ((todo "WAIT"
-                    ((org-agenda-overriding-header "Waiting on External")
-                     (org-agenda-files org-agenda-files)))
-              (todo "REVIEW"
-                    ((org-agenda-overriding-header "In Review")
-                     (org-agenda-files org-agenda-files)))
-              (todo "PLAN"
-                    ((org-agenda-overriding-header "In Planning")
-                     (org-agenda-todo-list-sublevels nil)
-                     (org-agenda-files org-agenda-files)))
-              (todo "BACKLOG"
-                    ((org-agenda-overriding-header "Project Backlog")
-                     (org-agenda-todo-list-sublevels nil)
-                     (org-agenda-files org-agenda-files)))
-              (todo "READY"
-                    ((org-agenda-overriding-header "Ready for Work")
-                     (org-agenda-files org-agenda-files)))
-              (todo "ACTIVE"
-                    ((org-agenda-overriding-header "Active Projects")
-                     (org-agenda-files org-agenda-files)))
-              (todo "COMPLETED"
-                    ((org-agenda-overriding-header "Completed Projects")
-                     (org-agenda-files org-agenda-files)))
-              (todo "CANC"
-                    ((org-agenda-overriding-header "Cancelled Projects")
-                     (org-agenda-files org-agenda-files)))))))
+                ;; Low-effort next actions
+                ("e" tags-todo "+TODO=\"NEXT\"+Effort<15&+Effort>0"
+                 ((org-agenda-overriding-header "Low Effort Tasks")
+                  (org-agenda-max-todos 20)
+                  (org-agenda-files org-agenda-files)))
 
-    (setq org-capture-templates
-          '(("t" "Tasks / Projects")
-            ("tt" "Task" entry (file+olp "~/org/beorg/org/Tasks.org" "Inbox")
-             "* TODO %?\n  %U\n  %a\n  %i" :empty-lines 1)
+                ("w" "Workflow Status"
+                 ((todo "WAIT"
+                        ((org-agenda-overriding-header "Waiting on External")
+                         (org-agenda-files org-agenda-files)))
+                  (todo "REVIEW"
+                        ((org-agenda-overriding-header "In Review")
+                         (org-agenda-files org-agenda-files)))
+                  (todo "PLAN"
+                        ((org-agenda-overriding-header "In Planning")
+                         (org-agenda-todo-list-sublevels nil)
+                         (org-agenda-files org-agenda-files)))
+                  (todo "BACKLOG"
+                        ((org-agenda-overriding-header "Project Backlog")
+                         (org-agenda-todo-list-sublevels nil)
+                         (org-agenda-files org-agenda-files)))
+                  (todo "READY"
+                        ((org-agenda-overriding-header "Ready for Work")
+                         (org-agenda-files org-agenda-files)))
+                  (todo "ACTIVE"
+                        ((org-agenda-overriding-header "Active Projects")
+                         (org-agenda-files org-agenda-files)))
+                  (todo "COMPLETED"
+                        ((org-agenda-overriding-header "Completed Projects")
+                         (org-agenda-files org-agenda-files)))
+                  (todo "CANC"
+                        ((org-agenda-overriding-header "Cancelled Projects")
+                         (org-agenda-files org-agenda-files)))))))
 
-            ("j" "Journal Entries")
-            ("jj" "Journal" entry
-             (file+olp+datetree "~/org/beorg/org/Journal.org")
-             "\n* %<%I:%M %p> - Journal :journal:\n\n%?\n\n"
-             ;; ,(dw/read-file-as-string "~/Notes/Templates/Daily.org")
-             :clock-in :clock-resume
-             :empty-lines 1)
-            ("jm" "Meeting" entry
-             (file+olp+datetree "~/org/beorg/org/Journal.org")
-             "* %<%I:%M %p> - %a :meetings:\n\n%?\n\n"
-             :clock-in :clock-resume
-             :empty-lines 1)
+        (setq org-capture-templates
+              '(("t" "Tasks / Projects")
+                ("tt" "Task" entry (file+olp "~/org/beorg/org/Tasks.org" "Inbox")
+                 "* TODO %?\n  %U\n  %a\n  %i" :empty-lines 1)
 
-            ("e" "Email Workflow")
-            ("ef" "Follow Up" entry (file+olp "~/org/beorg/org/Mails.org" "Follow Up")
-             "* TODO Follow up with %:fromname on %a\nSCHEDULED:%t\nDEADLINE: %(org-insert-time-stamp (org-read-date nil t \"+2d\"))\n\n%i" :immediate-finish t)
-            ("er" "Read Later" entry (file+olp "~/org/beorg/org/Mails.org" "Read Later")
-             "* TODO Read %:subject\nSCHEDULED:%t\nDEADLINE: %(org-insert-time-stamp (org-read-date nil t \"+2d\"))\n\n%a\n\n%i" :immediate-finish t)
+                ("j" "Journal Entries")
+                ("jj" "Journal" entry
+                 (file+olp+datetree "~/org/beorg/org/Journal.org")
+                 "\n* %<%I:%M %p> - Journal :journal:\n\n%?\n\n"
+                 ;; ,(dw/read-file-as-string "~/Notes/Templates/Daily.org")
+                 :clock-in :clock-resume
+                 :empty-lines 1)
+                ("jm" "Meeting" entry
+                 (file+olp+datetree "~/org/beorg/org/Journal.org")
+                 "* %<%I:%M %p> - %a :meetings:\n\n%?\n\n"
+                 :clock-in :clock-resume
+                 :empty-lines 1)
 
-            ("w" "Workflows")
-            ("we" "Checking Email" entry (file+olp+datetree "~/org/beorg/org/Journal.org")
-             "* Checking Email :email:\n\n%?" :clock-in :clock-resume :empty-lines 1)
+                ("e" "Email Workflow")
+                ("ef" "Follow Up" entry (file+olp "~/org/beorg/org/Mails.org" "Follow Up")
+                 "* TODO Follow up with %:fromname on %a\nSCHEDULED:%t\nDEADLINE: %(org-insert-time-stamp (org-read-date nil t \"+2d\"))\n\n%i" :immediate-finish t)
+                ("er" "Read Later" entry (file+olp "~/org/beorg/org/Mails.org" "Read Later")
+                 "* TODO Read %:subject\nSCHEDULED:%t\nDEADLINE: %(org-insert-time-stamp (org-read-date nil t \"+2d\"))\n\n%a\n\n%i" :immediate-finish t)
 
-            ("m" "Metrics Capture")
-            ("mw" "Weight" table-line (file+headline "~/org/beorg/org/Metrics.org" "Weight")
-             "| %U | %^{Weight} | %^{Notes} |" :kill-buffer t)))
-    (message "org ready ✔"))
+                ("w" "Workflows")
+                ("we" "Checking Email" entry (file+olp+datetree "~/org/beorg/org/Journal.org")
+                 "* Checking Email :email:\n\n%?" :clock-in :clock-resume :empty-lines 1)
 
-  ;; (define-key global-map (kbd "C-c j")
-  ;;   (lambda () (interactive) (org-capture nil "jj")))
-  ;; (efs/org-font-setup))
+                ("m" "Metrics Capture")
+                ("mw" "Weight" table-line (file+headline "~/org/beorg/org/Metrics.org" "Weight")
+                 "| %U | %^{Weight} | %^{Notes} |" :kill-buffer t)))
+        (message "org ready ✔"))
 
-  (use-package visual-fill-column
-    :hook (org-mode . efs/org-mode-visual-fill))
+      ;; (define-key global-map (kbd "C-c j")
+      ;;   (lambda () (interactive) (org-capture nil "jj")))
+      ;; (efs/org-font-setup))
+
+  ;;     (use-package visual-fill-column
+  ;;       :hook (org-mode . efs/org-mode-visual-fill))
+
+  ;; (lambda () efs/org-mode-visual-fill ()
+  ;;       (setq visual-fill-column-width 100
+  ;;             visual-fill-column-center-text t)
+  ;;       (visual-fill-column-mode 1))
+
+
 #+end_src
 ** Org Protocol
 #+begin_src emacs-lisp
   (use-package org-protocol
-    :ensure nil)
+    :ensure nil
+    :config
+    (message "org-protocol ready ✔"))
 #+end_src
 ** Org Habit
 #+begin_src emacs-lisp
