@@ -1369,6 +1369,10 @@
                          (flycheck-mode)	; linting
                          (yas-minor-mode)	; snippet
                          (flyspell-prog-mode)
+                         
+                         (setq-local visual-fill-column-width 100
+                                     visual-fill-column-center-text t)
+
                          (setq-local fill-column 79))))
 #+end_src
 ** Snippet
