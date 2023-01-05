@@ -45,11 +45,11 @@
                                    (goto-address-mode 0 )))
 
     ;; start emacs-server if not running
-    :hook (after-init .
-                      (lambda ()
-                        (require 'server)
-                        (unless (server-running-p)
-                          (server-start))))
+    :hook (after-init . (lambda ()
+                          (pixel-scroll-precision-mode)
+                          (require 'server)
+                          (unless (server-running-p)
+                            (server-start))))
     :init
     (setq inhibit-startup-message t
           show-paren-context-when-offscreen 'overlay)
