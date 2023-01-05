@@ -2556,7 +2556,8 @@ ICT Consultant | Smile Technology LLC
     :ensure nil
     :config (progn
               (add-to-list 'org-modules 'org-habit)
-              (setq org-habit-graph-column 60)))
+              (setq org-habit-graph-column 60))
+    (message "org-habit ready ✔"))
 #+end_src
 ** Org Babel 
 #+begin_src emacs-lisp
