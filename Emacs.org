@@ -585,27 +585,27 @@
 #+end_src
 ** Evil-Text Object
 #+begin_src emacs-lisp
-  (use-package evil-textobj-tree-sitter
-    :config
-    (general-define-key
-     :keymaps '(evil-outer-text-objects-map)
-     "/" (evil-textobj-tree-sitter-get-textobj "comment.outer")
-     "=" (evil-textobj-tree-sitter-get-textobj "statement.outer")
-     "." (evil-textobj-tree-sitter-get-textobj "block.outer")
-     "&" (evil-textobj-tree-sitter-get-textobj "parameter.outer")
-     "l" (evil-textobj-tree-sitter-get-textobj "loop.outer")
-     "d" (evil-textobj-tree-sitter-get-textobj "conditional.outer")
-     "c" (evil-textobj-tree-sitter-get-textobj "class.outer")
-     "f" (evil-textobj-tree-sitter-get-textobj "function.outer"))
+  ;; (use-package evil-textobj-tree-sitter
+  ;;   :config
+  ;;   (general-define-key
+  ;;    :keymaps '(evil-outer-text-objects-map)
+  ;;    "/" (evil-textobj-tree-sitter-get-textobj "comment.outer")
+  ;;    "=" (evil-textobj-tree-sitter-get-textobj "statement.outer")
+  ;;    "." (evil-textobj-tree-sitter-get-textobj "block.outer")
+  ;;    "&" (evil-textobj-tree-sitter-get-textobj "parameter.outer")
+  ;;    "l" (evil-textobj-tree-sitter-get-textobj "loop.outer")
+  ;;    "d" (evil-textobj-tree-sitter-get-textobj "conditional.outer")
+  ;;    "c" (evil-textobj-tree-sitter-get-textobj "class.outer")
+  ;;    "f" (evil-textobj-tree-sitter-get-textobj "function.outer"))
 
-    (general-define-key
-     :keymaps '(evil-inner-text-objects-map)
-     "." (evil-textobj-tree-sitter-get-textobj "block.inner")
-     "&" (evil-textobj-tree-sitter-get-textobj "parameter.inner")
-     "l" (evil-textobj-tree-sitter-get-textobj "loop.inner")
-     "d" (evil-textobj-tree-sitter-get-textobj "conditional.inner")
-     "c" (evil-textobj-tree-sitter-get-textobj "class.inner")
-     "f" (evil-textobj-tree-sitter-get-textobj "function.inner")))
+  ;;   (general-define-key
+  ;;    :keymaps '(evil-inner-text-objects-map)
+  ;;    "." (evil-textobj-tree-sitter-get-textobj "block.inner")
+  ;;    "&" (evil-textobj-tree-sitter-get-textobj "parameter.inner")
+  ;;    "l" (evil-textobj-tree-sitter-get-textobj "loop.inner")
+  ;;    "d" (evil-textobj-tree-sitter-get-textobj "conditional.inner")
+  ;;    "c" (evil-textobj-tree-sitter-get-textobj "class.inner")
+  ;;    "f" (evil-textobj-tree-sitter-get-textobj "function.inner")))
 #+end_src
 * User Interface Improvements
 ** Toggle Line Number
