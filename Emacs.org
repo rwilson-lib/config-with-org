@@ -184,70 +184,70 @@
 #+end_src
 ** Font and Windows
 #+begin_src emacs-lisp
-        (defun custom/display-buffer-at-bottom ()
-              (interactive)
-              (let ((buffer (current-buffer)))
-                (with-current-buffer buffer
-                  (delete-window)
-                  (display-buffer-at-bottom
-                   buffer '(
-                            ;; (window-parameters . ((mode-line-format . (" " "%b"))))
-                            ;; (window-height . 0.25)
-                            )))))
+  (defun custom/display-buffer-at-bottom ()
+        (interactive)
+        (let ((buffer (current-buffer)))
+          (with-current-buffer buffer
+            (delete-window)
+            (display-buffer-at-bottom
+             buffer '(
+                      ;; (window-parameters . ((mode-line-format . (" " "%b"))))
+                      ;; (window-height . 0.25)
+                      )))))
 
-          (use-package window
-            :ensure nil
-            :bind (("<f8>" . window-toggle-side-windows))
-            :config
-            (custom-set-variables
-             '(display-buffer-base-action
-               '((display-buffer--maybe-same-window
-                  display-buffer-reuse-window
-                  display-buffer--maybe-pop-up-frame-or-window
-                  display-buffer-in-previous-window
-                  display-buffer-below-selected
-                  display-buffer-at-bottom
-                  display-buffer-pop-up-frame))))
-             ;; '(window-min-height 18)
-             ;; '(window-min-width 40))
+    (use-package window
+      :ensure nil
+      :bind (("<f8>" . window-toggle-side-windows))
+      :config
+      (custom-set-variables
+       '(display-buffer-base-action
+         '((display-buffer--maybe-same-window
+            display-buffer-reuse-window
+            display-buffer--maybe-pop-up-frame-or-window
+            display-buffer-in-previous-window
+            display-buffer-below-selected
+            display-buffer-at-bottom
+            display-buffer-pop-up-frame))))
+       ;; '(window-min-height 18)
+       ;; '(window-min-width 40))
 
-            (setq
-             split-width-threshold 0
-             split-height-threshold nil)
-            :custom
-            (display-buffer-alist '(("\\*\\(e?shell\\|vterm\\|Python\\)\\*"
-                                     (display-buffer-in-side-window)
-                                     (window-height . 0.25)
-                                     (side . bottom)
-                                     ;; (window-parameters . ((mode-line-format . ("" "%b"))))
-                                     (slot . -1))
+      (setq
+       split-width-threshold 0
+       split-height-threshold nil)
+      :custom
+      (display-buffer-alist '(("\\*\\(e?shell\\|vterm\\|Python\\)\\*"
+                               (display-buffer-in-side-window)
+                               (window-height . 0.25)
+                               (side . bottom)
+                               ;; (window-parameters . ((mode-line-format . ("" "%b"))))
+                               (slot . -1))
 
-                                    ;; ;;[Hh]elp
-                                    ;; ("\\*help" 
-                                    ;;  (display-buffer-reuse-window display-buffer-in-side-window)
-                                    ;;  (window-width . 75))
+                              ;; ;;[Hh]elp
+                              ;; ("\\*help" 
+                              ;;  (display-buffer-reuse-window display-buffer-in-side-window)
+                              ;;  (window-width . 75))
 
-                                    ("\\*\\(Backtrace\\|Warnings\\|Compile-log\\|Messages\\)\\*"
-                                     (display-buffer-in-side-window)
-                                     (window-height . 0.25)
-                                     (side . bottom)
-                                     (slot . 0)))))
-          (defun efs/set-font-faces ()
-            (message "Setting faces!")
-            (set-face-attribute 'default nil :font "FiraCode Nerd Font" :height 168)
+                              ("\\*\\(Backtrace\\|Warnings\\|Compile-log\\|Messages\\)\\*"
+                               (display-buffer-in-side-window)
+                               (window-height . 0.25)
+                               (side . bottom)
+                               (slot . 0)))))
+    (defun efs/set-font-faces ()
+      (message "Setting faces!")
+      (set-face-attribute 'default nil :font "FiraCode Nerd Font" :height 168)
 
-            ;; Set the fixed pitch face
-            (set-face-attribute 'fixed-pitch nil :font "FiraCode Nerd Font" :height 168)
+      ;; Set the fixed pitch face
+      (set-face-attribute 'fixed-pitch nil :font "FiraCode Nerd Font" :height 168)
 
-            ;; Set the variable pitch face
-            (set-face-attribute 'variable-pitch nil :font "FiraCode Nerd Font" :height 168 :weight 'regular))
+      ;; Set the variable pitch face
+      (set-face-attribute 'variable-pitch nil :font "FiraCode Nerd Font" :height 168 :weight 'regular))
 
-          (if (daemonp)
-              (add-hook 'after-make-frame-functions
-                        (lambda (frame)
-                          (with-selected-frame frame
-                            (efs/set-font-faces))))
-            (efs/set-font-faces))
+    (if (daemonp)
+        (add-hook 'after-make-frame-functions
+                  (lambda (frame)
+                    (with-selected-frame frame
+                      (efs/set-font-faces))))
+      (efs/set-font-faces))
 #+end_src
 
 ** Shell
