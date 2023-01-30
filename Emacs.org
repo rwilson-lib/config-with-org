@@ -268,14 +268,15 @@
 #+begin_src emacs-lisp
   ;; Treat clipboard input as UTF-8 string first; compound text next, etc.
   (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
-
-  (use-package undo-fu)
-
-  (use-package undo-fu-session
-    :init
-    (global-undo-fu-session-mode)
-    :config
-    (setq undo-fu-session-incompatible-files '("/COMMIT_EDITMSG\\'" "/git-rebase-todo\\'")))
+#+end_src
+  
+** Undo Tree
+#+begin_src emacs-lisp :tangle no
+  ;; (use-package undo-tree
+  ;;   :init
+  ;;   (global-undo-tree-mode)
+  ;;   :config
+  ;;   (setq undo-tree-auto-save-history t))
 #+end_src
 
 ** Global Settings
@@ -3410,15 +3411,6 @@ ICT Consultant | Smile Technology LLC
 
 #+end_src
 
-** Undo Tree
-#+begin_src emacs-lisp :tangle no
-  ;; (use-package undo-tree
-  ;;   :init
-  ;;   (global-undo-tree-mode)
-  ;;   :config
-  ;;   (setq undo-tree-auto-save-history t))
-#+end_src
-
 ** Encoding
 #+begin_src emacs-lisp :tangle no
   ;; (setq mac-option-modifier 'meta)
@@ -3549,11 +3541,20 @@ ICT Consultant | Smile Technology LLC
 #+begin_src emacs-lisp :tangle no 
   (use-package vimish-fold
     ;; :defer 5 
-    :after evil)
+    :efter evil)
 
   (use-package evil-vimish-fold
     ;; :defer 5
     :after vimish-fold
     :hook ((prog-mode conf-mode text-mode) . evil-vimish-fold-mode))
+#+end_src
+** Undo Fu
+#+begin_src emacs-lisp :tagle no
+  (use-package undo-fu
+    :config
+    (use-package undo-fu-session
+    :config
+    (setq undo-fu-session-incompatible-files '("/COMMIT_EDITMSG\\'" "/git-rebase-todo\\'"))))
+
 #+end_src
 
