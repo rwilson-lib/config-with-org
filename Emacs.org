@@ -1023,18 +1023,6 @@
     (use-package ibuffer
       :bind ("C-x C-b" . ibuffer))
 #+end_src
-
-** Folds
-#+begin_src emacs-lisp
-  (use-package vimish-fold
-    ;; :defer 5 
-    :after evil)
-
-  (use-package evil-vimish-fold
-    ;; :defer 5
-    :after vimish-fold
-    :hook ((prog-mode conf-mode text-mode) . evil-vimish-fold-mode))
-#+end_src
 * Window Management
 ** Winum Mode
 #+begin_src emacs-lisp
@@ -3557,3 +3545,15 @@ ICT Consultant | Smile Technology LLC
   ;; (use-package julia-mode
   ;;  :defer 5)
 #+end_src
+** Folds
+#+begin_src emacs-lisp :tangle no 
+  (use-package vimish-fold
+    ;; :defer 5 
+    :after evil)
+
+  (use-package evil-vimish-fold
+    ;; :defer 5
+    :after vimish-fold
+    :hook ((prog-mode conf-mode text-mode) . evil-vimish-fold-mode))
+#+end_src
+
