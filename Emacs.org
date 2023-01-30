@@ -3012,8 +3012,19 @@ ICT Consultant | Smile Technology LLC
      "." 'websearch-point)
     (message "websearch ready ✔"))
 #+end_src
-
-
+** GPT
+#+begin_src emacs-lisp
+  (use-package gpt
+    :config
+    (setq gpt-openai-key "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")
+    (setq gpt-openai-engine "text-davinci-003"
+          gpt-openai-max-tokens 2000
+          gpt-openai-temperature 0))
+#+end_src
+** Password Store
+#+begin_src emacs-lisp
+  (use-package password-store)
+#+end_src
 
 
 * Obsolete Code
