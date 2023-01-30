@@ -271,12 +271,12 @@
 #+end_src
   
 ** Undo Tree
-#+begin_src emacs-lisp :tangle no
-  ;; (use-package undo-tree
-  ;;   :init
-  ;;   (global-undo-tree-mode)
-  ;;   :config
-  ;;   (setq undo-tree-auto-save-history t))
+#+begin_src emacs-lisp 
+  (use-package undo-tree
+    :init
+    (global-undo-tree-mode)
+    :config
+    (setq undo-tree-auto-save-history t))
 #+end_src
 
 ** Global Settings
