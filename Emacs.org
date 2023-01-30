@@ -665,7 +665,7 @@
             (3 . (rainbow bold 1.2))
             (t . (semilight 1.1))))
     :bind ("<f5>" . modus-themes-toggle))
-  
+
   (load-theme 'modus-vivendi t)
 
 #+End_src
@@ -2850,6 +2850,7 @@ ICT Consultant | Smile Technology LLC
   (use-package newsticker
     :ensure nil
     ;; :defer 10
+    
     :init
     (setq newsticker-url-list '(("stackoverflow.com - emacs" "https://stackoverflow.com/feeds/tag?tagnames=emacs&sort=newest" nil nil nil)
                                 ("More Productive with Emacs" "https://lucidmanager.org/tags/emacs/index.xml" nil nil nil)
