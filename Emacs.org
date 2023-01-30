@@ -1186,12 +1186,12 @@
           git-gutter:linum-enabled nil)
     (message "Magit ready ✔"))
 #+end_src
-
 #+begin_src emacs-lisp
   (use-package diff-hl
     :config
-    (setq diff-hl-show-staged-changes nil))
-
+    (setq
+     diff-hl-side "left"
+     diff-hl-show-staged-changes nil))
 #+end_src
 ** Forge  
 #+begin_src emacs-lisp
