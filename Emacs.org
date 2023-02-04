@@ -1715,7 +1715,6 @@
 ** Jupyter
 #+begin_src emacs-lisp
   (use-package jupyter
-    :disabled
     ;; :defer 2
     ;; :requires (zmq org python)
     :commands (jupyter-run-server-repl
@@ -1947,8 +1946,6 @@
   (use-package org-ref
     :bind (:map bibtex-mode-map
 		("H-b" . org-ref-bibtex-hydra/body))
-    :init
-    (require 'org-ref-pdf)
     :config
     (setq org-ref-bibtex-hydra-key-binding (kbd "H-b")))
 #+end_src
@@ -2789,8 +2786,6 @@ ICT Consultant | Smile Technology LLC
 #+begin_src emacs-lisp
 
   (use-package org-roam-ui
-    :disabled
-    ;; :defer 2
     :requires org-roam
     :after org-roam
     :config
