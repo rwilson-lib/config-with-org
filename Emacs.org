@@ -670,13 +670,6 @@
 
   (load-theme 'modus-vivendi-tinted t)
 #+End_src
-*** Caribbean Theme
-#+begin_src emacs-lisp
-  (use-package timu-caribbean-theme)
-    ;; :config
-    ;; (load-theme 'timu-caribbean t))
-
-#+end_src
 *** Doom Modeline
 #+begin_src emacs-lisp
     (use-package doom-modeline
