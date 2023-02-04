@@ -3561,3 +3561,12 @@ ICT Consultant | Smile Technology LLC
     (global-git-gutter-mode)
     (message "Git-gutter ready ✔"))
     #+end_src
+** Undo Tree
+#+begin_src emacs-lisp :tangle no
+  (use-package undo-tree
+    :init
+    (global-undo-tree-mode)
+    :config
+    (setq undo-tree-auto-save-history t))
+#+end_src
+
