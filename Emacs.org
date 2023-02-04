@@ -1194,10 +1194,6 @@
   (use-package magit
     ;; :defer 2
     :custom (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1)
-    :config
-    (setq git-gutter:hide-gutter t
-          git-gutter:visual-line t
-          git-gutter:linum-enabled nil)
     (message "Magit ready ✔"))
 #+end_src
 #+begin_src emacs-lisp
@@ -3533,19 +3529,9 @@ ICT Consultant | Smile Technology LLC
     :after vimish-fold
     :hook ((prog-mode conf-mode text-mode) . evil-vimish-fold-mode))
 #+end_src
-** Undo Fu
-#+begin_src emacs-lisp :tagle no
-  (use-package undo-fu
-    :config
-    (use-package undo-fu-session
-    :config
-    (setq undo-fu-session-incompatible-files '("/COMMIT_EDITMSG\\'" "/git-rebase-todo\\'"))))
-
-#+end_src
 
 ** Git Gutter
-#+begin_src emacs-lisp
-
+#+begin_src emacs-lisp :tangle no
   (use-package git-gutter
     :after magit
     :config
@@ -3553,6 +3539,9 @@ ICT Consultant | Smile Technology LLC
           git-gutter:added-sign nil
           git-gutter:deleted-sign nil)	
     
+    (setq git-gutter:hide-gutter t
+          git-gutter:visual-line t
+          git-gutter:linum-enabled nil)
     (use-package git-gutter-fringe 
       :config
       (define-fringe-bitmap 'git-gutter-fr:added [224] nil nil '(center repeated))
