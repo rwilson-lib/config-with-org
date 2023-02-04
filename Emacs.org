@@ -663,8 +663,7 @@
             (t . (semilight 1.1))))
     :bind ("<f5>" . modus-themes-toggle))
 
-  (load-theme 'modus-vivendi t)
-
+  (load-theme 'modus-vivendi-tinted t)
 #+End_src
 *** Caribbean Theme
 #+begin_src emacs-lisp
