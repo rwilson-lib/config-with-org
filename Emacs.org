@@ -107,6 +107,8 @@
 
     ;; Do not use system clip board
     ;; (setq x-select-enable-clipboard nil)
+    ;; Treat clipboard input as UTF-8 string first; compound text next, etc.
+  (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
 
     ;; Backups
     (setq backup-directory-alist '(("." . "~/.emacs.d/backup-dir")))
@@ -264,21 +266,16 @@
   ;;   :config (exec-path-from-shell-initialize))
 
 #+end_src
-** Clipboard & Undo
-#+begin_src emacs-lisp
-  ;; Treat clipboard input as UTF-8 string first; compound text next, etc.
-  (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
+  
+** Undo Fu
+#+begin_src emacs-lisp 
+  (use-package undo-fu
+    :config
+    (use-package undo-fu-session
+    :config
+    (setq undo-fu-session-incompatible-files '("/COMMIT_EDITMSG\\'" "/git-rebase-todo\\'"))))
 #+end_src
   
-** Undo Tree
-#+begin_src emacs-lisp 
-  (use-package undo-tree
-    :init
-    (global-undo-tree-mode)
-    :config
-    (setq undo-tree-auto-save-history t))
-#+end_src
-
 ** Global Settings
 #+begin_src emacs-lisp
   ;; change all prompts to y or n
