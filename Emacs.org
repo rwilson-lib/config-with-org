@@ -1097,6 +1097,7 @@
     (vterm-mode . (lambda () 
                     (setq-local mode-line-format nil)))
     :config
+    (setq vterm-shell "/usr/local/bin/tmux")
     (setq vterm-max-scrollback 1000))
 #+end_src
 * Searches
