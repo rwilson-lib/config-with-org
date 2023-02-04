@@ -1175,6 +1175,19 @@
 #+begin_src emacs-lisp
   (use-package fd-dired)
 #+end_src
+** Web Search
+#+begin_src emacs-lisp
+  (use-package websearch
+    ;; :defer 2
+    :config
+    (general-define-key
+     :prefix "C-c s"
+     ;; application spefic binding 
+     "t" 'websearch-term
+     "r" 'websearch-region
+     "." 'websearch-point)
+    (message "websearch ready ✔"))
+#+end_src
 * Version Control
 ** Magit
 #+begin_src emacs-lisp
@@ -2972,19 +2985,6 @@ ICT Consultant | Smile Technology LLC
     (crdt-use-tuntox t)
     :config
     (message "CRDT ready ✔"))
-#+end_src
-** Web Search
-#+begin_src emacs-lisp
-  (use-package websearch
-    ;; :defer 2
-    :config
-    (general-define-key
-     :prefix "C-x /"
-     ;; application spefic binding 
-     "t" 'websearch-term
-     "r" 'websearch-region
-     "." 'websearch-point)
-    (message "websearch ready ✔"))
 #+end_src
 ** GPT
 #+begin_src emacs-lisp
