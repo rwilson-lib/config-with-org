@@ -1522,7 +1522,7 @@
     :config
     (add-to-list 'eglot-server-programs
                  '(web-mode . ("vscode-html-language-server" "--node-ipc"))
-                 '(csharp-mode . ("omnisharp" "-lsp")))
+                 '(R-mode . ("R" "--slave" "-e" "languageserver::run()")))
     (message "eglot loaded"))
 #+end_src
 ** Python
