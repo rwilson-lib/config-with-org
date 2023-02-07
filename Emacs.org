@@ -1825,14 +1825,6 @@
 #+end_src
 ** Dictionary & Thesaurus 
 #+begin_src emacs-lisp
-  (use-package mw-thesaurus
-    ;; :defer 10
-    :bind ((:map evil-normal-state-map
-                 ("Z?" . mw-thesaurus-lookup-at-point)
-                 ("z?" . mw-thesaurus-lookup-dwim)))
-    :config
-    (message "mw-theasaurus loaded ✔"))
-
   (use-package dictionary
     ;; :defer 10
     :config
