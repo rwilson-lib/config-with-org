@@ -2952,7 +2952,6 @@ ICT Consultant | Smile Technology LLC
 ** CRDT
 #+begin_src emacs-lisp
   (use-package crdt
-    :disabled
     ;; :defer 5
     ;; (crdt-user-menu-mode-map)
     ;; (crdt-buffer-menu-mode-map)
@@ -2969,20 +2968,10 @@ ICT Consultant | Smile Technology LLC
                 ("<return>" . crdt--buffer-menu-goto)
                 ("s" . crdt--buffer-menu-kill))
 
-    :custom
-    (crdt-tuntox-executable "/usr/local/bin/tuntox")
-    (crdt-use-tuntox t)
     :config
+    (setq crdt-use-tuntox t)
+    (setq crdt-tuntox-executable "/usr/local/bin/tuntox")
     (message "CRDT ready ✔"))
-#+end_src
-** GPT
-#+begin_src emacs-lisp
-  (use-package gpt
-    :config
-    (setq gpt-openai-key "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")
-    (setq gpt-openai-engine "text-davinci-003"
-          gpt-openai-max-tokens 2000
-          gpt-openai-temperature 0))
 #+end_src
 ** Password Store
 #+begin_src emacs-lisp
