@@ -1717,47 +1717,28 @@
 #+begin_src emacs-lisp
   (use-package ess
     ;; :defer 2
+    
+    :hook (R-mode . eglot-ensure)
+
     :custom
     (inferior-ess-fix-misaligned-output t)
     (ess-eldoc-show-on-symbol t)
     (ess-gen-proc-buffer-name-function 'ess-gen-proc-buffer-name:projectile-or-directory)
-    (ess-eval-visibly 'nil); "Don't hog Emacs"
+    (ess-eval-visibly nil); "Don't hog Emacs"
     (ess-style 'RStudio)
     (ess-use-flymake nil) ;"Syntax checking is usually not helpful"
-    (ess-tab-complete-in-script nil) ;"Do not interfere with Company"
-    (ess-use-ido nil) ;"Prefer Ivy/Counsel"
+    ;; (ess-tab-complete-in-script nil) ;"Do not interfere with Company"
+    ;; (ess-use-ido nil) ;"Prefer Ivy/Counsel"
     ;; (ess-history-directory (expand-file-name "ESS-history/" no-littering-var-directory))
     (inferior-R-args "--no-save")
-    (ess-R-font-lock-keywords
-     (quote
-      ((ess-R-fl-keyword:keywords . t)
-       (ess-R-fl-keyword:constants . t)
-       (ess-R-fl-keyword:modifiers . t)
-       (ess-R-fl-keyword:fun-defs . t)
-       (ess-R-fl-keyword:assign-ops . t)
-       (ess-R-fl-keyword:%op% . t)
-       (ess-fl-keyword:fun-calls . t)
-       (ess-fl-keyword:numbers . t)
-       (ess-fl-keyword:operators)
-       (ess-fl-keyword:delimiters)
-       (ess-fl-keyword:=)
-       (ess-R-fl-keyword:F&T))))
     (ess-ask-for-ess-directory nil)
-    (ess-smart-S-assign-key nil)
-    (ess-indent-with-fancy-comments nil)
+    ;; (ess-smart-S-assign-key nil)
+    ;; (ess-indent-with-fancy-comments nil)
     :config
+    (setq ess-use-company t)
     (setq ess-can-eval-in-background nil)
-    (setq ess--command-default-timeout 1)
-    (setq ess-use-company nil )
-    (defun my/add-pipe ()
-      "Add a pipe operator %>% at the end of the current line.
-  Don't add one if the end of line already has one.  Ensure one
-  space to the left and start a newline with indentation."
-      (interactive)
-      (end-of-line)
-      (unless (looking-back "%>%" nil)
-        (just-one-space 1)
-        (insert "%>%"))))
+    (setq ess--command-default-timeout 1))
+
 
   (use-package ess-view-data
     :after ess)
