@@ -2294,33 +2294,33 @@
 #+end_src
 ** Org MSG
 #+begin_src emacs-lisp
-  (use-package org-msg
-    :after mu4e
-    :hook (org-msg-mode lambda ()
-                        (flyspell-mode))
+    (use-package org-msg
+      :after mu4e
+      :hook (message-mode lambda ()
+                          (org-msg-mode)
+                          (flyspell-mode))
 
-    :config
-    (setq org-msg-options "tex:dvisvgm html-postamble:nil H:5 num:nil ^:{} toc:nil author:nil email:nil \\n:t"
-          org-msg-startup "hidestars indent inlineimages"
-          org-msg-greeting-name-limit 3
-          org-msg-default-alternatives '((new		. (text html))
-                                         (reply-to-html	. (text html))
-                                         (reply-to-text	. (text)))
-          org-msg-convert-citation t
-          org-msg-greeting-fmt "\nHi%s,\n\n"
-          org-msg-signature
-"
-Regards,
+      :config
+      (setq org-msg-options "tex:dvisvgm html-postamble:nil H:5 num:nil ^:{} toc:nil author:nil email:nil \\n:t"
+            org-msg-startup "hidestars indent inlineimages"
+            org-msg-greeting-name-limit 3
+            org-msg-default-alternatives '((new		. (text html))
+                                           (reply-to-html	. (text html))
+                                           (reply-to-text	. (text)))
+            org-msg-convert-citation t
+            org-msg-greeting-fmt "\nHi%s,\n\n"
+            org-msg-signature
+  "
+  Regards,
 
-#+begin_signature
----------------------------
-*Ramus Jabee Lloyd Wilson*
-ICT Consultant | Smile Technology LLC
-/email: ramus.wilson@smiletech.com ramus@rjlwjr.com/
-/phone: +231-77-797-8125 +231-88-697-8125/
-/The simple act of paying attention can take you a long way/
-#+end_signature")
-    (org-msg-mode))
+  #+begin_signature
+  ---------------------------
+  *Ramus Jabee Lloyd Wilson*
+  ICT Consultant | Smile Technology LLC
+  /email: ramus.wilson@smiletech.com ramus@rjlwjr.com/
+  /phone: +231-77-797-8125 +231-88-697-8125/
+  /The simple act of paying attention can take you a long way/
+  #+end_signature"))
 #+end_src
 * Org Mode
 ** Evil Org 
