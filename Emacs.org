@@ -1381,7 +1381,6 @@
     ;; (add-to-list 'yas-snippet-dirs "~/.emacs.d/snippets")
     :config
     (use-package yasnippet-snippets)
-    (use-package js-react-redux-yasnippets)
     (message "yasnippet loaded  ✔"))
 
     ;; :hook
