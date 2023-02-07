@@ -3562,3 +3562,27 @@ ICT Consultant | Smile Technology LLC
     (setq undo-tree-auto-save-history t))
 #+end_src
 
+** Caribbean Theme
+#+begin_src emacs-lisp :tangle no
+  (use-package timu-caribbean-theme)
+    ;; :config
+    ;; (load-theme 'timu-caribbean t))
+
+#+end_src
+
+** Snippet
+#+begin_src emacs-lisp :tangle no
+  (use-package js-react-redux-yasnippets)
+#+end_src
+
+** Thesaurus
+#+begin_src emacs-lisp :tangle no
+  (use-package mw-thesaurus
+    ;; :defer 10
+    :bind ((:map evil-normal-state-map
+                 ("Z?" . mw-thesaurus-lookup-at-point)
+                 ("z?" . mw-thesaurus-lookup-dwim)))
+    :config
+    (message "mw-theasaurus loaded ✔"))
+#+end_src
+
