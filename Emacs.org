@@ -1466,43 +1466,43 @@
 #+end_src
 ** JavaScript
 #+begin_src emacs-lisp
-  (use-package js-mode
-    ;; :mode "\\.js\\'"
-    :ensure nil
-    :hook (js-mode . eglot-ensure)
-    :config
-    (setq js-indent-level 4))
+    (use-package js-mode
+      ;; :mode "\\.js\\'"
+      :ensure nil
+      :hook (js-mode . eglot-ensure)
+      :config
+      (setq js-indent-level 4))
+  
+    (use-package typescript-mode
+      :hook (typescript-mode . eglot-ensure)
+      :config
+      (setq typescript-indent-level 4))
 
-  (use-package typescript-mode
-    :hook (typescript-mode . eglot-ensure)
-    :config
-    (setq typescript-indent-level 4))
+    (use-package rjsx-mode
+      :mode "\\.js\\'"
+      :hook (rjsx-mode . eglot-ensure)
+      :bind (:map rjsx-mode-map
+                  ("<" . self-insert-command))
+      :config
+      (setq js-jsx-indent-level 2))
 
-  (use-package rjsx-mode
-    :mode "\\.js\\'"
-    :hook (rjsx-mode . eglot-ensure)
-    :bind (:map rjsx-mode-map
-                ("<" . self-insert-command))
-    :config
-    (setq js-jsx-indent-level 2))
+    (use-package prettier-js
+      :after rjsx-mode
+      :hook (rjsx-mode . prettier-js-mode))
 
-  (use-package prettier-js
-    :after rjsx-mode
-    :hook (rjsx-mode . prettier-js-mode))
+    (use-package json-mode
+      :mode "\\.json\\'"
+      :config
+      :hook (json-mode .
+                       (lambda ()
+                         (make-local-variable 'js-indent-level)
+                         (setq tab-width 2)
+                         (setq js-indent-level 2))))
 
-  (use-package json-mode
-    :mode "\\.json\\'"
-    :config
-    :hook (json-mode .
-                     (lambda ()
-                       (make-local-variable 'js-indent-level)
-                       (setq tab-width 2)
-                       (setq js-indent-level 2))))
+    (use-package jsonian)
 
-  (use-package jsonian)
-
-  ;; (require 'dap-firefox)
-  ;; (require 'dap-node)
+    ;; (require 'dap-firefox)
+    ;; (require 'dap-node)
 #+end_src
 ** Eglot
 #+begin_src emacs-lisp
