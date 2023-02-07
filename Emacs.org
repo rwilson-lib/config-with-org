@@ -1319,10 +1319,6 @@
     (message "Blamer loaded  ✔"))
 #+end_src
 * Developer Packages
-** Doc String
-#+begin_src emacs-lisp
-  (use-package docstr)
-#+end_src
 ** Programming
 #+begin_src emacs-lisp
   (use-package flycheck)
