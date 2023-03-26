@@ -1535,6 +1535,8 @@
                  '(web-mode . ("vscode-html-language-server" "--node-ipc"))
                  '(R-mode . ("R" "--slave" "-e" "languageserver::run()")))
     (message "eglot loaded"))
+  
+  (use-package consult-eglot)
 #+end_src
 ** Python
 #+begin_src emacs-lisp
