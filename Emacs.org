@@ -2595,13 +2595,12 @@
               ;;(add-to-list 'org-structure-template-alist '("npp". "src napkin-puml"))
               (add-to-list 'org-structure-template-alist '("sql". "src sql-mode"))))
 #+end_src
-** Org Superstar 
+** Org Modern
 #+begin_src emacs-lisp
-  (use-package org-superstar
+  (use-package org-modern
     :after org
-    :hook (org-mode . org-superstar-mode)
     :config
-    (setq org-superstar-remove-leading-stars t))
+    (setq org-modern-star '("" "" "" "" "")))
 #+end_src
 ** Ox Reveal
 #+begin_src emacs-lisp
@@ -3550,3 +3549,12 @@
     (message "mw-theasaurus loaded ✔"))
 #+end_src
 
+
+** Org Superstar 
+#+begin_src emacs-lisp :tangle no 
+  (use-package org-superstar
+    :after org
+    :hook (org-mode . org-superstar-mode)
+    :config
+    (setq org-superstar-remove-leading-stars t))
+#+end_src
