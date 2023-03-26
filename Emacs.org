@@ -1180,9 +1180,8 @@
   (use-package isearch
     :ensure nil
     :bind (:map isearch-mode-map
+           ("<tab>" . isearch-complete)
            ("C-j" . avy-isearch)
-           ("C-s" . consult-line)
-           ("M-s L" . consult-line-multi)
            ("C-e" . iedit-mode-from-isearch)
            ("M-e" . consult-isearch-history)         ;; orig. isearch-edit-string
            ("M-s e" . consult-isearch-history)))     ;; orig. isearch-edit-string
