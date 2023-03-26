@@ -573,6 +573,11 @@
       "SPC c" (general-simulate-key "C-c")
       "SPC g" (general-simulate-key "M-g")
       "SPC s" (general-simulate-key "M-s"))
+    
+    (general-define-key
+     :keymaps '(normal visual)
+     :prefix "g SPC"
+     "x" (general-simulate-key "C-c C-c"))
 
     (general-define-key
      :keymaps '(normal insert visual emacs)
