@@ -593,6 +593,7 @@
       "mv" '(hydra-vuiet/body :which-key "vuiet-music"))
     (message "general ready ✔"))
 #+end_src
+
 ** Which-Key
 #+begin_src emacs-lisp
   (use-package which-key
@@ -1649,286 +1650,293 @@
      plantuml-indent-level 2
      plantuml-output-type "png"))
 #+end_src
-** SQL
-# TODO Fixed SQl
-#+begin_src emacs-lisp
-  ;;(setq lsp-sqls-connections
+** SQL  
+#+begin_src emacs-lisp 
+  ;;(setq-local lsp-sqls-connections
   ;;      '(((driver . "mysql") (dataSourceName . "root:root@tcp(localhost:3306)/mysql"))
   ;;       ((driver . "postgresql") (dataSourceName . "host=127.0.0.1 port=5432 user=yyoncho password=local dbname=sammy sslmode=disable"))))
 
   ;;(require 'lsp-sqls)
   ;;(add-hook 'sql-mode-hook 'lsp) 
 
-  (use-package sqlformat
-    ;; :defer 10
-    :commands (sqlformat sqlformat-buffer sqlformat-region)
-    ;; :hook (sql-mode . sqlformat-on-save-mode)
-    :init
-    (setq sqlformat-command 'sqlformat
-          sqlformat-args '("-kupper")))
+  ;; (use-package sqlformat 
+  ;;   ;; :defer 10
+  ;;   :commands (sqlformat sqlformat-buffer sqlformat-region)
+  ;;   ;; :hook (sql-mode . sqlformat-on-save-mode)
+  ;;   :init
+  ;;   (setq sqlformat-command 'sqlformat
+  ;;         sqlformat-args '("-kupper")))
 
-  
+  (add-hook 'sql-interactive-mode-hook
+          (lambda ()
+            (toggle-truncate-lines t)))
+
   (setq sql-sqlite-options '("-table"))
-  (setq sql-connection-alist
-        '((pgsql-prod (sql-product 'postgres)
-                      (sql-port 5432)
-                      (sql-server "localhost")
-                      (sql-user "postgres")
-                      (sql-password "root")
-                      (sql-database ""))
-          (pgsql-staging (sql-product 'postgres)
-                         (sql-port 5432)
-                         (sql-server "db.staging.com")
-                         (sql-user "user")
-                         (sql-password "password")
-                         (sql-database "my-app"))
-          (mysql-dev (sql-product 'mysql)
-                     (sql-port 3306)
-                     (sql-server "localhost")
-                     (sql-user "root")
-                     (sql-password "root")
-                     (sql-mysql-options '("--protocol=tcp"))
-                     (sql-database ""))))
+(setq sql-connection-alist
+    '((pgsql-prod (sql-product 'postgres)
+		    (sql-port 5432)
+		    (sql-server "localhost")
+		    (sql-user "postgres")
+		    (sql-password "root")
+		    (sql-database ""))
+	(pgsql-staging (sql-product 'postgres)
+			(sql-port 5432)
+			(sql-server "db.staging.com")
+			(sql-user "user")
+			(sql-password "password")
+			(sql-database "my-app"))
+	(mysql-dev (sql-product 'mysql)
+		    (sql-port 3306)
+		    (sql-server "localhost")
+		    (sql-user "root")
+		    (sql-password "root")
+		    (sql-mysql-options '("--protocol=tcp"))
+		    (sql-database ""))))
 #+end_src
 ** Rest Client
 #+begin_src emacs-lisp
-  (use-package restclient
-    ;; :defer 2
-    :mode ("\\.http\\'" . restclient-mode)
-    ;; :hook (restclient-mode . company-mode)
-    :bind (:map restclient-mode-map
-                ("C-c C-f" . json-mode-beautify))
-    :config
-    (message "restclient loaded"))
+(use-package restclient
+;; :defer 2
+:mode ("\\.http\\'" . restclient-mode)
+;; :hook (restclient-mode . company-mode)
+:bind (:map restclient-mode-map
+	    ("C-c C-f" . json-mode-beautify))
+:config
+(message "restclient loaded"))
 #+end_src
 ** Yaml
 #+begin_src emacs-lisp
-  (use-package yaml-mode 
-    ;; :defer 2
-    :mode (("\\.yaml\\'" . yaml-mode)
-           ("\\.yml\\'" . yaml-mode))
-    :bind ((:map yaml-mode-map
-                 ("\C-m" . 'newline-and-indent)))
-    :config
-    (message "yaml loaded"))
+(use-package yaml-mode 
+;; :defer 2
+:mode (("\\.yaml\\'" . yaml-mode)
+	("\\.yml\\'" . yaml-mode))
+:bind ((:map yaml-mode-map
+		("\C-m" . 'newline-and-indent)))
+:config
+(message "yaml loaded"))
 #+end_src
 ** Graphql
 #+begin_src emacs-lisp
-  (use-package graphql-mode
-    ;; :defer 2
-    :config
-    (message "graphql loaded"))
+(use-package graphql-mode
+;; :defer 2
+:config
+(message "graphql loaded"))
 #+end_src
 * Data Science
 ** Jupyter
 #+begin_src emacs-lisp
-  (use-package jupyter
-    ;; :defer 2
-    ;; :requires (zmq org python)
-    :commands (jupyter-run-server-repl
-               jupyter-run-repl
-               jupyter-server-list-kernels)
-    :init (eval-after-load 'jupyter-org-extensions ; conflicts with my helm config, I use <f2 #>
-            '(unbind-key "C-c h" jupyter-org-interaction-mode-map))
-    :config
-    (message "jupyter ready ✔"))
+(use-package jupyter
+;; :defer 2
+;; :requires (zmq org python)
+:commands (jupyter-run-server-repl
+	    jupyter-run-repl
+	    jupyter-server-list-kernels)
+:init (eval-after-load 'jupyter-org-extensions ; conflicts with my helm config, I use <f2 #>
+	'(unbind-key "C-c h" jupyter-org-interaction-mode-map))
+:config
+(message "jupyter ready ✔"))
 #+end_src
 ** ESS
 #+begin_src emacs-lisp
-  (use-package ess
-    ;; :defer 2
-    
-    :hook (R-mode . eglot-ensure)
+(use-package ess
+;; :defer 2
 
-    :custom
-    (inferior-ess-fix-misaligned-output t)
-    (ess-eldoc-show-on-symbol t)
-    (ess-gen-proc-buffer-name-function 'ess-gen-proc-buffer-name:projectile-or-directory)
-    (ess-eval-visibly nil); "Don't hog Emacs"
-    (ess-style 'RStudio)
-    (ess-use-flymake nil) ;"Syntax checking is usually not helpful"
-    ;; (ess-tab-complete-in-script nil) ;"Do not interfere with Company"
-    ;; (ess-use-ido nil) ;"Prefer Ivy/Counsel"
-    ;; (ess-history-directory (expand-file-name "ESS-history/" no-littering-var-directory))
-    (inferior-R-args "--no-save")
-    (ess-ask-for-ess-directory nil)
-    ;; (ess-smart-S-assign-key nil)
-    ;; (ess-indent-with-fancy-comments nil)
-    :config
-    (setq ess-use-company t)
-    (setq ess-can-eval-in-background nil)
-    (setq ess--command-default-timeout 1))
+;; :hook (R-mode . eglot-ensure)
+
+:custom
+(inferior-ess-fix-misaligned-output t)
+(ess-eldoc-show-on-symbol t)
+(ess-gen-proc-buffer-name-function 'ess-gen-proc-buffer-name:projectile-or-directory)
+(ess-eval-visibly nil); "Don't hog Emacs"
+(ess-style 'RStudio)
+(ess-use-flymake nil) ;"Syntax checking is usually not helpful"
+;; (ess-tab-complete-in-script nil) ;"Do not interfere with Company"
+;; (ess-use-ido nil) ;"Prefer Ivy/Counsel"
+;; (ess-history-directory (expand-file-name "ESS-history/" no-littering-var-directory))
+(inferior-R-args "--no-save")
+(ess-ask-for-ess-directory nil)
+;; (ess-smart-S-assign-key nil)
+;; (ess-indent-with-fancy-comments nil)
+:config
+(setq ess-use-company t)
+(setq ess-can-eval-in-background nil)
+(setq ess--command-default-timeout 1))
 
 
-  (use-package ess-view-data
-    :after ess)
+(use-package ess-view-data
+:after ess)
 #+end_src
-    ;; :defer 5)
+;; :defer 5)
 #+begin_src emacs-lisp
-  (use-package gnuplot
-    ;; :defer 5
-    :config
-    (message "gnuplot loaded"))
+(use-package gnuplot
+;; :defer 5
+:config
+(message "gnuplot loaded"))
 
-  (use-package gnuplot-mode
-    ;; :defer 5
-    :config
-    (message "gnuplot mode loaded"))
+(use-package gnuplot-mode
+;; :defer 5
+:config
+(message "gnuplot mode loaded"))
 #+end_src
 ** Ledger
 #+begin_src emacs-lisp
-  (use-package hledger-mode
-    :disabled
-    ;; :defer 2
+(use-package hledger-mode
+:disabled
+;; :defer 2
 
-    ;; To open files with .journal extension in hledger-mode
-    :mode ("\\.journal\\'" . hledger-mode)
-    :config
+;; To open files with .journal extension in hledger-mode
+:mode ("\\.journal\\'" . hledger-mode)
+:config
 
-    ;; Provide the path to you journal file.
-    ;; The default location is too opinionated.
-    ;; (setq hledger-jfile "/path/to/your/journal-file.journal")
+;; Provide the path to you journal file.
+;; The default location is too opinionated.
+;; (setq hledger-jfile "/path/to/your/journal-file.journal")
 
-    ;; Auto-completion for account names
-    ;; For company-mode users,
-    (add-to-list 'company-backends 'hledger-company)
-    (message "hledger loaded  ✔"))
+;; Auto-completion for account names
+;; For company-mode users,
+(add-to-list 'company-backends 'hledger-company)
+(message "hledger loaded  ✔"))
 #+end_src
 * Writing
 ** Grammar 
 #+begin_src emacs-lisp
-  (add-to-list 'ispell-skip-region-alist '("#\\+begin_src" . "#\\+end_src"))
+(add-to-list 'ispell-skip-region-alist '("#\\+begin_src" . "#\\+end_src"))
 
-  (use-package text-mode
-    :ensure nil
-    :hook (text-mode . flyspell-mode))
+(use-package text-mode
+:ensure nil
+:hook (text-mode . flyspell-mode))
 
-  (use-package flyspell-lazy
-    ;; :defer 5
-    :after flyspell
+(use-package flyspell-lazy
+;; :defer 5
+:after flyspell
 
-    :bind ((:map flyspell-mode-map
-                 ("C-;" . nil)))
-  
-    :config
-    (setq flyspell-lazy-idle-seconds 2))
+;; :bind ((:map flyspell-mode-map
+;;              ("C-;" . nil)))
+
+:config
+(setq flyspell-lazy-idle-seconds 2))
 #+end_src
 ** Lang tools
 #+begin_src emacs-lisp
-  (use-package flycheck-languagetool 	
-    :disabled
-    ;; :defer 10
-    :ensure t
-    :hook (text-mode . flycheck-languagetool-setup)
-    :init
-    (setq flycheck-languagetool-server-jar "~/bin/LanguageTool-5.7/languagetool-server.jar"))
+(use-package flycheck-languagetool 	
+:disabled
+;; :defer 10
+:ensure t
+:hook (text-mode . flycheck-languagetool-setup)
+:init
+(setq flycheck-languagetool-server-jar "~/bin/LanguageTool-5.7/languagetool-server.jar"))
 #+end_src
 ** Dictionary & Thesaurus 
 #+begin_src emacs-lisp
-  (use-package dictionary
-    ;; :defer 10
-    :config
-    (message "dictionary loaded ✔"))
+(use-package dictionary
+;; :defer 10
+:config
+(message "dictionary loaded ✔"))
 
-  (use-package powerthesaurus
-    ;; :defer 10
-    :config
-    (message "powerthesaurus loaded  ✔"))
+(use-package powerthesaurus
+;; :defer 10
+:config
+(message "powerthesaurus loaded  ✔"))
 #+end_src
 ** Latex
 #+begin_src emacs-lisp
-  (use-package tex
+(use-package tex
     :ensure auctex
-    
-    :hook (TeX-mode . ( lambda ()
-                        ;; (corfu-mode)
-                        (hl-todo-mode)
-                        (company-mode)
-                        (display-line-numbers-mode 1)))
-    :init
-    (use-package latex-preview-pane
-      :config
-      (setq latex-preview-pane-use-frame nil)
-      (latex-preview-pane-enable))
-
-    :config
-    ;; Turn on RefTeX in AUCTeX
-    (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
-    ;; Activate nice interface between RefTeX and AUCTeX
-    (setq reftex-plug-into-AUCTeX t)
 
     :bind ((:map TeX-mode-map
-                 ("<tab> TAB" . TeX-complete-symbol))))
+		("<tab> TAB" . TeX-complete-symbol)))
+    
+      :hook (TeX-mode . ( lambda ()
+                          ;; (corfu-mode)
+                          (hl-todo-mode)
+                          (company-mode)
+                          (display-line-numbers-mode 1)))
+      :init
+      (use-package latex-preview-pane
+        :config
+        (setq latex-preview-pane-use-frame nil)
+        (latex-preview-pane-enable))
+
+      :config
+      ;; Turn on RefTeX in AUCTeX
+      (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
+      ;; Activate nice interface between RefTeX and AUCTeX
+      (setq reftex-plug-into-AUCTeX t)
+    (message "AUCTeX ready ✔"))
 #+end_src
 ** Bibtex
 #+begin_src emacs-lisp
-  (use-package citeproc)
-
+  ;; https://kristofferbalintona.me/posts/202206141852/
   (use-package citar
     ;;  :no-require
-    :custom
-    (org-cite-global-bibliography'("~/Documents/bib/emacs-bibs/references.bib"
-				   "~/Documents/bib/emacs-bibs/dei.bib"
-				   "~/Documents/bib/emacs-bibs/master.bib"
-				   "~/Documents/bib/emacs-bibs/archive.bib"))
-    (org-cite-insert-processor 'citar)
-    (org-cite-follow-processor 'citar)
-    (org-cite-activate-processor 'citar)
-    (citar-bibliography org-cite-global-bibliography)
+
+    :custom-face
+    ;; Have citation link faces look closer to as they were for `org-ref'
+    ;; (org-cite ((t (:foreground "DarkSeaGreen4"))))
+    ;; (org-cite-key ((t (:slant italic))))
+
+    :bind(:map org-mode-map
+               :package org ("C-c b" . #'org-cite-insert))
+
+
+
     ;; optional: org-cite-insert is also bound to C-c C-x C-@
     :config
+    (setq org-cite-global-bibliography'("~/Documents/bib/emacs-bibs/references.bib"
+                                        "~/Documents/bib/emacs-bibs/dei.bib"
+                                        "~/Documents/bib/emacs-bibs/master.bib"
+                                        "~/Documents/bib/emacs-bibs/archive.bib")
+          org-cite-insert-processor 'citar
+          org-cite-follow-processor 'citar
+          org-cite-activate-processor 'citar
+          citar-bibliography org-cite-global-bibliography)
+
     (setq citar-notes-paths '("~/Documents/bib/bibtex-notes/")
-	  citar-library-paths '("~/Documents/bib/bibtex-pdfs/"))
-    :bind
-    (:map org-mode-map :package org ("C-c b" . #'org-cite-insert)))
+          citar-library-paths '("~/Documents/bib/bibtex-pdfs/"))
 
-  (use-package org-roam-bibtex
-    :after org-roam
-    :config
-    (require 'org-ref)) ; optional: if using Org-ref v2 or v3 citation links
-
-  (use-package bibtex
-    :ensure nil
-    :config
     (setq bibtex-autokey-year-length 4
-	  bibtex-autokey-name-year-separator "-"
-	  bibtex-autokey-year-title-separator "-"
-	  bibtex-autokey-titleword-separator "-"
-	  bibtex-autokey-titlewords 2
-	  bibtex-autokey-titlewords-stretch 1
-	  bibtex-autokey-titleword-length 5
-	  bibtex-dialect 'biblatex)
+          bibtex-autokey-name-year-separator "-"
+          bibtex-autokey-year-title-separator "-"
+          bibtex-autokey-titleword-separator "-"
+          bibtex-autokey-titlewords 2
+          bibtex-autokey-titlewords-stretch 1
+          bibtex-autokey-titleword-length 5
+          bibtex-dialect 'biblatex)
 
     (setq bibtex-completion-bibliography '("~/Documents/bib/emacs-bibs/references.bib"
-					   "~/Documents/bib/emacs-bibs/dei.bib"
-					   "~/Documents/bib/emacs-bibs/master.bib"
-					   "~/Documents/bib/emacs-bibs/archive.bib")
-	  bibtex-completion-library-path '("~/Documents/bib/bibtex-pdfs/")
-	  bibtex-completion-notes-path "~/Documents/bib/bibtex-notes/"
-	  bibtex-completion-notes-template-multiple-files "* ${author-or-editor}, ${title}, ${journal}, (${year}) :${=type=}: \n\nSee [[cite:&${=key=}]]\n"
+                                           "~/Documents/bib/emacs-bibs/dei.bib"
+                                           "~/Documents/bib/emacs-bibs/master.bib"
+                                           "~/Documents/bib/emacs-bibs/archive.bib")
+          bibtex-completion-library-path '("~/Documents/bib/bibtex-pdfs/")
+          bibtex-completion-notes-path "~/Documents/bib/bibtex-notes/"
+          bibtex-completion-notes-template-multiple-files "* ${author-or-editor}, ${title}, ${journal}, (${year}) :${=type=}: \n\nSee [[cite:&${=key=}]]\n"
 
-	  bibtex-completion-additional-search-fields '(keywords)
-	  bibtex-completion-display-formats
-	  '((article       . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${journal:40}")
-	    (inbook        . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} Chapter ${chapter:32}")
-	    (incollection  . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}")
-	    (inproceedings . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}")
-	    (t             . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*}"))
-	  bibtex-completion-pdf-open-function
-	  (lambda (fpath)
-	    (call-process "open" nil 0 nil fpath))))
+          bibtex-completion-additional-search-fields '(keywords)
+          bibtex-completion-display-formats
+          '((article       . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${journal:40}")
+            (inbook        . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} Chapter ${chapter:32}")
+            (incollection  . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}")
+            (inproceedings . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}")
+            (t             . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*}"))
+          bibtex-completion-pdf-open-function
+          (lambda (fpath)
+            (call-process "open" nil 0 nil fpath))))
 
-  (use-package biblio
-    :after bibtex
-    :bind (:map biblio-selection-mode-map
-		("k" . biblio--selection-previous)
-		("j" . biblio--selection-next)))
+  (use-package citar-embark)
 
-  (use-package org-ref
-    :bind (:map bibtex-mode-map
-		("H-b" . org-ref-bibtex-hydra/body))
-    :config
-    (setq org-ref-bibtex-hydra-key-binding (kbd "H-b")))
+  (use-package org-roam-bibtex ; optional: if using Org-ref v2 or v3 citation links
+    :after org-roam)
+  ;; :config
+  ;; (require 'org-ref)
+
+  ;; (use-package org-ref
+  ;;   :bind (:map bibtex-mode-map
+  ;;               ("H-b" . org-ref-bibtex-hydra/body)
+  ;;               (:map biblio-selection-mode-map
+  ;;                     ("k" . biblio--selection-previous)
+  ;;                     ("j" . biblio--selection-next)))
+  ;;   :config
+  ;;   (setq org-ref-bibtex-hydra-key-binding (kbd "H-b")))
 #+end_src
 ** PDF Tools
 #+begin_src emacs-lisp
@@ -2559,8 +2567,8 @@
     ;; :init (require 'ob-sql-mode)
     :config
     (setq org-confirm-babel-evaluate
-          (lambda (lang body)
-            (not (string= lang "sql-mode"))))
+	  (lambda (lang body)
+	    (not (string= lang "sql-mode"))))
     (message "ob-sql ready ✔"))
 
   (use-package ob-restclient
@@ -2833,7 +2841,7 @@
   (use-package newsticker
     :ensure nil
     ;; :defer 10
-    
+
     :init
     (setq newsticker-url-list '(("stackoverflow.com - emacs" "https://stackoverflow.com/feeds/tag?tagnames=emacs&sort=newest" nil nil nil)
                                 ("More Productive with Emacs" "https://lucidmanager.org/tags/emacs/index.xml" nil nil nil)
@@ -2844,6 +2852,9 @@
                                 ("Org Help requests" "https://updates.orgmode.org/feed/help" nil nil nil)
                                 ("Org confirmed Bugs" "https://updates.orgmode.org/feed/bugs" nil nil nil)
                                 ("Org News Update" "https://updates.orgmode.org/feed/updates" nil nil nil)
+                                ("Org This Month" "https://blog.tecosaur.com/tmio/rss.xml" nil nil nil)
+                                
+                                ("Framework" "https://blog.tecosaur.com/tmio/rss.xml" nil nil nil)
 
                                 ("Memes on Reddit" "http://www.reddit.com/r/memes/.rss" nil nil nil)
                                 ("CNN" "http://rss.cnn.com/rss/edition_world.rss" nil nil nil)
