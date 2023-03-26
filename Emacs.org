@@ -2318,7 +2318,7 @@
 #+begin_src emacs-lisp
   ;; Org Mode Configuration ------------------------------------------------------
   (defun efs/org-mode-setup ()
-    ;; (org-indent-mode)
+    (org-indent-mode -1)
     ;; (visual-line-mode 1)
     (evil-org-mode)
     (visual-fill-column-mode 1)
