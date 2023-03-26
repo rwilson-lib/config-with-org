@@ -626,6 +626,9 @@
   ;;    "f" (evil-textobj-tree-sitter-get-textobj "function.inner")))
 #+end_src
 * User Interface Improvements
+#+begin_src emacs-lisp
+(use-package visual-regexp)
+#+end_srC
 ** Toggle Line Number
 #+begin_src emacs-lisp
   (defun toggle-line-number()
