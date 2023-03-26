@@ -1413,8 +1413,7 @@
     (rjsx-mode . emmet-mode)
     (css-mode  . emmet-mode) ;; enable Emmet's css abbreviation.
     :bind (:map emmet-mode-keymap 
-                ("C-c C-c p" . emmet-preview-mode)
-                ("<tab> TAB" . emmet-expand-line))
+                ("C-c C-c p" . emmet-preview-mode))
     :init
     (setq
      emmet-indentation 2
