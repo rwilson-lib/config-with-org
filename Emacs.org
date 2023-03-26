@@ -2296,9 +2296,11 @@
   ---------------------------
   *Ramus Jabee Lloyd Wilson*
   ICT Consultant | Smile Technology LLC
-  /email: ramus.wilson@smiletech.com ramus@rjlwjr.com/
-  /phone: +231-77-797-8125 +231-88-697-8125/
+  /email: ramus@rjlwjr.com/
+  /work-email: ramus.wilson@smiletech.com/
+  /mobile phone: +231-77-797-8125 +231-88-697-8125/
   /The simple act of paying attention can take you a long way/
+  send from Gnus Emacs mu4e client
   #+end_signature"))
 #+end_src
 * Org Mode
