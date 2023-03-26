@@ -1525,7 +1525,7 @@
            (html-mode . eglot-ensure))
     :hook (eglot-managed-mode . (lambda ()
                    (remove-hook 'flymake-diagnostic-functions 'eglot-flymake-backend)))
-    
+
     :bind (:map eglot-mode-map
                 ("C-c r" . eglot-rename)
                 ("C-c h" . eldoc)
@@ -2984,6 +2984,18 @@
 ** Password Store
 #+begin_src emacs-lisp
   (use-package password-store)
+#+end_src
+
+** GPT
+#+begin_src emacs-lisp
+  ;; (use-package gptai
+  ;; :config
+  ;; ;; set configurations
+  ;; (setq gptai-model "davinci") 
+  ;; (setq gptai-username "ramus@rjlwjr.com")
+  ;; (setq gptai-api-key "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")
+  ;; ;; set keybindings optionally
+  ;; (global-set-key (kbd "C-c o") 'gptai-send-query))
 #+end_src
 
 
