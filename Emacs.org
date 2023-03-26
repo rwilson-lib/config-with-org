@@ -224,8 +224,8 @@
             display-buffer-below-selected
             display-buffer-at-bottom
             display-buffer-pop-up-frame))))
-       ;; '(window-min-height 18)
-       ;; '(window-min-width 40))
+      ;; '(window-min-height 18)
+      ;; '(window-min-width 40))
 
       (setq
        split-width-threshold 0
