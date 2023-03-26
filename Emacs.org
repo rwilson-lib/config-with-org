@@ -551,7 +551,7 @@
     (general-evil-setup t)
 
     (general-nvmap
-      "g l" 'toggle-line-number
+      "g \\" 'toggle-line-number
       "g m" 'my/move-to-middle
       "; ;" 'evil-buffer
       "SPC f" 'find-file
