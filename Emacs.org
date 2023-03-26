@@ -2581,27 +2581,29 @@
     :ensure nil
     :hook (org-babel-after-execute . org-redisplay-inline-images)
     :config (progn
-              ;; load more languages for org-babel
-              (org-babel-do-load-languages
-               'org-babel-load-languages
-               '((C . t)
-                 (R . t)
-                 (lua . t)
-                 (shell . t)
-                 (julia . t)
-                 (latex . t)
-                 (python . t)
-                 (gnuplot . t)
-                 (plantuml . t)
-                 (restclient . t)
-                 (emacs-lisp . t)
-                 (jupyter . t)))
-              (setq org-babel-default-header-args:sh    '((:results . "output replace"))
-                    org-babel-default-header-args:bash  '((:results . "output replace"))
-                    org-babel-default-header-args:shell '((:results . "output replace"))
-                    org-babel-default-header-args:python '((:results . "output")))
-              (add-to-list 'org-src-lang-modes (quote ("plantuml" . plantuml)))))
+	      ;; load more languages for org-babel
+	      (org-babel-do-load-languages
+	       'org-babel-load-languages
+	       '((C . t)
+		 (R . t)
+		 (lua . t)
+		 (sqlite . t)
+		 (shell . t)
+		 (julia . t)
+		 (latex . t)
+		 (python . t)
+		 (gnuplot . t)
+		 (plantuml . t)
+		 (restclient . t)
+		 (emacs-lisp . t)
+		 (jupyter . t)))
+	      ;; (setq org-babel-default-header-args:sh    '((:results . "output replace"))
+	      ;;       org-babel-default-header-args:bash  '((:results . "output replace"))
+	      ;;       org-babel-default-header-args:shell '((:results . "output replace"))
+	      ;;       org-babel-default-header-args:python '((:results . "output replace")))
+	      (add-to-list 'org-src-lang-modes (quote ("plantuml" . plantuml)))))
 #+end_src
+
 ** Org Tempo
 #+begin_src emacs-lisp
   (use-package org-tempo
