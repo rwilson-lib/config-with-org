@@ -191,16 +191,25 @@
 #+end_src
 ** Font and Windows
 #+begin_src emacs-lisp
-  (defun custom/display-buffer-at-bottom ()
-        (interactive)
-        (let ((buffer (current-buffer)))
-          (with-current-buffer buffer
-            (delete-window)
-            (display-buffer-at-bottom
-             buffer '(
-                      ;; (window-parameters . ((mode-line-format . (" " "%b"))))
-                      ;; (window-height . 0.25)
-                      )))))
+    (defun delete-other-windows-advice (function &rest args)
+      (if current-prefix-arg
+          (if (winum-get-window-by-number current-prefix-arg)
+              (switch-to-buffer (window-buffer
+                                 (winum-get-window-by-number current-prefix-arg)))))
+      (apply function args))
+
+    (advice-add 'delete-other-windows :around #'delete-other-windows-advice)
+
+    (defun custom/display-buffer-at-bottom ()
+      (interactive)
+      (let ((buffer (current-buffer)))
+        (with-current-buffer buffer
+          (delete-window)
+          (display-buffer-at-bottom
+           buffer '(
+                    ;; (window-parameters . ((mode-line-format . (" " "%b"))))
+                    ;; (window-height . 0.25)
+                    )))))
 
     (use-package window
       :ensure nil
