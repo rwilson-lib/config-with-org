@@ -3049,11 +3049,6 @@
     (setq crdt-tuntox-executable "/usr/local/bin/tuntox")
     (message "CRDT ready ✔"))
 #+end_src
-** Password Store
-#+begin_src emacs-lisp
-  (use-package password-store)
-#+end_src
-
 ** GPT
 #+begin_src emacs-lisp
   ;; (use-package gptai
