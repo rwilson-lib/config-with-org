@@ -2714,6 +2714,7 @@
 ** Ox Reveal
 #+begin_src emacs-lisp
   (use-package ox-reveal
+    :defer 5
     :after org  
     :config
     (message "ox-reveal ready"))
