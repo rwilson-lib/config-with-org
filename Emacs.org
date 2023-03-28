@@ -2,11 +2,14 @@
 #+TITLE: Emacs Configuration
 #+PROPERTY: header-args:emacs-lisp :tangle ~/.emacs.d/init.el
 #+begin_src emacs-lisp
-(use-package benchmark-init
-  :ensure t
-  :config
-  ;; To disable collection of benchmark data after init is done.
-  (add-hook 'after-init-hook 'benchmark-init/deactivate))
+  (use-package benchmark-init
+    :ensure t
+    ;; remove this line when you want to take benchmark at init 
+    :commands (benchmark-init/activate benchmark-init/install)
+    :config
+    ;; To disable collection of benchmark data after init is done.
+    ;; (add-hook 'after-init-hook 'benchmark-init/deactivate)
+    (message "benchmark-init loaded ✔"))
 #+end_src
 * Environment
 ** Custom File
@@ -737,17 +740,19 @@
     :bind ((:map evil-normal-state-map
 		 ("s" . evil-avy-goto-char-2)
 		 ("gsac" . avy-goto-char)
-		 ("gsal" . avy-goto-line))))
+		 ("gsal" . avy-goto-line)))
+    :config
+    (message "avy-flycheck loaded! ✔"))
 
   (use-package avy-flycheck
     :after (avy flycheck)
     :config
-    (message "avy-flycheck loaded!"))
+    (message "avy-flycheck loaded! ✔"))
 
   (use-package ace-link
     :commands (ace-link)
     :config
-    (message "ace-link loaded!"))
+    (message "ace-link loaded! ✔"))
 
   (use-package link-hint
     :commands (link-hint-open-link link-hint-copy-link)
