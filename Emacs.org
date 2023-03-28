@@ -5,10 +5,10 @@
   (use-package benchmark-init
     :ensure t
     ;; remove this line when you want to take benchmark at init 
-    :commands (benchmark-init/activate benchmark-init/install)
+    ;; :commands (benchmark-init/activate benchmark-init/install)
     :config
     ;; To disable collection of benchmark data after init is done.
-    ;; (add-hook 'after-init-hook 'benchmark-init/deactivate)
+    (add-hook 'after-init-hook 'benchmark-init/deactivate)
     (message "benchmark-init loaded ✔"))
 #+end_src
 * Environment
