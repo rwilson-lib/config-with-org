@@ -1572,13 +1572,14 @@
   (use-package consult-eglot
     :after eglot
     :config
-    (message "eshell loaded ✔"))
+    (message "consult-eglot loaded ✔"))
 #+end_src
 ** Python
 #+begin_src emacs-lisp
   ;; fix issues with python inferial process
   (use-package python
     :hook (python-mode . eglot-ensure)
+    :hook (python-mode . ( lambda () (pyvenv-mode)) )
     :config
     (when (executable-find "ipython")
       (setq python-shell-interpreter "ipython"
