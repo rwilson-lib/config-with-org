@@ -1607,35 +1607,43 @@
 ** Virtual Envs
 #+begin_src emacs-lisp
   (use-package conda
-    :defer 3
-    ;;:config
-    ;;(conda-env-autoactivate-mode nil)
-
-    ;; :init
-    ;; (progn
-    ;;   (conda-env-initialize-interactive-shells)
-    ;;   (conda-env-initialize-eshell)
-    ;;   (setq conda--executable-path "/Users/rwilson/opt/anaconda3/condabin/conda"
-    ;; 	  conda-env-home-directory (expand-file-name "~/opt/anaconda3/"))
-    ;;   (custom-set-variables '(conda-anaconda-home (expand-file-name "~/opt/anaconda3/"))))
-    ;; :config
+    :commands (conda-env-activate-for-buffer conda-env-list conda-env-activate)
+    :init
     ;; (unless (getenv "CONDA_DEFAULT_ENV")
     ;;   (conda-env-activate "base"))
-    
+    ;; (progn
+    ;; (conda-env-initialize-interactive-shells)
+    ;; (conda-env-initialize-eshell))
+
     :config
+    (progn
+      ;; (conda-env-initialize-interactive-shells)
+      ;; (conda-env-initialize-eshell)
+      (setq conda--executable-path "/Users/rwilson/opt/anaconda3/condabin/conda"
+	    conda-env-home-directory (expand-file-name "~/opt/anaconda3/"))
+      (custom-set-variables '(conda-anaconda-home (expand-file-name "~/opt/anaconda3/"))))
+    ;;(conda-env-autoactivate-mode nil)
     (message "conda loaded  ✔"))
 
-  (use-package pipenv
-    ;; :defer 5
-    :requires pyvenv
-    ;; :after python 
-    ;; :hook (python . pipenv-mode)
+  (defun org-babel-execute:jupyter-advice (function &rest args)
+    (unless (getenv "CONDA_DEFAULT_ENV")
+      (conda-env-activate))
+    (apply function args))
+
+  (advice-add 'org-babel-execute:jupyter-python :around #'org-babel-execute:jupyter-advice)
+
+
+  (use-package pyvenv 
+    :requires pipenv
+    :commands (pyvenv-mode)
     :config
-    (message "pipenv loaded  ✔"))
-    ;; :init
-    ;; (setq
-    ;;  pipenv-projectile-after-switch-function
-    ;;    #'pipenv-projectile-after-switch-extended))
+    (message "pyvenv loaded  ✔"))
+
+
+  ;; :init
+  ;; (setq
+  ;;  pipenv-projectile-after-switch-function
+  ;;    #'pipenv-projectile-after-switch-extended))
 #+end_src
 ** Projectile
 #+begin_src emacs-lisp
