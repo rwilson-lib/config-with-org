@@ -1361,49 +1361,50 @@
 * Developer Packages
 ** Programming
 #+begin_src emacs-lisp
-  
-    (use-package flycheck
-      :commands (flycheck-mode global-flycheck-mode))
 
-    (use-package hl-todo
-      :config
-      (setq hl-todo-keyword-faces
-	    '(("TODO"   . "#FF0000")
-	      ("FIXME"  . "#FF0000")
-	      ("DEBUG"  . "#A020F0")
-	      ("GOTCHA" . "#FF4500")
-	      ("STUB"   . "#1E90FF"))))
+  (use-package flycheck
+    :commands (flycheck-mode global-flycheck-mode))
 
-    (use-package rainbow-mode
-      :commands (rainbow-mode)
-      :config
-      (use-package rainbow-delimiters)
-      (setq rainbow-x-colors nil)
-      (message "rainbow-color loaded"))
+  (use-package hl-todo
+    :commands (hl-todo-mode global-hl-todo-mode)
+    :config
+    (setq hl-todo-keyword-faces
+	  '(("TODO"   . "#FF0000")
+	    ("FIXME"  . "#FF0000")
+	    ("DEBUG"  . "#A020F0")
+	    ("GOTCHA" . "#FF4500")
+	    ("STUB"   . "#1E90FF"))))
 
-    (use-package prog-mode
-      :ensure nil
-      :bind (:map prog-mode-map
-		  ("C-/" . comment-dwim ))
+  (use-package rainbow-mode
+    :commands (rainbow-mode)
+    :config
+    (use-package rainbow-delimiters)
+    (setq rainbow-x-colors nil)
+    (message "rainbow-color loaded"))
 
-      :config
-      (use-package smartparens)
+  (use-package prog-mode
+    :ensure nil
+    :bind (:map prog-mode-map
+		("C-/" . comment-dwim ))
 
-      :hook (prog-mode . ( lambda ()
-			   (company-mode)	; completion UI
-			   (hl-todo-mode)
-			   (smartparens-mode)
-			   (rainbow-mode)
-			   (display-line-numbers-mode 1)
-			   (flycheck-mode)	; linting
-			   (yas-minor-mode)	; snippet
-			   ;; (flyspell-prog-mode)
-			   ;; (corfu-mode)
+    :config
+    (use-package smartparens)
 
-			   (setq-local visual-fill-column-width 100
-				       visual-fill-column-center-text t)
+    :hook (prog-mode . ( lambda ()
+			 (company-mode)	; completion UI
+			 (hl-todo-mode)
+			 (smartparens-mode)
+			 (rainbow-mode)
+			 (display-line-numbers-mode 1)
+			 (flycheck-mode)	; linting
+			 (yas-minor-mode)	; snippet
+			 ;; (flyspell-prog-mode)
+			 ;; (corfu-mode)
 
-			   (setq-local fill-column 79))))
+			 (setq-local visual-fill-column-width 100
+				     visual-fill-column-center-text t)
+
+			 (setq-local fill-column 79))))
 #+end_src
 ** Snippet
 #+begin_src emacs-lisp
