@@ -622,7 +622,8 @@
 #+end_src
 * User Interface Improvements
 #+begin_src emacs-lisp
-(use-package visual-regexp)
+  (use-package visual-regexp
+    :commands (vr/mc-mark vr/replace vr/query-replace))
 #+end_srC
 ** Toggle Line Number
 #+begin_src emacs-lisp
