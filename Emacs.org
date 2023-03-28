@@ -651,12 +651,16 @@
 ** All Icons
 #+begin_src emacs-lisp
   (use-package all-the-icons
+    :defer 1
+
     :hook
     (marginalia-mode . all-the-icons-completion-marginalia-setup)
 
+    :init
+    (all-the-icons-completion-mode)
+
     :config
-    (use-package all-the-icons-completion)
-    (all-the-icons-completion-mode))
+    (use-package all-the-icons-completion :after all-the-icons))
 #+end_src
 
 ** Themes and Mode-line
@@ -667,7 +671,7 @@
   (display-time)
 
   (use-package modus-themes
-    :ensure
+    :ensure nil
     :init
     ;; Add all your customizations prior to loading the themes
     ;; Configure the Modus Themes' appearance
@@ -693,7 +697,7 @@
             (t . (semilight 1.1))))
     :bind ("<f5>" . modus-themes-toggle))
 
-  (load-theme 'modus-vivendi-tinted t)
+  (load-theme 'modus-vivendi t)
 #+End_src
 *** Doom Modeline
 #+begin_src emacs-lisp
@@ -731,21 +735,22 @@
 #+begin_src emacs-lisp
   (use-package avy
     :bind ((:map evil-normal-state-map
-                 ("s" . evil-avy-goto-char-2)
-                 ("gsac" . avy-goto-char)
-                 ("gsal" . avy-goto-line))))
+		 ("s" . evil-avy-goto-char-2)
+		 ("gsac" . avy-goto-char)
+		 ("gsal" . avy-goto-line))))
 
   (use-package avy-flycheck
-    :after (avy flycheck))
+    :after (avy flycheck)
+    :config
+    (message "avy-flycheck loaded!"))
 
   (use-package ace-link
-    ;; :defer 10
+    :commands (ace-link)
     :config
     (message "ace-link loaded!"))
 
-  
   (use-package link-hint
-    ;; :defer 10
+    :commands (link-hint-open-link link-hint-copy-link)
     :config
     (general-define-key
      :prefix "C-x / l"
@@ -754,6 +759,10 @@
      "c" 'link-hint-copy-link
     (message "link-hint ready ✔")))
 #+end_src
+
+#+RESULTS:
+: t
+
 ** Order-less
 #+begin_src emacs-lisp
   (use-package orderless
@@ -919,16 +928,18 @@
 ** Tree-Macs
 #+begin_src emacs-lisp
   (use-package treemacs
-    ;; :defer 5
+    :commands (treemacs)
     :config
-
     (use-package treemacs-all-the-icons
       :config
       (treemacs-load-theme "all-the-icons"))
     (message "treemacs loaded"))
 
   (use-package treemacs-icons-dired
-    :hook (dired-mode . treemacs-icons-dired-enable-once))
+    :after (treemacs dired)
+    :hook (dired-mode . treemacs-icons-dired-enable-once)
+    :config
+    (message "treemacs-projectile ready"))
 
   ;;(use-package treemacs-persp ;;treemacs-perspective if you use perspective.el vs. persp-mode
   ;;  :after (treemacs persp-mode) ;;or perspective vs. persp-mode
@@ -937,33 +948,32 @@
 
   (use-package treemacs-projectile
     :after (treemacs projectile)
-    ;; :defer 5
     :config
     (message "treemacs-projectile ready"))
 
   (use-package treemacs-magit
     :after (treemacs magit)
-    ;; :defer 5
     :config
     (message "treemacs-magit ready"))
 
   (use-package treemacs-evil
     :after (treemacs evil)
-    ;; :defer 5
     :config
     (message "treemacs-evil ready"))
 #+end_src
 ** Key-cast
 #+begin_src emacs-lisp
   (use-package keycast
+    :commands (keycast-mode keycast-tab-bar keycast-mode-line)
     :config
     (define-minor-mode keycast-mode
       "Show current command and its key binding in the mode line (fix for use with doom-mode-line)."
       :global t
       (if keycast-mode
-          (add-hook 'pre-command-hook 'keycast--update t)
-        (remove-hook 'pre-command-hook 'keycast--update)))
-    (add-to-list 'global-mode-string '("" mode-line-keycast)))
+	  (add-hook 'pre-command-hook 'keycast--update t)
+	(remove-hook 'pre-command-hook 'keycast--update)))
+    (add-to-list 'global-mode-string '("" mode-line-keycast))
+    (message "keycast loaded ✔"))
 #+end_src
 ** Company
 #+begin_src emacs-lisp 
@@ -1048,8 +1058,9 @@
 #+end_src
 ** IBuffer
 #+begin_src emacs-lisp
-    (use-package ibuffer
-      :bind ("C-x C-b" . ibuffer))
+  (use-package ibuffer
+    :commands (ibuffer)
+    :bind ("C-x C-b" . ibuffer))
 #+end_src
 * Window Management
 ** Winum Mode
@@ -1096,7 +1107,11 @@
 * Terminal
 ** Eshell
 #+begin_src emacs-lisp
-  (use-package eshell)
+  (use-package eshell
+    :defer 3
+    :commands (eshell)
+    :config
+    (message "eshell loaded ✔"))
 #+end_src
 ** Term
 #+begin_src emacs-lisp
@@ -1107,19 +1122,20 @@
   (advice-add 'term-handle-exit :after 'my-term-handle-exit)
 
   (use-package term
+    :commands (term)
     :config
     (setq explicit-shell-file-name "zsh")
     (setq term-prompt-regexp "^[^#$%>\n]*[#$%>] *")
     (setq mode-line-format nil))
 
-
   (use-package eterm-256color
+    :after term
     :hook (term-mode . eterm-256color-mode))
 #+end_src
 ** Vterm
 #+begin_src emacs-lisp
   (use-package vterm
-    :commands vterm
+    :commands (vterm)
     :hook
     (vterm-mode . (lambda () 
                     (setq-local mode-line-format nil)))
@@ -1133,58 +1149,62 @@
   (use-package consult
     :after vertico 
     :bind (;; C-c bindings (mode-specific-map)
-           ("C-c h" . consult-history)
-           ("C-c m" . consult-mode-command)
-           ("C-c b" . consult-bookmark)
-           ("C-c k" . consult-kmacro)
+	   ("C-c h" . consult-history)
+	   ("C-c m" . consult-mode-command)
+	   ("C-c b" . consult-bookmark)
+	   ("C-c k" . consult-kmacro)
 
-           ;; C-x bindings (ctl-x-map)
-           ("C-x M-:" . consult-complex-command)     ;; orig. repeat-complex-command
-           ("C-x b" . consult-buffer)                ;; orig. switch-to-buffer
-           ("C-x 4 b" . consult-buffer-other-window) ;; orig. switch-to-buffer-other-window
-           ("C-x 5 b" . consult-buffer-other-frame)  ;; orig. switch-to-buffer-other-frame
+	   ;; C-x bindings (ctl-x-map)
+	   ("C-x M-:" . consult-complex-command)     ;; orig. repeat-complex-command
+	   ("C-x b" . consult-buffer)                ;; orig. switch-to-buffer
+	   ("C-x 4 b" . consult-buffer-other-window) ;; orig. switch-to-buffer-other-window
+	   ("C-x 5 b" . consult-buffer-other-frame)  ;; orig. switch-to-buffer-other-frame
 
-           ;; Custom M-# bindings for fast register access
-           ("M-#" . consult-register-load)
-           ("M-'" . consult-register-store)          ;; orig. abbrev-prefix-mark (unrelated)
-           ("C-M-#" . consult-register)
+	   ;; Custom M-# bindings for fast register access
+	   ("M-#" . consult-register-load)
+	   ("M-'" . consult-register-store)          ;; orig. abbrev-prefix-mark (unrelated)
+	   ("C-M-#" . consult-register)
 
-           ;; Other custom bindings
-           ("M-y" . consult-yank-pop)                ;; orig. yank-pop
-           ;; ("<help> a" . consult-apropos)            ;; orig. apropos-command
+	   ;; Other custom bindings
+	   ("M-y" . consult-yank-pop)                ;; orig. yank-pop
+	   ;; ("<help> a" . consult-apropos)            ;; orig. apropos-command
 
-           ;; M-g bindings (goto-map)
-           ("M-g e" . consult-compile-error)
-           ("M-g f" . consult-flymake)               ;; Alternative: consult-flycheck
-           ("M-g g" . consult-goto-line)             ;; orig. goto-line
-           ("M-g M-g" . consult-goto-line)           ;; orig. goto-line
-           ("M-g o" . consult-outline)               ;; Alternative: consult-org-heading
-           ("M-g m" . consult-mark)
-           ("M-g k" . consult-global-mark)
-           ("M-g i" . consult-imenu)
-           ("M-g I" . consult-imenu-multi)
-           ("M-g r" . consult-recent-file)
+	   ;; M-g bindings (goto-map)
+	   ("M-g e" . consult-compile-error)
+	   ("M-g f" . consult-flymake)               ;; Alternative: consult-flycheck
+	   ("M-g g" . consult-goto-line)             ;; orig. goto-line
+	   ("M-g M-g" . consult-goto-line)           ;; orig. goto-line
+	   ("M-g o" . consult-outline)               ;; Alternative: consult-org-heading
+	   ("M-g m" . consult-mark)
+	   ("M-g k" . consult-global-mark)
+	   ("M-g i" . consult-imenu)
+	   ("M-g I" . consult-imenu-multi)
+	   ("M-g r" . consult-recent-file)
 
-           ;; M-s bindings (search-map)
-           ("M-s f" . consult-find)
-           ("M-s F" . consult-locate)
-           ("M-s g" . consult-grep)
-           ("M-s G" . consult-git-grep)
-           ("M-s r" . consult-ripgrep)
-           ("M-s l" . consult-line)
-           ("M-s L" . consult-line-multi)
-           ("M-s m" . consult-multi-occur)
-           ("M-s k" . consult-keep-lines)
-           ("M-s u" . consult-focus-lines)
-           ("M-s y" . consult-yasnippet)
-           ("M-s a" . ag)
+	   ;; M-s bindings (search-map)
+	   ("M-s f" . consult-find)
+	   ("M-s F" . consult-locate)
+	   ("M-s g" . consult-grep)
+	   ("M-s G" . consult-git-grep)
+	   ("M-s r" . consult-ripgrep)
+	   ("M-s l" . consult-line)
+	   ("M-s L" . consult-line-multi)
+	   ("M-s m" . consult-multi-occur)
+	   ("M-s k" . consult-keep-lines)
+	   ("M-s u" . consult-focus-lines)
+	   ("M-s y" . consult-yasnippet)
+	   ("M-s a" . ag)
 
-           ;; Isearch integration
-           ("M-s e" . consult-isearch-history))
+	   ;; Isearch integration
+	   ("M-s e" . consult-isearch-history))
     :config
     (message "consult ready ✔"))
-  (use-package consult-yasnippet)
-  (use-package consult-company)
+  
+  (use-package consult-yasnippet
+    :after consult yasnippet)
+
+  (use-package consult-company
+    :after consult company)
 #+End_src
 ** Isearch
 #+begin_src emacs-lisp
@@ -1199,12 +1219,13 @@
 #+end_src
 
 #+begin_src emacs-lisp
-  (use-package fd-dired)
+    (use-package fd-dired
+      :commands (fd-dired))
 #+end_src
 ** Web Search
 #+begin_src emacs-lisp
   (use-package websearch
-    ;; :defer 2
+    :commands (websearch websearch-term websearch-point websearch-region)
     :config
     (general-define-key
      :prefix "C-c s"
@@ -1218,16 +1239,20 @@
 ** Magit
 #+begin_src emacs-lisp
   (use-package magit
-    ;; :defer 2
+    :commands (magit magit-init magit-status)
+    :defer 3
     :custom (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1)
     (message "Magit ready ✔"))
 #+end_src
 #+begin_src emacs-lisp
   (use-package diff-hl
+    :after magit
+    :commands (diff-hl-mode global-diff-hl-mode)
     :config
     (setq
      diff-hl-side "left"
-     diff-hl-show-staged-changes nil))
+     diff-hl-show-staged-changes nil)
+    (message "diff-hl ready ✔"))
 #+end_src
 ** Forge  
 #+begin_src emacs-lisp
@@ -1345,74 +1370,81 @@
 * Developer Packages
 ** Programming
 #+begin_src emacs-lisp
-  (use-package flycheck)
+  
+    (use-package flycheck
+      :commands (flycheck-mode global-flycheck-mode))
 
-  (use-package hl-todo
-    :config
-    (setq hl-todo-keyword-faces
-          '(("TODO"   . "#FF0000")
-            ("FIXME"  . "#FF0000")
-            ("DEBUG"  . "#A020F0")
-            ("GOTCHA" . "#FF4500")
-            ("STUB"   . "#1E90FF"))))
+    (use-package hl-todo
+      :config
+      (setq hl-todo-keyword-faces
+	    '(("TODO"   . "#FF0000")
+	      ("FIXME"  . "#FF0000")
+	      ("DEBUG"  . "#A020F0")
+	      ("GOTCHA" . "#FF4500")
+	      ("STUB"   . "#1E90FF"))))
 
-  (use-package rainbow-mode
-    ;; :defer 5
-    :config
-    (use-package rainbow-delimiters)
-    (setq rainbow-x-colors nil)
-    (message "rainbow-color loaded"))
+    (use-package rainbow-mode
+      :commands (rainbow-mode)
+      :config
+      (use-package rainbow-delimiters)
+      (setq rainbow-x-colors nil)
+      (message "rainbow-color loaded"))
 
-  (use-package prog-mode
-    :ensure nil
-    :bind (:map prog-mode-map
-                ("C-/" . comment-dwim ))
+    (use-package prog-mode
+      :ensure nil
+      :bind (:map prog-mode-map
+		  ("C-/" . comment-dwim ))
 
-    :config
-    (use-package smartparens)
+      :config
+      (use-package smartparens)
 
-    :hook (prog-mode . ( lambda ()
-                         (company-mode)	; completion UI
-                         (hl-todo-mode)
-                         (smartparens-mode)
-                         (rainbow-mode)
-                         (display-line-numbers-mode 1)
-                         (flycheck-mode)	; linting
-                         (yas-minor-mode)	; snippet
-                         ;; (flyspell-prog-mode)
-                         ;; (corfu-mode)
-                         
-                         (setq-local visual-fill-column-width 100
-                                     visual-fill-column-center-text t)
+      :hook (prog-mode . ( lambda ()
+			   (company-mode)	; completion UI
+			   (hl-todo-mode)
+			   (smartparens-mode)
+			   (rainbow-mode)
+			   (display-line-numbers-mode 1)
+			   (flycheck-mode)	; linting
+			   (yas-minor-mode)	; snippet
+			   ;; (flyspell-prog-mode)
+			   ;; (corfu-mode)
 
-                         (setq-local fill-column 79))))
+			   (setq-local visual-fill-column-width 100
+				       visual-fill-column-center-text t)
+
+			   (setq-local fill-column 79))))
 #+end_src
 ** Snippet
 #+begin_src emacs-lisp
-  (use-package yasnippet
-    ;; :defer 2
-    :hook
-    (yas-minor-mode . (lambda ()
-                        (define-key yas-minor-mode-map (kbd "<tab>") nil)
-                        (define-key yas-minor-mode-map (kbd "TAB") nil)
-                        ;; Bind 'SPC' to 'yas-expand' when snippet expansion available (it
-                        ;; will still call 'self-insert-command' otherwise).
-                        (define-key yas-minor-mode-map (kbd "SPC") yas-maybe-expand)
-                        ;; Bind `C-c y' to 'yas-expand' ONLY.
-                        (define-key yas-minor-mode-map (kbd "C-c y") #'yas-expand)
-                        (yas-activate-extra-mode 'fundamental-mode)))
-    ;; (add-to-list 'yas-snippet-dirs "~/.emacs.d/snippets")
-    :config
-    (use-package yasnippet-snippets)
-    (message "yasnippet loaded  ✔"))
+    (use-package yasnippet
+      :defer 2
+      :hook
+      (yas-minor-mode . (lambda ()
+			  (define-key yas-minor-mode-map (kbd "<tab>") nil)
+			  (define-key yas-minor-mode-map (kbd "TAB") nil)
+			  ;; Bind 'SPC' to 'yas-expand' when snippet expansion available (it
+			  ;; will still call 'self-insert-command' otherwise).
+			  (define-key yas-minor-mode-map (kbd "SPC") yas-maybe-expand)
+			  ;; Bind `C-c y' to 'yas-expand' ONLY.
+			  (define-key yas-minor-mode-map (kbd "C-c y") #'yas-expand)
+			  (yas-activate-extra-mode 'fundamental-mode)))
+      ;; (add-to-list 'yas-snippet-dirs "~/.emacs.d/snippets")
+      :config
+      (message "yasnippet loaded  ✔"))
 
-    ;; :hook
-    ;; (org-mode . (lambda () 
-    ;;               (setq-local yas-buffer-local-condition
-    ;;                           '(not (org-in-src-block-p t)))))
-    ;; (yas-global-mode 1))
+      ;; :hook
+      ;; (org-mode . (lambda () 
+      ;;               (setq-local yas-buffer-local-condition
+      ;;                           '(not (org-in-src-block-p t)))))
+      ;; (yas-global-mode 1))
 
-  (use-package auto-yasnippet)
+    (use-package yasnippet-snippets
+      :after yasnippet
+      :config
+      (message "yasnippet snippets loaded  ✔"))
+  
+    (use-package auto-yasnippet
+      :defer 2)
 #+end_src
 #+begin_src emacs-lisp
   (use-package emmet-mode
@@ -1431,7 +1463,7 @@
      emmet-move-cursor-between-quotes t)
 
     :config
-    (message "yasnippet loaded  ✔"))   ;; expand with ctrl-enter
+    (message "emmet loaded  ✔"))   ;; expand with ctrl-enter
 #+end_src
 ** Web Mode
 #+begin_src emacs-lisp
@@ -1483,6 +1515,7 @@
     :init (setq markdown-command "multimarkdown"))
 
   (use-package css-mode
+    :mode "\\.css\\'"
     :config
     (add-to-list 'company-backends 'company-css))
 #+end_src
@@ -1531,23 +1564,26 @@
   (use-package eglot
     :ensure nil
     :hook ((go-mode . eglot-ensure)
-           (web-mode . eglot-ensure)
-           (html-mode . eglot-ensure))
+	   (web-mode . eglot-ensure)
+	   (html-mode . eglot-ensure))
     :hook (eglot-managed-mode . (lambda ()
-                   (remove-hook 'flymake-diagnostic-functions 'eglot-flymake-backend)))
+				  (remove-hook 'flymake-diagnostic-functions 'eglot-flymake-backend)))
 
     :bind (:map eglot-mode-map
-                ("C-c r" . eglot-rename)
-                ("C-c h" . eldoc)
-                ("C-c f" . eglot-format)
-                ("C-c F" . eglot-format-buffer))
+		("C-c r" . eglot-rename)
+		("C-c h" . eldoc)
+		("C-c f" . eglot-format)
+		("C-c F" . eglot-format-buffer))
     :config
     (add-to-list 'eglot-server-programs
-                 '(web-mode . ("vscode-html-language-server" "--node-ipc"))
-                 '(R-mode . ("R" "--slave" "-e" "languageserver::run()")))
+		 '(web-mode . ("vscode-html-language-server" "--node-ipc"))
+		 '(R-mode . ("R" "--slave" "-e" "languageserver::run()")))
     (message "eglot loaded"))
-  
-  (use-package consult-eglot)
+
+  (use-package consult-eglot
+    :after eglot
+    :config
+    (message "eshell loaded ✔"))
 #+end_src
 ** Python
 #+begin_src emacs-lisp
@@ -1574,20 +1610,22 @@
 ** Virtual Envs
 #+begin_src emacs-lisp
   (use-package conda
-    ;; :defer 5
-    ;; :after (python org-mode)
+    :defer 3
     ;;:config
     ;;(conda-env-autoactivate-mode nil)
-    :init
-    (progn
-      (conda-env-initialize-interactive-shells)
-      (conda-env-initialize-eshell)
-      (setq conda--executable-path "/Users/rwilson/opt/anaconda3/condabin/conda"
-            conda-env-home-directory (expand-file-name "~/opt/anaconda3/"))
-      (custom-set-variables '(conda-anaconda-home (expand-file-name "~/opt/anaconda3/"))))
+
+    ;; :init
+    ;; (progn
+    ;;   (conda-env-initialize-interactive-shells)
+    ;;   (conda-env-initialize-eshell)
+    ;;   (setq conda--executable-path "/Users/rwilson/opt/anaconda3/condabin/conda"
+    ;; 	  conda-env-home-directory (expand-file-name "~/opt/anaconda3/"))
+    ;;   (custom-set-variables '(conda-anaconda-home (expand-file-name "~/opt/anaconda3/"))))
+    ;; :config
+    ;; (unless (getenv "CONDA_DEFAULT_ENV")
+    ;;   (conda-env-activate "base"))
+    
     :config
-    (unless (getenv "CONDA_DEFAULT_ENV")
-      (conda-env-activate "base"))
     (message "conda loaded  ✔"))
 
   (use-package pipenv
@@ -1727,10 +1765,10 @@
 #+end_src
 ** Graphql
 #+begin_src emacs-lisp
-(use-package graphql-mode
-;; :defer 2
-:config
-(message "graphql loaded"))
+  (use-package graphql-mode
+  :commands (graphql-mode)
+  :config
+  (message "graphql loaded"))
 #+end_src
 * Data Science
 ** Jupyter
@@ -1748,45 +1786,47 @@
 #+end_src
 ** ESS
 #+begin_src emacs-lisp
-(use-package ess
-;; :defer 2
+  (use-package ess
+    ;; :hook (R-mode . eglot-ensure)
+    :commands (ess-mode)
+    :custom
+    (inferior-ess-fix-misaligned-output t)
+    (ess-eldoc-show-on-symbol t)
+    (ess-gen-proc-buffer-name-function 'ess-gen-proc-buffer-name:projectile-or-directory)
+    (ess-eval-visibly nil); "Don't hog Emacs"
+    (ess-style 'RStudio)
+    (ess-use-flymake nil) ;"Syntax checking is usually not helpful"
+    ;; (ess-tab-complete-in-script nil) ;"Do not interfere with Company"
+    ;; (ess-use-ido nil) ;"Prefer Ivy/Counsel"
+    ;; (ess-history-directory (expand-file-name "ESS-history/" no-littering-var-directory))
+    (inferior-R-args "--no-save")
+    (ess-ask-for-ess-directory nil)
+    ;; (ess-smart-S-assign-key nil)
+    ;; (ess-indent-with-fancy-comments nil)
+    :config
+    (setq ess-use-company t)
+    (setq ess-can-eval-in-background nil)
 
-;; :hook (R-mode . eglot-ensure)
+    (setq ess--command-default-timeout 1)
+    (message "ESS loaded ✔"))
 
-:custom
-(inferior-ess-fix-misaligned-output t)
-(ess-eldoc-show-on-symbol t)
-(ess-gen-proc-buffer-name-function 'ess-gen-proc-buffer-name:projectile-or-directory)
-(ess-eval-visibly nil); "Don't hog Emacs"
-(ess-style 'RStudio)
-(ess-use-flymake nil) ;"Syntax checking is usually not helpful"
-;; (ess-tab-complete-in-script nil) ;"Do not interfere with Company"
-;; (ess-use-ido nil) ;"Prefer Ivy/Counsel"
-;; (ess-history-directory (expand-file-name "ESS-history/" no-littering-var-directory))
-(inferior-R-args "--no-save")
-(ess-ask-for-ess-directory nil)
-;; (ess-smart-S-assign-key nil)
-;; (ess-indent-with-fancy-comments nil)
-:config
-(setq ess-use-company t)
-(setq ess-can-eval-in-background nil)
-(setq ess--command-default-timeout 1))
-
-
-(use-package ess-view-data
-:after ess)
+  (use-package ess-view-data
+    :after (ess)
+    :config
+    (message "ESS View loaded ✔"))
 #+end_src
 ;; :defer 5)
 #+begin_src emacs-lisp
-(use-package gnuplot
-;; :defer 5
-:config
-(message "gnuplot loaded"))
+  (use-package gnuplot
+  :after (org gnuplot)
+  :config
+  (message "gnuplot loaded"))
 
-(use-package gnuplot-mode
-;; :defer 5
-:config
-(message "gnuplot mode loaded"))
+  (use-package gnuplot-mode
+  :commands (gnuplot-mode)
+  :mode ("\\.gplot\\'" . gnuplot-mode)
+  :config
+  (message "gnuplot mode loaded"))
 #+end_src
 ** Ledger
 #+begin_src emacs-lisp
@@ -1838,101 +1878,98 @@
 #+end_src
 ** Dictionary & Thesaurus 
 #+begin_src emacs-lisp
-(use-package dictionary
-;; :defer 10
-:config
-(message "dictionary loaded ✔"))
-
-(use-package powerthesaurus
-;; :defer 10
-:config
-(message "powerthesaurus loaded  ✔"))
+  (use-package dictionary
+    :commands (dictionary)
+    :defer 6
+    :config
+    (message "dictionary loaded ✔"))
 #+end_src
 ** Latex
 #+begin_src emacs-lisp
-(use-package tex
+  (use-package tex
     :ensure auctex
 
     :bind ((:map TeX-mode-map
-		("<tab> TAB" . TeX-complete-symbol)))
-    
-      :hook (TeX-mode . ( lambda ()
-                          ;; (corfu-mode)
-                          (hl-todo-mode)
-                          (company-mode)
-                          (display-line-numbers-mode 1)))
-      :init
-      (use-package latex-preview-pane
-        :config
-        (setq latex-preview-pane-use-frame nil)
-        (latex-preview-pane-enable))
+		 ("<tab> TAB" . TeX-complete-symbol)))
 
-      :config
-      ;; Turn on RefTeX in AUCTeX
-      (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
-      ;; Activate nice interface between RefTeX and AUCTeX
-      (setq reftex-plug-into-AUCTeX t)
+    :hook (TeX-mode . ( lambda ()
+			;; (corfu-mode)
+			(hl-todo-mode)
+			(company-mode)
+			(display-line-numbers-mode 1)))
+    :config
+    ;; Turn on RefTeX in AUCTeX
+    (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
+    ;; Activate nice interface between RefTeX and AUCTeX
+    (setq reftex-plug-into-AUCTeX t)
     (message "AUCTeX ready ✔"))
+
+  (use-package latex-preview-pane
+    :after tex
+    :config
+    (setq latex-preview-pane-use-frame nil)
+    (latex-preview-pane-enable))
+
 #+end_src
 ** Bibtex
 #+begin_src emacs-lisp
   ;; https://kristofferbalintona.me/posts/202206141852/
   (use-package citar
-    ;;  :no-require
-
+    :after org
     :custom-face
     ;; Have citation link faces look closer to as they were for `org-ref'
     ;; (org-cite ((t (:foreground "DarkSeaGreen4"))))
     ;; (org-cite-key ((t (:slant italic))))
 
     :bind(:map org-mode-map
-               :package org ("C-c b" . #'org-cite-insert))
+	       :package org ("C-c b" . #'org-cite-insert))
 
 
 
     ;; optional: org-cite-insert is also bound to C-c C-x C-@
     :config
     (setq org-cite-global-bibliography'("~/Documents/bib/emacs-bibs/references.bib"
-                                        "~/Documents/bib/emacs-bibs/dei.bib"
-                                        "~/Documents/bib/emacs-bibs/master.bib"
-                                        "~/Documents/bib/emacs-bibs/archive.bib")
-          org-cite-insert-processor 'citar
-          org-cite-follow-processor 'citar
-          org-cite-activate-processor 'citar
-          citar-bibliography org-cite-global-bibliography)
+					"~/Documents/bib/emacs-bibs/dei.bib"
+					"~/Documents/bib/emacs-bibs/master.bib"
+					"~/Documents/bib/emacs-bibs/archive.bib")
+	  org-cite-insert-processor 'citar
+	  org-cite-follow-processor 'citar
+	  org-cite-activate-processor 'citar
+	  citar-bibliography org-cite-global-bibliography)
 
     (setq citar-notes-paths '("~/Documents/bib/bibtex-notes/")
-          citar-library-paths '("~/Documents/bib/bibtex-pdfs/"))
+	  citar-library-paths '("~/Documents/bib/bibtex-pdfs/"))
 
     (setq bibtex-autokey-year-length 4
-          bibtex-autokey-name-year-separator "-"
-          bibtex-autokey-year-title-separator "-"
-          bibtex-autokey-titleword-separator "-"
-          bibtex-autokey-titlewords 2
-          bibtex-autokey-titlewords-stretch 1
-          bibtex-autokey-titleword-length 5
-          bibtex-dialect 'biblatex)
+	  bibtex-autokey-name-year-separator "-"
+	  bibtex-autokey-year-title-separator "-"
+	  bibtex-autokey-titleword-separator "-"
+	  bibtex-autokey-titlewords 2
+	  bibtex-autokey-titlewords-stretch 1
+	  bibtex-autokey-titleword-length 5
+	  bibtex-dialect 'biblatex)
 
     (setq bibtex-completion-bibliography '("~/Documents/bib/emacs-bibs/references.bib"
-                                           "~/Documents/bib/emacs-bibs/dei.bib"
-                                           "~/Documents/bib/emacs-bibs/master.bib"
-                                           "~/Documents/bib/emacs-bibs/archive.bib")
-          bibtex-completion-library-path '("~/Documents/bib/bibtex-pdfs/")
-          bibtex-completion-notes-path "~/Documents/bib/bibtex-notes/"
-          bibtex-completion-notes-template-multiple-files "* ${author-or-editor}, ${title}, ${journal}, (${year}) :${=type=}: \n\nSee [[cite:&${=key=}]]\n"
+					   "~/Documents/bib/emacs-bibs/dei.bib"
+					   "~/Documents/bib/emacs-bibs/master.bib"
+					   "~/Documents/bib/emacs-bibs/archive.bib")
+	  bibtex-completion-library-path '("~/Documents/bib/bibtex-pdfs/")
+	  bibtex-completion-notes-path "~/Documents/bib/bibtex-notes/"
+	  bibtex-completion-notes-template-multiple-files "* ${author-or-editor}, ${title}, ${journal}, (${year}) :${=type=}: \n\nSee [[cite:&${=key=}]]\n"
 
-          bibtex-completion-additional-search-fields '(keywords)
-          bibtex-completion-display-formats
-          '((article       . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${journal:40}")
-            (inbook        . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} Chapter ${chapter:32}")
-            (incollection  . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}")
-            (inproceedings . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}")
-            (t             . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*}"))
-          bibtex-completion-pdf-open-function
-          (lambda (fpath)
-            (call-process "open" nil 0 nil fpath))))
+	  bibtex-completion-additional-search-fields '(keywords)
+	  bibtex-completion-display-formats
+	  '((article       . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${journal:40}")
+	    (inbook        . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} Chapter ${chapter:32}")
+	    (incollection  . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}")
+	    (inproceedings . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}")
+	    (t             . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*}"))
+	  bibtex-completion-pdf-open-function
+	  (lambda (fpath)
+	    (call-process "open" nil 0 nil fpath))))
 
-  (use-package citar-embark)
+  (use-package citar-embark
+    :after  citar-embark)
 
   (use-package org-roam-bibtex ; optional: if using Org-ref v2 or v3 citation links
     :after org-roam)
@@ -2035,35 +2072,35 @@
     (interactive "p")
     (with-current-buffer gnus-article-buffer
       (let ((subject (gnus-fetch-field "subject"))
-            (body (if gnus-article-mime-handles
-                      ;; We're multipart.  Don't get confused by part
-                      ;; buttons &c.  Assume info is in first part.
-                      (mm-get-part (nth 1 gnus-article-mime-handles))
-                    (save-restriction
-                      (gnus-narrow-to-body)
-                      (buffer-string)))))
-        (when (diary-from-outlook-internal subject body t)
-          (when (or noconfirm (y-or-n-p "Snarf diary entry? "))
-            (diary-from-outlook-internal subject body)
-            (message "Diary entry added"))))))
-  
+	    (body (if gnus-article-mime-handles
+		      ;; We're multipart.  Don't get confused by part
+		      ;; buttons &c.  Assume info is in first part.
+		      (mm-get-part (nth 1 gnus-article-mime-handles))
+		    (save-restriction
+		      (gnus-narrow-to-body)
+		      (buffer-string)))))
+	(when (diary-from-outlook-internal subject body t)
+	  (when (or noconfirm (y-or-n-p "Snarf diary entry? "))
+	    (diary-from-outlook-internal subject body)
+	    (message "Diary entry added"))))))
+
   (defun do.mail.html/render-pdf (msg)
     "Attempt to render body of MSG as PDF and display in current buffer."
     (let ((msg2pdf (executable-find "wkhtmltopdf"))
-          (buf (get-buffer-create "*rendered mail*"))
-          (tmpfile (make-temp-file "pdfmailrender")))
+	  (buf (get-buffer-create "*rendered mail*"))
+	  (tmpfile (make-temp-file "pdfmailrender")))
       (unless msg2pdf
-        (mu4e-error "wkhtmltopdf not found"))
+	(mu4e-error "wkhtmltopdf not found"))
       (unless (mu4e-message-has-field msg :body-html)
-        (mu4e-error "message has no html."))
+	(mu4e-error "message has no html."))
       ;; convert message body to PDF
       (with-temp-buffer
-        (insert (mu4e-message-field msg :body-html))
-        (shell-command-on-region
-         (point-min) (point-max)
-         (concat msg2pdf " -s Letter --quiet - "
-                 tmpfile
-                 " 2>/dev/null") nil nil nil nil nil))
+	(insert (mu4e-message-field msg :body-html))
+	(shell-command-on-region
+	 (point-min) (point-max)
+	 (concat msg2pdf " -s Letter --quiet - "
+		 tmpfile
+		 " 2>/dev/null") nil nil nil nil nil))
       ;; display in current window
       (switch-to-buffer buf)
       (read-only-mode -1)
@@ -2079,12 +2116,12 @@
 
   (defun mu4e-action-save-to-pdf (msg)
     (let* ((date (mu4e-message-field msg :date))
-           (infile (mu4e~write-body-to-html msg))
-           (dir (read-directory-name "Directory:"))
-           (outfile (format-time-string "%Y-%m-%d%H%M%S.pdf" date)))
+	   (infile (mu4e~write-body-to-html msg))
+	   (dir (read-directory-name "Directory:"))
+	   (outfile (format-time-string "%Y-%m-%d%H%M%S.pdf" date)))
       (with-temp-buffer
-        (shell-command
-         (format "wkhtmltopdf %s %s%s" infile dir outfile) t))
+	(shell-command
+	 (format "wkhtmltopdf %s %s%s" infile dir outfile) t))
       (message "output file %s" outfile)))
 
   (defun efs/capture-mail-follow-up (msg)
@@ -2105,170 +2142,172 @@
   ;; (add-hook 'mail-citation-hook 'sc-cite-original)
   (use-package mu4e
     :ensure nil
-    ;; :defer 3
+    :defer 3
+    :commands (mu4e)
     :load-path "/usr/local/share/emacs/site-lisp/mu/mu4e"
 
     :hook (mu4e-view-mode lambda ()
-                          (mu4e-icalendar-setup)
-                          (gnus-icalendar-org-setup))
+			  (mu4e-icalendar-setup)
+			  (gnus-icalendar-org-setup))
 
     :config
     (setq mu4e-maildir "~/Mail"
-          mu4e-get-mail-command "mbsync -a"
-          mu4e-change-filenames-when-moving t
-          mu4e-compose-format-flowed t
-          message-kill-buffer-on-exit t
-          ;; Refresh mail using isync every 10 minutes
-          mu4e-update-interval (* 10 60)
-          shr-color-visible-luminance-min 80
-          mu4e-context-policy 'pick-first
-          read-mail-command 'mu4e)
+	  mu4e-get-mail-command "mbsync -a"
+	  mu4e-change-filenames-when-moving t
+	  mu4e-compose-format-flowed t
+	  message-kill-buffer-on-exit t
+	  ;; Refresh mail using isync every 10 minutes
+	  mu4e-update-interval (* 10 60)
+	  shr-color-visible-luminance-min 80
+	  mu4e-context-policy 'pick-first
+	  read-mail-command 'mu4e)
 
     (setq mu4e-text2speech-command "espeak")
 
     (require 'mu4e-icalendar)
     (setq mu4e-view-use-gnus t
-          mu4e-icalendar-diary-file "~/.emacs.d/diary"
-          gnus-icalendar-org-capture-file "~/org/beorg/org/Mails.org"
-          ;;make sure to create Calendar heading first
-          gnus-icalendar-org-capture-headline '("Calendar"))
+	  mu4e-icalendar-diary-file "~/.emacs.d/diary"
+	  gnus-icalendar-org-capture-file "~/org/beorg/org/Mails.org"
+	  ;;make sure to create Calendar heading first
+	  gnus-icalendar-org-capture-headline '("Calendar"))
 
     (setq mu4e-use-fancy-chars t
-          mu4e-headers-unread-mark    '("u" . "📩 ")
-          mu4e-headers-draft-mark     '("D" . "🚧 ")
-          mu4e-headers-flagged-mark   '("F" . "🚩 ")
-          mu4e-headers-new-mark       '("N" . "✨ ")
-          mu4e-headers-passed-mark    '("P" . "↪ ")
-          mu4e-headers-replied-mark   '("R" . "↩ ")
-          mu4e-headers-seen-mark      '("S" . " ")
-          mu4e-headers-trashed-mark   '("T" . "🗑️")
-          mu4e-headers-attach-mark    '("a" . "📎 ")
-          mu4e-headers-encrypted-mark '("x" . "🔑 ")
-          mu4e-headers-signed-mark    '("s" . "🖊 "))
+	  mu4e-headers-unread-mark    '("u" . "📩 ")
+	  mu4e-headers-draft-mark     '("D" . "🚧 ")
+	  mu4e-headers-flagged-mark   '("F" . "🚩 ")
+	  mu4e-headers-new-mark       '("N" . "✨ ")
+	  mu4e-headers-passed-mark    '("P" . "↪ ")
+	  mu4e-headers-replied-mark   '("R" . "↩ ")
+	  mu4e-headers-seen-mark      '("S" . " ")
+	  mu4e-headers-trashed-mark   '("T" . "🗑️")
+	  mu4e-headers-attach-mark    '("a" . "📎 ")
+	  mu4e-headers-encrypted-mark '("x" . "🔑 ")
+	  mu4e-headers-signed-mark    '("s" . "🖊 "))
 
     (setq mu4e-view-prefer-html nil
-          mu4e-completing-read-function 'completing-read)
+	  mu4e-completing-read-function 'completing-read)
 
     (add-to-list 'mu4e-view-actions
-                 '("Save to PDF" . do.mail.html/render-pdf) t)
+		 '("Save to PDF" . do.mail.html/render-pdf) t)
 
     ;; Add custom actions for our capture templates
     (add-to-list 'mu4e-headers-actions
-                 '("follow up" . efs/capture-mail-follow-up) t)
+		 '("follow up" . efs/capture-mail-follow-up) t)
 
     (add-to-list 'mu4e-headers-actions
-                 '("read later" . efs/capture-mail-read-later) t)
+		 '("read later" . efs/capture-mail-read-later) t)
 
     (add-to-list 'mu4e-view-actions
-                 '("follow up" . efs/capture-mail-follow-up) t)
+		 '("follow up" . efs/capture-mail-follow-up) t)
 
     (add-to-list 'mu4e-view-actions
-                 '("read later" . efs/capture-mail-read-later) t)
+		 '("read later" . efs/capture-mail-read-later) t)
 
     ;; Wrap text in messages
     (add-hook 'mu4e-view-mode-hook
-              (lambda () (setq-local truncate-lines nil)))
+	      (lambda () (setq-local truncate-lines nil)))
 
     (add-hook 'mu4e-compose-mode-hook
-              (lambda ()
-                (turn-off-auto-fill)
-                (use-hard-newlines -1)))
+	      (lambda ()
+		(turn-off-auto-fill)
+		(use-hard-newlines -1)))
 
     (setq mu4e-bookmarks
-          '(("date:today" "Today" ?t)
-            ("flag:unread"  "Unread" ?u)
-            ("flag:unread to:ramus@rjlwjr.com OR ramus_wilson@icloud.com" "Icloud Unread" ?i)
-            ("flag:unread to:ramuswilson@gmail.com" "Gmail Unread" ?g)
-            ("flag:unread to:ramuswilson@outlook.com" "Outlook Unread" ?o)
-            ("prio:high" "High priority" ?h)
-            ("flag:attach" "Attachment" ?a)
-            ("flag:trashed" "Trashed" ?x)))
+	  '(("date:today" "Today" ?t)
+	    ("flag:unread"  "Unread" ?u)
+	    ("flag:unread to:ramus@rjlwjr.com OR ramus_wilson@icloud.com" "Icloud Unread" ?i)
+	    ("flag:unread to:ramuswilson@gmail.com" "Gmail Unread" ?g)
+	    ("flag:unread to:ramuswilson@outlook.com" "Outlook Unread" ?o)
+	    ("prio:high" "High priority" ?h)
+	    ("flag:attach" "Attachment" ?a)
+	    ("flag:trashed" "Trashed" ?x)))
 
     ;; set mailbox context
     (setq mu4e-contexts
-          (list
-           ;; Personal Gmail account
-           (make-mu4e-context
-            :name "Gmail"
-            :match-func
-            (lambda (msg)
-              (when msg
-                (string-prefix-p "/Gmail" (mu4e-message-field msg :maildir))))
-            :vars '((user-mail-address . "ramuswilson@gmail.com")
+	  (list
+	   ;; Personal Gmail account
+	   (make-mu4e-context
+	    :name "Gmail"
+	    :match-func
+	    (lambda (msg)
+	      (when msg
+		(string-prefix-p "/Gmail" (mu4e-message-field msg :maildir))))
+	    :vars '((user-mail-address . "ramuswilson@gmail.com")
 
-                    (smtpmail-smtp-server  . "smtp.gmail.com")
-                    (smtpmail-smtp-service . 587)
-                    (smtpmail-stream-type  . starttls)
+		    (smtpmail-smtp-server  . "smtp.gmail.com")
+		    (smtpmail-smtp-service . 587)
+		    (smtpmail-stream-type  . starttls)
 
-                    (mu4e-drafts-folder  . "/Gmail/[Gmail]/Drafts")
-                    (mu4e-sent-folder  . "/Gmail/[Gmail]/Sent Mail")
-                    (mu4e-refile-folder  . "/Gmail/[Gmail]/All Mail")
-                    (mu4e-trash-folder  . "/Gmail/[Gmail]/Trash")
+		    (mu4e-drafts-folder  . "/Gmail/[Gmail]/Drafts")
+		    (mu4e-sent-folder  . "/Gmail/[Gmail]/Sent Mail")
+		    (mu4e-refile-folder  . "/Gmail/[Gmail]/All Mail")
+		    (mu4e-trash-folder  . "/Gmail/[Gmail]/Trash")
 
-                    ;; (mu4e-maildir-shortcuts . (("/Gmail/Inbox"            . ?i)
-                    ;;                            ("/Gmail/[Gmail]/Sent Mail" . ?s)
-                    ;;                            ("/Gmail/[Gmail]/Trash"     . ?t)
-                    ;;                            ("/Gmail/[Gmail]/Drafts"    . ?d)
-                    ;;                            ("/Gmail/[Gmail]/All Mail"  . ?a)))
-                    ))
+		    ;; (mu4e-maildir-shortcuts . (("/Gmail/Inbox"            . ?i)
+		    ;;                            ("/Gmail/[Gmail]/Sent Mail" . ?s)
+		    ;;                            ("/Gmail/[Gmail]/Trash"     . ?t)
+		    ;;                            ("/Gmail/[Gmail]/Drafts"    . ?d)
+		    ;;                            ("/Gmail/[Gmail]/All Mail"  . ?a)))
+		    ))
 
-           ;; Personl Outlook account
-           (make-mu4e-context
-            :name "Outlook"
-            :match-func
-            (lambda (msg)
-              (when msg
-                (string-prefix-p "/Outlook" (mu4e-message-field msg :maildir))))
-            :vars '((user-mail-address . "ramuswilson@outlook.com")
+	   ;; Personl Outlook account
+	   (make-mu4e-context
+	    :name "Outlook"
+	    :match-func
+	    (lambda (msg)
+	      (when msg
+		(string-prefix-p "/Outlook" (mu4e-message-field msg :maildir))))
+	    :vars '((user-mail-address . "ramuswilson@outlook.com")
 
-                    (smtpmail-smtp-server  . "smtp.office365.com")
-                    (smtpmail-smtp-service . 587)
-                    (smtpmail-stream-type  . starttls)
+		    (smtpmail-smtp-server  . "smtp.office365.com")
+		    (smtpmail-smtp-service . 587)
+		    (smtpmail-stream-type  . starttls)
 
-                    (mu4e-drafts-folder  . "/Outlook/Drafts")
-                    (mu4e-sent-folder  . "/Outlook/Sent")
-                    (mu4e-refile-folder  . "/Outlook/Inbox")
-                    (mu4e-trash-folder  . "/Outlook/Archive")
+		    (mu4e-drafts-folder  . "/Outlook/Drafts")
+		    (mu4e-sent-folder  . "/Outlook/Sent")
+		    (mu4e-refile-folder  . "/Outlook/Inbox")
+		    (mu4e-trash-folder  . "/Outlook/Archive")
 
-                    ;; (mu4e-maildir-shortcuts . (("/Outlook/Inbox"           . ?i)
-                    ;;                            ("/Outlook/Sent"            . ?s)
-                    ;;                            ("/Outlook/Archive"         . ?t)
-                    ;;                            ("/Outlook/Drafts"          . ?d)
-                    ;;                            ("/Outlook"                 . ?a)))
-                    ))
+		    ;; (mu4e-maildir-shortcuts . (("/Outlook/Inbox"           . ?i)
+		    ;;                            ("/Outlook/Sent"            . ?s)
+		    ;;                            ("/Outlook/Archive"         . ?t)
+		    ;;                            ("/Outlook/Drafts"          . ?d)
+		    ;;                            ("/Outlook"                 . ?a)))
+		    ))
 
 
-           (make-mu4e-context
-            :name "Icloud"
-            :match-func
-            (lambda (msg)
-              (when msg
-                (string-prefix-p "/Icloud" (mu4e-message-field msg :maildir))))
-            :vars '((user-mail-address . "ramus@rjlwjr.com")
-                    (mu4e-drafts-folder  . "/Icloud/Drafts")
-                    (mu4e-sent-folder  . "/Icloud/Sent Messages")
-                    (mu4e-refile-folder  . "/Icloud/Inbox")
-                    (mu4e-trash-folder  . "/Icloud/Archive")
+	   (make-mu4e-context
+	    :name "Icloud"
+	    :match-func
+	    (lambda (msg)
+	      (when msg
+		(string-prefix-p "/Icloud" (mu4e-message-field msg :maildir))))
+	    :vars '((user-mail-address . "ramus@rjlwjr.com")
+		    (mu4e-drafts-folder  . "/Icloud/Drafts")
+		    (mu4e-sent-folder  . "/Icloud/Sent Messages")
+		    (mu4e-refile-folder  . "/Icloud/Inbox")
+		    (mu4e-trash-folder  . "/Icloud/Archive")
 
-                    (smtpmail-smtp-server  . "smtp.mail.me.com")
-                    (smtpmail-smtp-service . 587)
-                    (smtpmail-stream-type  . starttls)
+		    (smtpmail-smtp-server  . "smtp.mail.me.com")
+		    (smtpmail-smtp-service . 587)
+		    (smtpmail-stream-type  . starttls)
 
-                    ;; (mu4e-maildir-shortcuts . (("/Icloud/Inbox"           . ?i)
-                    ;;                            ("/Icloud/Sent Messages"   . ?s)
-                    ;;                            ("/Icloud/Archive"         . ?t)
-                    ;;                            ("/Icloud/Drafts"          . ?d)
-                    ;;                            ("/Icloud"                 . ?a)))
-                    ))))
+		    ;; (mu4e-maildir-shortcuts . (("/Icloud/Inbox"           . ?i)
+		    ;;                            ("/Icloud/Sent Messages"   . ?s)
+		    ;;                            ("/Icloud/Archive"         . ?t)
+		    ;;                            ("/Icloud/Drafts"          . ?d)
+		    ;;                            ("/Icloud"                 . ?a)))
+		    ))))
 
-    (message "mu4e loaded"))
+    (message "mu4e loaded  ✔"))
 #+end_src
 
 ** MU4E Alert
 #+begin_src emacs-lisp
   (use-package mu4e-alert
+    :defer 3 
     :custom((doom-modeline-mu4e t)
-            (mu4e-alert-style 'notifier))
+	    (mu4e-alert-style 'notifier))
     :config
     ;; (setq mu4e-alert-icon "~/.emacs.d/e-mail.svg")
     (add-hook 'after-init-hook #'mu4e-alert-enable-notifications)
@@ -2304,35 +2343,37 @@
 #+end_src
 ** Org MSG
 #+begin_src emacs-lisp
-    (use-package org-msg
-      :after mu4e
-      :hook (message-mode lambda ()
-                          (org-msg-mode)
-                          (flyspell-mode))
+      (use-package org-msg
+	:defer 3
+	:after mu4e
+	:hook (message-mode lambda ()
+			    (org-msg-mode)
+			    (flyspell-mode))
 
-      :config
-      (setq org-msg-options "tex:dvisvgm html-postamble:nil H:5 num:nil ^:{} toc:nil author:nil email:nil \\n:t"
-            org-msg-startup "hidestars indent inlineimages"
-            org-msg-greeting-name-limit 3
-            org-msg-default-alternatives '((new		. (text html))
-                                           (reply-to-html	. (text html))
-                                           (reply-to-text	. (text)))
-            org-msg-convert-citation t
-            org-msg-greeting-fmt "\nHi%s,\n\n"
-            org-msg-signature
-  "
-  Regards,
+	:config
+	(setq org-msg-options "tex:dvisvgm html-postamble:nil H:5 num:nil ^:{} toc:nil author:nil email:nil \\n:t"
+	      org-msg-startup "hidestars indent inlineimages"
+	      org-msg-greeting-name-limit 3
+	      org-msg-default-alternatives '((new		. (text html))
+					     (reply-to-html	. (text html))
+					     (reply-to-text	. (text)))
+	      org-msg-convert-citation t
+	      org-msg-greeting-fmt "\nHi%s,\n\n"
+	      org-msg-signature
+    "
+    Regards,
 
-  #+begin_signature
-  ---------------------------
-  *Ramus Jabee Lloyd Wilson*
-  ICT Consultant | Smile Technology LLC
-  /email: ramus@rjlwjr.com/
-  /work-email: ramus.wilson@smiletech.com/
-  /mobile phone: +231-77-797-8125 +231-88-697-8125/
-  /The simple act of paying attention can take you a long way/
-  send from Gnus Emacs mu4e client
-  #+end_signature"))
+    #+begin_signature
+    ---------------------------
+    *Ramus Jabee Lloyd Wilson*
+    ICT Consultant | Smile Technology LLC
+    /email: ramus@rjlwjr.com/
+    /work-email: ramus.wilson@smiletech.com/
+    /mobile phone: +231-77-797-8125 +231-88-697-8125/
+    /The simple act of paying attention can take you a long way/
+    send from Gnus Emacs mu4e client
+    #+end_signature")
+    (message "org-msg ready ✔"))
 #+end_src
 * Org Mode
 ** Evil Org 
@@ -2361,11 +2402,9 @@
   When `company-mode' is enabled or disabled, a message will be displayed in the
   echo area indicating the current state of `company-mode'."
     (when (and (org-in-src-block-p) (not company-mode))
-      (company-mode 1)
-      (message "Company mode enabled"))
+      (company-mode 1))
     (when (and (not (org-in-src-block-p)) (company-mode))
-      (company-mode 0)
-      (message "Company mode disabled")))
+      (company-mode 0)))
 
   ;; Org Mode Configuration ------------------------------------------------------
   (defun efs/org-mode-setup ()
@@ -2576,6 +2615,7 @@
 #+begin_src emacs-lisp
   (use-package org-protocol
     :ensure nil
+    :after org
     :config
     (message "org-protocol ready ✔"))
 #+end_src
@@ -2583,6 +2623,7 @@
 #+begin_src emacs-lisp
   (use-package org-habit
     :ensure nil
+    :after org
     :config (progn
               (add-to-list 'org-modules 'org-habit)
               (setq org-habit-graph-column 60))
@@ -2643,21 +2684,22 @@
 #+begin_src emacs-lisp
   (use-package org-tempo
     :ensure nil
+    :after org
     :config (progn
-              (add-to-list 'org-structure-template-alist '("R"  . "src R"))
-              (add-to-list 'org-structure-template-alist '("cl" . "src C"))
-              (add-to-list 'org-structure-template-alist '("cp" . "src C++"))
-              (add-to-list 'org-structure-template-alist '("gp" . "src gnuplot"))
-              (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
-              (add-to-list 'org-structure-template-alist '("jp" . "src jupyter-python"))
-              (add-to-list 'org-structure-template-alist '("jr" . "src jupyter-r"))
-              (add-to-list 'org-structure-template-alist '("np" . "src napkin"))
-              (add-to-list 'org-structure-template-alist '("pu" . "src plantuml"))
-              (add-to-list 'org-structure-template-alist '("py" . "src python"))
-              (add-to-list 'org-structure-template-alist '("rc" . "src restclient"))
-              (add-to-list 'org-structure-template-alist '("sh" . "src shell"))
-              ;;(add-to-list 'org-structure-template-alist '("npp". "src napkin-puml"))
-              (add-to-list 'org-structure-template-alist '("sql". "src sql-mode"))))
+	      (add-to-list 'org-structure-template-alist '("R"  . "src R"))
+	      (add-to-list 'org-structure-template-alist '("cl" . "src C"))
+	      (add-to-list 'org-structure-template-alist '("cp" . "src C++"))
+	      (add-to-list 'org-structure-template-alist '("gp" . "src gnuplot"))
+	      (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
+	      (add-to-list 'org-structure-template-alist '("jp" . "src jupyter-python"))
+	      (add-to-list 'org-structure-template-alist '("jr" . "src jupyter-r"))
+	      (add-to-list 'org-structure-template-alist '("np" . "src napkin"))
+	      (add-to-list 'org-structure-template-alist '("pu" . "src plantuml"))
+	      (add-to-list 'org-structure-template-alist '("py" . "src python"))
+	      (add-to-list 'org-structure-template-alist '("rc" . "src restclient"))
+	      (add-to-list 'org-structure-template-alist '("sh" . "src shell"))
+	      ;;(add-to-list 'org-structure-template-alist '("npp". "src napkin-puml"))
+	      (add-to-list 'org-structure-template-alist '("sql". "src sql-mode"))))
 #+end_src
 ** Org Modern
 #+begin_src emacs-lisp
@@ -2669,13 +2711,13 @@
 ** Ox Reveal
 #+begin_src emacs-lisp
   (use-package ox-reveal
+    :after org  
     :config
     (message "ox-reveal ready"))
 #+end_src
 ** Org Present
 #+begin_src emacs-lisp
   (use-package org-present
-    ;; :defer 3
     :after org
     :config
     (message "org-present loaded"))
@@ -2877,25 +2919,25 @@
 #+begin_src emacs-lisp
   (use-package newsticker
     :ensure nil
-    ;; :defer 10
-
+    :defer 10
+    :commands (newsticker-treeview newsticker-start newsticker-plainview)
     :init
     (setq newsticker-url-list '(("stackoverflow.com - emacs" "https://stackoverflow.com/feeds/tag?tagnames=emacs&sort=newest" nil nil nil)
-                                ("More Productive with Emacs" "https://lucidmanager.org/tags/emacs/index.xml" nil nil nil)
-                                ("Emacs on Reddit" "http://www.reddit.com/r/emacs/.rss" nil nil nil)
-                                ("Prog Memes on Reddit" "http://www.reddit.com/r/ProgrammerHumor/.rss" nil nil nil)
+				("More Productive with Emacs" "https://lucidmanager.org/tags/emacs/index.xml" nil nil nil)
+				("Emacs on Reddit" "http://www.reddit.com/r/emacs/.rss" nil nil nil)
+				("Prog Memes on Reddit" "http://www.reddit.com/r/ProgrammerHumor/.rss" nil nil nil)
 
-                                ("Org Upcoming Changes" "https://updates.orgmode.org/feed/changes" nil nil nil)
-                                ("Org Help requests" "https://updates.orgmode.org/feed/help" nil nil nil)
-                                ("Org confirmed Bugs" "https://updates.orgmode.org/feed/bugs" nil nil nil)
-                                ("Org News Update" "https://updates.orgmode.org/feed/updates" nil nil nil)
-                                ("Org This Month" "https://blog.tecosaur.com/tmio/rss.xml" nil nil nil)
-                                
-                                ("Framework" "https://blog.tecosaur.com/tmio/rss.xml" nil nil nil)
+				("Org Upcoming Changes" "https://updates.orgmode.org/feed/changes" nil nil nil)
+				("Org Help requests" "https://updates.orgmode.org/feed/help" nil nil nil)
+				("Org confirmed Bugs" "https://updates.orgmode.org/feed/bugs" nil nil nil)
+				("Org News Update" "https://updates.orgmode.org/feed/updates" nil nil nil)
+				("Org This Month" "https://blog.tecosaur.com/tmio/rss.xml" nil nil nil)
 
-                                ("Memes on Reddit" "http://www.reddit.com/r/memes/.rss" nil nil nil)
-                                ("CNN" "http://rss.cnn.com/rss/edition_world.rss" nil nil nil)
-                                ("TheHackerNews" "https://feeds.feedburner.com/TheHackersNews" nil nil nil)))
+				("Framework" "https://blog.tecosaur.com/tmio/rss.xml" nil nil nil)
+
+				("Memes on Reddit" "http://www.reddit.com/r/memes/.rss" nil nil nil)
+				("CNN" "http://rss.cnn.com/rss/edition_world.rss" nil nil nil)
+				("TheHackerNews" "https://feeds.feedburner.com/TheHackersNews" nil nil nil)))
     :config
     (setq newsticker-retrieval-method #'intern)
     (message "newsticker ready ✔"))
@@ -2973,27 +3015,11 @@
 ** Emacs Everywhere
 #+begin_src emacs-lisp
   (use-package emacs-everywhere
-    ;; :defer 10
+    :defer 8
     :config
     (message "emacs-everywhere ready ✔"))
 #+end_src
 
-** Atomic Chrome
-#+begin_src emacs-lisp
-  (use-package atomic-chrome
-    ;; :defer 10
-    :hook (after-init . atomic-chrome-start-server)
-    :config
-    (setq atomic-chrome-default-major-mode 'prog-mode)
-    (setq atomic-chrome-extension-type-list '(ghost-text))
-    (setq atomic-chrome-server-ghost-text-port 4001)
-    (setq atomic-chrome-url-major-mode-alist
-          '(("github\\.com" . gfm-mode)
-            ("creator.zoho.com" . js2-mode)
-            ("overleaf.com" . latex-mode)
-            ("750words.com" . latex-mode)))
-    (message "Atomic Chrome ready ✔"))
-#+end_src
 ** CRDT
 #+begin_src emacs-lisp
   (use-package crdt
@@ -3623,12 +3649,16 @@
   (use-package mw-thesaurus
     ;; :defer 10
     :bind ((:map evil-normal-state-map
-                 ("Z?" . mw-thesaurus-lookup-at-point)
-                 ("z?" . mw-thesaurus-lookup-dwim)))
+		 ("Z?" . mw-thesaurus-lookup-at-point)
+		 ("z?" . mw-thesaurus-lookup-dwim)))
     :config
     (message "mw-theasaurus loaded ✔"))
-#+end_src
 
+  (use-package powerthesaurus
+    ;; :defer 10
+    :config
+    (message "powerthesaurus loaded  ✔"))
+#+end_src
 
 ** Org Superstar 
 #+begin_src emacs-lisp :tangle no 
@@ -3639,3 +3669,19 @@
     (setq org-superstar-remove-leading-stars t))
 #+end_src
 
+** Atomic Chrome
+#+begin_src emacs-lisp :tangle no 
+  (use-package atomic-chrome
+    :commands (atomic-chrome-start-server)
+    :hook (after-init . atomic-chrome-start-server)
+    :config
+    (setq atomic-chrome-default-major-mode 'prog-mode)
+    (setq atomic-chrome-extension-type-list '(ghost-text))
+    (setq atomic-chrome-server-ghost-text-port 4001)
+    (setq atomic-chrome-url-major-mode-alist
+	  '(("github\\.com" . gfm-mode)
+	    ("creator.zoho.com" . js2-mode)
+	    ("overleaf.com" . latex-mode)
+	    ("750words.com" . latex-mode)))
+    (message "Atomic Chrome ready ✔"))
+#+end_src
