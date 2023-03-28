@@ -322,13 +322,6 @@
     :config
     (message "try ready ✔"))
 #+end_src
-** Alert
-#+begin_src emacs-lisp
-  (use-package alert
-    :config
-    (setq alert-default-style "fringe")
-    (message "alert ready ✔"))
-#+end_src
 * Key Binding
 ** Evil
 #+begin_src emacs-lisp
