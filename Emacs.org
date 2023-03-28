@@ -640,13 +640,9 @@
 ** All Icons
 #+begin_src emacs-lisp
   (use-package all-the-icons
-    :defer 1
 
-    :hook
-    (marginalia-mode . all-the-icons-completion-marginalia-setup)
-
-    :init
-    (all-the-icons-completion-mode)
+    :hook (after-init . all-the-icons-completion-mode)
+    :hook (marginalia-mode . all-the-icons-completion-marginalia-setup)
 
     :config
     (use-package all-the-icons-completion :after all-the-icons))
