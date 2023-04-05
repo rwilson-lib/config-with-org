@@ -1223,6 +1223,15 @@
     :commands (magit magit-init magit-status)
     :defer 3
     :custom (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1)
+    :config
+
+    (setq magit-section-initial-visibility-alist
+	  '((untracked . hide)
+	    (unstaged . hide)
+	    (staged . hide)
+	    (unpushed . hide)
+	    (unpulled . hide)
+	    (modified . hide)))
     (message "Magit ready ✔"))
 #+end_src
 ** Diff-hl
