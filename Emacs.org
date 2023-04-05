@@ -2997,15 +2997,15 @@
 	       crdt-share-buffer
 	       crdt-connect)
     :bind (:map crdt-session-menu-mode-map 
-                ("<return>" . crdt--session-menu-goto)
-                ("s" . crdt--session-menu-kill)
-                :map crdt-user-menu-mode-map
-                ("g" . crdt--user-menu-goto)
-                ("k" . crdt--user-menu-kill)
-                ("f" . crdt--user-menu-follow)
-                :map crdt-buffer-menu-mode-map
-                ("<return>" . crdt--buffer-menu-goto)
-                ("s" . crdt--buffer-menu-kill))
+		("<return>" . crdt--session-menu-goto)
+		("s" . crdt--session-menu-kill)
+		:map crdt-user-menu-mode-map
+		("g" . crdt--user-menu-goto)
+		("k" . crdt--user-menu-kill)
+		("f" . crdt--user-menu-follow)
+		:map crdt-buffer-menu-mode-map
+		("<return>" . crdt--buffer-menu-goto)
+		("s" . crdt--buffer-menu-kill))
 
     :config
     (setq crdt-use-tuntox t)
