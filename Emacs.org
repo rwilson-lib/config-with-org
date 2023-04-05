@@ -2864,6 +2864,13 @@
     ;; :defer 5
     :requires lastfm
     :config
+
+    (general-define-key
+     :keymaps '(vuiet-mode-map)
+     :states '(normal)
+     "<return>" 'org-open-at-point)
+
+    (setq-local mpv-start-timeout 10)
     (setq vuiet-update-mode-line-automatically t)
     (setq vuiet-update-mode-line-interval 1)
     (message "vuiet loaded  ✔"))
