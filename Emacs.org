@@ -2991,11 +2991,11 @@
 ** CRDT
 #+begin_src emacs-lisp
   (use-package crdt
-    ;; :defer 5
-    ;; (crdt-user-menu-mode-map)
-    ;; (crdt-buffer-menu-mode-map)
-    ;; (crdt-session-menu-mode-map)
-
+    :commands (crdt-list-sessions
+	       crdt-list-users
+	       crdt-list-buffers
+	       crdt-share-buffer
+	       crdt-connect)
     :bind (:map crdt-session-menu-mode-map 
                 ("<return>" . crdt--session-menu-goto)
                 ("s" . crdt--session-menu-kill)
