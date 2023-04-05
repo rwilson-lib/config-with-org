@@ -2381,23 +2381,6 @@
 #+End_src
 ** Custom function
 #+begin_src emacs-lisp
-  (defun org-cursor-enter-src-block ()
-    "Toggle `company-mode' on and off depending on whether the cursor is currently
-  inside an Org source code block. If `company-mode' is not already enabled
-  when entering a source code block, it will be enabled. Likewise, if `company-mode'
-  is enabled when leaving a source code block, it will be disabled.
-
-  This function is intended to be used as an Org mode hook that is run whenever
-  the cursor moves in an Org buffer. It checks whether the cursor is currently
-  inside an Org source code block using the `org-in-src-block-p' function, and
-  enables or disables `company-mode' accordingly.
-
-  When `company-mode' is enabled or disabled, a message will be displayed in the
-  echo area indicating the current state of `company-mode'."
-    (when (and (org-in-src-block-p) (not company-mode))
-      (company-mode 1))
-    (when (and (not (org-in-src-block-p)) (company-mode))
-      (company-mode 0)))
 
   ;; Org Mode Configuration ------------------------------------------------------
   (defun efs/org-mode-setup ()
@@ -2447,13 +2430,6 @@
 
     :hook (org-mode . ( lambda ()
 			(efs/org-mode-setup)))
-
-    :hook (org-mode . (lambda ()
-		    "Add `org-cursor-enter-src-block` to `post-command-hook` to run after each command.
-   The hook function detects when the cursor enters a source code block in an Org mode buffer
-   The fourth argument `t` makes it a buffer-local hook that is added only once."
-		    (add-hook 'post-command-hook #'org-cursor-enter-src-block nil t)))
-
     :bind (("C-c c" . org-capture )
 	   :map org-mode-map
 	   ("C-/" . org-comment-dwim )
