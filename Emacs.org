@@ -89,7 +89,6 @@
 
 	;; (set-frame-parameter nil 'fullscreen 'fullboth)
 	(setq visible-bell t)
-	;; (set-face-attribute 'default nil :font "FiraCode Nerd Font" :height 160)
 
 	;; Tab Bar
 	(setq tab-bar-tab-hints t
@@ -742,9 +741,6 @@
      "c" 'link-hint-copy-link
     (message "link-hint ready ✔")))
 #+end_src
-
-#+RESULTS:
-: t
 
 ** Order-less
 #+begin_src emacs-lisp
@@ -2934,6 +2930,7 @@
     (setq newsticker-retrieval-method #'intern)
     (message "newsticker ready ✔"))
 #+end_src
+
 * Games
 ** Key-quiz
 #+begin_src emacs-lisp
