@@ -2390,7 +2390,7 @@
     ;; (visual-line-mode 1)
     (evil-org-mode)
     (visual-fill-column-mode 1)
-    (hl-todo-mode)
+    ;; (hl-todo-mode)
     (setq-local truncate-lines t)
 
     (setq-local visual-fill-column-width 100
