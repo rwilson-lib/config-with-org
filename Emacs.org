@@ -844,7 +844,7 @@
     :init
     (savehist-mode)
     :config
-    (setq history-length 50))
+    (setq history-length 150))
 
 #+end_src
 ** Marginalia
