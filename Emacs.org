@@ -2757,11 +2757,6 @@
 #+end_src
 ** Org Download
 #+begin_src emacs-lisp
-  (use-package org-download
-    ;; :defer 5
-    :after org
-    :config
-    (setq org-download-screenshot-method "screencapture"))
 #+end_src
 * Pretty Symbols
 ** Org Symbols
@@ -3691,3 +3686,14 @@
     :config
     (message "avy-flycheck loaded! ✔"))
 #+end_src
+
+
+** Org Download
+#+begin_src emacs-lisp :tangle no 
+  (use-package org-download
+    ;; :defer 5
+    :after org
+    :config
+    (setq org-download-screenshot-method "screencapture"))
+#+end_src
+
