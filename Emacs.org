@@ -2871,24 +2871,22 @@
 ** MPC
 #+begin_src emacs-lisp
   (use-package mpc
+    :commands (mpc)
     :disabled
-    ;; :defer 5
     :config
     (message "mpc loaded  ✔"))
 #+end_src
 ** MPV
 #+begin_src emacs-lisp
   (use-package mpv
-    :disabled
-    ;; :defer 5
+    :commands (mpv-start mpv-play mpv-play-url)
     :config
-    (message " loaded  ✔"))
+    (message "mpv loaded  ✔"))
 #+end_src
 * News Reader & IRC
 #+begin_src emacs-lisp
   (use-package newsticker
     :ensure nil
-    :defer 10
     :commands (newsticker-treeview newsticker-start newsticker-plainview)
     :init
     (setq newsticker-url-list '(("stackoverflow.com - emacs" "https://stackoverflow.com/feeds/tag?tagnames=emacs&sort=newest" nil nil nil)
