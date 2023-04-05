@@ -1039,7 +1039,9 @@
 #+begin_src emacs-lisp
   (use-package ibuffer
     :commands (ibuffer)
-    :bind ("C-x C-b" . ibuffer))
+    :bind ("C-x C-b" . ibuffer)
+    :config
+    (message "IBuffer loaded ✔"))
 #+end_src
 * Window Management
 ** Winum Mode
