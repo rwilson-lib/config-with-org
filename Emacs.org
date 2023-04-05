@@ -2430,7 +2430,9 @@
 
     :hook (org-mode . ( lambda ()
 			(efs/org-mode-setup)))
-    :bind (("C-c c" . org-capture )
+    :bind (("C-c l" . org-store-link)
+	    ("C-c a" . org-agenda)
+	    ("C-c c" . org-capture) 
 	   :map org-mode-map
 	   ("C-/" . org-comment-dwim )
 	   ("S-<backspace>" . org-table-blank-field))
