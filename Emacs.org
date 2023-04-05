@@ -1,7 +1,8 @@
 # -*- org-confirm-babel-evaluate: nil; eval: (add-hook 'after-save-hook #'org-babel-tangle);-*-
 #+TITLE: Emacs Configuration
 #+PROPERTY: header-args:emacs-lisp :tangle ~/.emacs.d/init.el
-#+begin_src emacs-lisp
+* Benchmark
+#+begin_src emacs-lisp 
   (use-package benchmark-init
     :ensure t
     ;; remove this line when you want to take benchmark at init 
