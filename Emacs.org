@@ -1087,6 +1087,16 @@
     (message "ace window ready ✔"))
 
 #+end_src
+** Visual fill column
+#+begin_src emacs-lisp
+  (use-package visual-fill-column
+    :defer t)
+
+  ;; (lambda () efs/org-mode-visual-fill ()
+  ;;       (setq visual-fill-column-width 100
+  ;;             visual-fill-column-center-text t)
+  ;;       (visual-fill-column-mode 1))
+#+end_src
 * Terminal
 ** Eshell
 #+begin_src emacs-lisp
@@ -2544,21 +2554,12 @@
   ;; (define-key global-map (kbd "C-c j")
   ;;   (lambda () (interactive) (org-capture nil "jj")))
   ;; (efs/org-font-setup))
-
-  ;;     (use-package visual-fill-column
-  ;;       :hook (org-mode . efs/org-mode-visual-fill))
-
-  ;; (lambda () efs/org-mode-visual-fill ()
-  ;;       (setq visual-fill-column-width 100
-  ;;             visual-fill-column-center-text t)
-  ;;       (visual-fill-column-mode 1))
-
-
 #+end_src
 ** Org-Agenda
 #+begin_src emacs-lisp
   (use-package org-agenda
     :ensure nil
+    :defer t
     :after org
     :commands (org-agenda)
     :bind (("C-c a" . org-agenda))
