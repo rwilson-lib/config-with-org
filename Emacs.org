@@ -2732,8 +2732,14 @@
     :config
     (message "org-transclusion ready ✔"))
 #+end_src
-** Org Download
+
+** Org Pandoc
 #+begin_src emacs-lisp
+  (use-package ox-pandoc
+      :after org
+      ;; :defer 5
+      :config
+      (message "Ox Pandoc ready ✔"))
 #+end_src
 * Pretty Symbols
 ** Org Symbols
@@ -2830,8 +2836,15 @@
   (use-package org-roam-ui
     :requires org-roam
     :after org-roam
-    :config
+    :commands (org-roam-ui-mode)
+    :init
     (setq org-roam-ui-browser-function #'xwidget-webkit-browse-url)
+
+    :config
+    (setq org-roam-ui-sync-theme t
+	  org-roam-ui-follow t
+	  org-roam-ui-update-on-save t
+	  org-roam-ui-open-on-start t)
     (message "org-roam-ui loaded  ✔"))
 
 #+end_src
