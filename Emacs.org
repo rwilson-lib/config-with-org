@@ -2983,7 +2983,7 @@
 ** Emacs Everywhere
 #+begin_src emacs-lisp
   (use-package emacs-everywhere
-    :defer 8
+    :commands (emacs-everywhere)
     :config
     (message "emacs-everywhere ready ✔"))
 #+end_src
