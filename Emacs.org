@@ -1016,7 +1016,7 @@
      "i"  'cape-dabbrev                   ; or dabbrev-completion
      "f"  'cape-file
      "w"  'cape-keyword
-     "o"  'cape-symbol			; vim omni completion
+     "o"  'cape-symbol			  ; vim omni completion
      "a"  'cape-abbrev
      "s"  'cape-ispell
      "\\" 'cape-tex
