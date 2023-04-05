@@ -726,10 +726,6 @@
     :config
     (message "avy-flycheck loaded! ✔"))
 
-  (use-package avy-flycheck
-    :after (avy flycheck)
-    :config
-    (message "avy-flycheck loaded! ✔"))
 
   (use-package ace-link
     :commands (ace-link)
@@ -3680,4 +3676,18 @@
 	    ("overleaf.com" . latex-mode)
 	    ("750words.com" . latex-mode)))
     (message "Atomic Chrome ready ✔"))
+#+end_src
+
+
+
+
+
+
+
+** Avy-flycheck
+#+begin_src emacs-lisp :tangle no 
+  (use-package avy-flycheck
+    :after (avy flycheck)
+    :config
+    (message "avy-flycheck loaded! ✔"))
 #+end_src
