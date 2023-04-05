@@ -1004,7 +1004,7 @@
     ;; Bind dedicated completion commands
     (general-define-key
      :states '(insert)
-     :prefix "S-SPC"			; vim i_Ctrx-x
+     :prefix "S-SPC"			  ; vim i_Ctrx-x
      "l"  'cape-line
      "n"  'completion-at-point            ; capf
      "k"  'cape-dict
