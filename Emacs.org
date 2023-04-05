@@ -1873,7 +1873,6 @@
 #+begin_src emacs-lisp
   (use-package dictionary
     :commands (dictionary)
-    :defer 6
     :config
     (message "dictionary loaded ✔"))
 #+end_src
