@@ -1225,6 +1225,7 @@
     :custom (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1)
     (message "Magit ready ✔"))
 #+end_src
+** Diff-hl
 #+begin_src emacs-lisp
   (use-package diff-hl
     :after magit
