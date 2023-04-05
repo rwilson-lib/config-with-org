@@ -1239,76 +1239,76 @@
 ** Forge  
 #+begin_src emacs-lisp
   (use-package forge
-    :disabled
     :requires ghub
+    :after magit
     :init
     (setq ghub-use-workaround-for-emacs-bug nil)
     (setq forge-add-default-bindings nil)
     :config
     (general-define-key
      :keymaps '(forge-post-mode-map
-                forge-topic-mode-map
-                forge-post-section-map
-                forge-issue-section-map
-                forge-issues-section-map
-                forge-pullreq-section-map
-                forge-topic-list-mode-map
-                forge-issue-list-mode-map
-                forge-pullreqs-section-map
-                forge-pullreq-list-mode-map
-                forge-forge-repo-section-map
-                forge-notifications-mode-map
-                forge-topic-state-section-map
-                forge-topic-marks-section-map
-                forge-topic-title-section-map
-                forge-repository-list-mode-map
-                forge-topic-labels-section-map
-                forge-topic-assignees-section-map
-                forge-topic-review-requests-section-map)
+		forge-topic-mode-map
+		forge-post-section-map
+		forge-issue-section-map
+		forge-issues-section-map
+		forge-pullreq-section-map
+		forge-topic-list-mode-map
+		forge-issue-list-mode-map
+		forge-pullreqs-section-map
+		forge-pullreq-list-mode-map
+		forge-forge-repo-section-map
+		forge-notifications-mode-map
+		forge-topic-state-section-map
+		forge-topic-marks-section-map
+		forge-topic-title-section-map
+		forge-repository-list-mode-map
+		forge-topic-labels-section-map
+		forge-topic-assignees-section-map
+		forge-topic-review-requests-section-map)
      :states '(normal visual)
      "yb" 'forge-copy-url-at-point-as-kill)
 
     (general-define-key
      :keymaps '(forge-post-mode-map
-                forge-topic-mode-map
-                forge-post-section-map
-                forge-issue-section-map
-                forge-issues-section-map
-                forge-pullreq-section-map
-                forge-topic-list-mode-map
-                forge-issue-list-mode-map
-                forge-pullreqs-section-map
-                forge-pullreq-list-mode-map
-                forge-forge-repo-section-map
-                forge-notifications-mode-map
-                forge-topic-state-section-map
-                forge-topic-marks-section-map
-                forge-topic-title-section-map
-                forge-repository-list-mode-map
-                forge-topic-labels-section-map
-                forge-topic-assignees-section-map
-                forge-topic-review-requests-section-map)
+		forge-topic-mode-map
+		forge-post-section-map
+		forge-issue-section-map
+		forge-issues-section-map
+		forge-pullreq-section-map
+		forge-topic-list-mode-map
+		forge-issue-list-mode-map
+		forge-pullreqs-section-map
+		forge-pullreq-list-mode-map
+		forge-forge-repo-section-map
+		forge-notifications-mode-map
+		forge-topic-state-section-map
+		forge-topic-marks-section-map
+		forge-topic-title-section-map
+		forge-repository-list-mode-map
+		forge-topic-labels-section-map
+		forge-topic-assignees-section-map
+		forge-topic-review-requests-section-map)
      :states '(normal visual)
      ;; :prefix mpereira/leader
      "go" 'forge-browse-dwim)
 
     (general-define-key
      :keymaps '(forge-topic-mode-map
-                forge-topic-list-mode-map
-                forge-topic-state-section-map
-                forge-topic-marks-section-map
-                forge-topic-title-section-map)
+		forge-topic-list-mode-map
+		forge-topic-state-section-map
+		forge-topic-marks-section-map
+		forge-topic-title-section-map)
      :states '(normal visual)
      ;; :prefix mpereira/leader
      "go" 'forge-browse-topic)
 
     (general-define-key
      :keymaps '(forge-post-mode-map
-                forge-post-section-map
-                forge-topic-list-mode-map
-                forge-topic-state-section-map
-                forge-topic-marks-section-map
-                forge-topic-title-section-map)
+		forge-post-section-map
+		forge-topic-list-mode-map
+		forge-topic-state-section-map
+		forge-topic-marks-section-map
+		forge-topic-title-section-map)
      :states '(normal visual)
      ;; :prefix mpereira/leader
      "go" 'forge-browse-post)
