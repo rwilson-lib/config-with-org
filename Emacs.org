@@ -724,8 +724,7 @@
 		 ("gsac" . avy-goto-char)
 		 ("gsal" . avy-goto-line)))
     :config
-    (message "avy-flycheck loaded! ✔"))
-
+    (message "avy loaded! ✔"))
 
   (use-package ace-link
     :commands (ace-link)
