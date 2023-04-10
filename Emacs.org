@@ -1409,6 +1409,7 @@
 			 (company-mode)	; completion UI
 			 (hl-todo-mode)
 			 (rainbow-mode)
+			 (electric-pair-local-mode)
 			 (rainbow-delimiters-mode)
 			 (display-line-numbers-mode 1)
 			 (flycheck-mode)	; linting
