@@ -2426,7 +2426,11 @@
     (visual-fill-column-mode 1)
     ;; (hl-todo-mode)
     (setq-local truncate-lines t)
+    (setq-local truncate-lines t)
 
+    (setq-local fill-column 80)
+    (auto-fill-mode)
+    
     (setq-local visual-fill-column-width 100
 		visual-fill-column-center-text t)
 
@@ -3077,3 +3081,4 @@
     (setq crdt-tuntox-executable "/usr/local/bin/tuntox")
     (message "CRDT ready ✔"))
 #+end_src
+
