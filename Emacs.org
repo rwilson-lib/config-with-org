@@ -2374,37 +2374,40 @@
 #+end_src
 ** Org MSG
 #+begin_src emacs-lisp
-      (use-package org-msg
-	:defer 3
-	:after mu4e
-	:hook (message-mode lambda ()
-			    (org-msg-mode)
-			    (flyspell-mode))
+  (use-package org-msg
+      :defer 3
+      :after mu4e
+      :hook (message-mode lambda ()
+			  (auto-fill-mode)
+			  (org-msg-mode)
+			  (flyspell-mode))
 
-	:config
-	(setq org-msg-options "tex:dvisvgm html-postamble:nil H:5 num:nil ^:{} toc:nil author:nil email:nil \\n:t"
-	      org-msg-startup "hidestars indent inlineimages"
-	      org-msg-greeting-name-limit 3
-	      org-msg-default-alternatives '((new		. (text html))
-					     (reply-to-html	. (text html))
-					     (reply-to-text	. (text)))
-	      org-msg-convert-citation t
-	      org-msg-greeting-fmt "\nHi%s,\n\n"
-	      org-msg-signature
-    "
-    Regards,
+      :config
+      (setq-local fill-column 75) ;; email
 
-    #+begin_signature
-    ---------------------------
-    *Ramus Jabee Lloyd Wilson*
-    ICT Consultant | Smile Technology LLC
-    /email: ramus@rjlwjr.com/
-    /work-email: ramus.wilson@smiletech.com/
-    /mobile phone: +231-77-797-8125 +231-88-697-8125/
-    /The simple act of paying attention can take you a long way/
-    send from Gnus Emacs mu4e client
-    #+end_signature")
-    (message "org-msg ready ✔"))
+      (setq org-msg-options "tex:dvisvgm html-postamble:nil H:5 num:nil ^:{} toc:nil author:nil email:nil \\n:t"
+	    org-msg-startup "hidestars indent inlineimages"
+	    org-msg-greeting-name-limit 3
+	    org-msg-default-alternatives '((new		. (text html))
+					   (reply-to-html	. (text html))
+					   (reply-to-text	. (text)))
+	    org-msg-convert-citation t
+	    org-msg-greeting-fmt "\nHi%s,\n\n"
+	    org-msg-signature
+  "
+  Regards,
+
+  ,#+begin_signature
+  ---------------------------
+  ,*Ramus Jabee Lloyd Wilson*
+  ICT Consultant | Smile Technology LLC
+  /email: ramus@rjlwjr.com/
+  /work-email: ramus.wilson@smiletech.com/
+  /mobile phone: +231-77-797-8125 +231-88-697-8125/
+  /The simple act of paying attention can take you a long way/
+  send from Gnus Emacs mu4e client
+  ,#+end_signature")
+  (message "org-msg ready ✔"))
 #+end_src
 * Org Mode
 ** Evil Org 
