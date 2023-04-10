@@ -2066,6 +2066,11 @@
 
   ;;   (pdf-tools-install)
 #+end_src
+** CDLaTex
+#+begin_src emacs-lisp
+  (use-package cdlatex
+    :after (org tex))
+#+end_src
 * Email
 ** Email Global Variables
 #+begin_src emacs-lisp
