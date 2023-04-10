@@ -1927,11 +1927,12 @@
     (setq reftex-plug-into-AUCTeX t)
     (message "AUCTeX ready ✔"))
 
-  (use-package latex-preview-pane
-    :after tex
-    :config
-    (setq latex-preview-pane-use-frame nil)
-    (latex-preview-pane-enable))
+  ;; (use-package latex-preview-pane
+  ;;   :after tex
+  ;;   :config
+  ;;   (setq latex-preview-pane-use-frame nil)
+  ;;   (setq message-latex-preview-pane-welcome nil)
+  ;;   (latex-preview-pane-enable))
 
 #+end_src
 ** Bibtex
