@@ -508,24 +508,24 @@
 #+end_src
 ** Evil Collection
 #+begin_src emacs-lisp
-    (use-package evil-collection
-      :after evil
-      ;; (evil-set-initial-state 'calc-mode 'emacs)
+  (use-package evil-collection
+    :after evil
+    ;; (evil-set-initial-state 'calc-mode 'emacs)
 
-      :config
-      (condition-case err
-	  (evil-collection-init)
-	(error (message "Error initializing evil-collection-init: %S" err))))
+    :config
+    (condition-case err
+	(evil-collection-init)
+      (error (message "Error initializing evil-collection-init: %S" err))))
 
-    (use-package evil-matchit
-      :requires evil)
+  (use-package evil-matchit
+    :requires evil)
 
-    (use-package evil-surround
-      :requires evil)
+  (use-package evil-surround
+    :requires evil)
 
-    (add-hook 'text-mode-hook
-	      (lambda () (evil-surround-mode)
-		(evil-matchit-mode)))
+  (add-hook 'text-mode-hook
+	    (lambda () (evil-surround-mode)
+	      (evil-matchit-mode)))
 
 #+end_src
 ** Hydra
