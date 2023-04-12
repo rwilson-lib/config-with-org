@@ -144,6 +144,88 @@
   (setq treesit-extra-load-path '("~/.lib/tree-sitter-langs/")))
 #+end_src
 
+** Font and Windows
+#+begin_src emacs-lisp
+  ;; For current frame
+  (set-frame-parameter nil 'alpha-background 90)
+  ;; For all new frames henceforth
+  (add-to-list 'default-frame-alist '(alpha-background . 90)) 
+  
+  (defun delete-other-windows-advice (function &rest args)
+    (if current-prefix-arg
+	(if (winum-get-window-by-number current-prefix-arg)
+	    (switch-to-buffer (window-buffer
+			       (winum-get-window-by-number current-prefix-arg)))))
+    (apply function args))
+
+  (advice-add 'delete-other-windows :around #'delete-other-windows-advice)
+
+  (defun custom/display-buffer-at-bottom ()
+    (interactive)
+    (let ((buffer (current-buffer)))
+      (with-current-buffer buffer
+	(delete-window)
+	(display-buffer-at-bottom
+	 buffer '(
+		  ;; (window-parameters . ((mode-line-format . (" " "%b"))))
+		  ;; (window-height . 0.25)
+		  )))))
+
+  (use-package window
+    :ensure nil
+    :bind (("<f8>" . window-toggle-side-windows))
+    :config
+    (custom-set-variables
+     '(display-buffer-base-action
+       '((display-buffer--maybe-same-window
+	  display-buffer-reuse-window
+	  display-buffer--maybe-pop-up-frame-or-window
+	  display-buffer-in-previous-window
+	  display-buffer-below-selected
+	  display-buffer-at-bottom
+	  display-buffer-pop-up-frame))))
+    ;; '(window-min-height 18)
+    ;; '(window-min-width 40))
+
+    (setq
+     split-width-threshold 0
+     split-height-threshold nil)
+    :custom
+    (display-buffer-alist '(("\\*\\(e?shell\\|vterm\\|Python\\)\\*"
+			     (display-buffer-in-side-window)
+			     (window-height . 0.25)
+			     (side . bottom)
+			     ;; (window-parameters . ((mode-line-format . ("" "%b"))))
+			     (slot . -1))
+
+			    ;; ;;[Hh]elp
+			    ;; ("\\*help" 
+			    ;;  (display-buffer-reuse-window display-buffer-in-side-window)
+			    ;;  (window-width . 75))
+
+			    ("\\*\\(Backtrace\\|Warnings\\|Compile-log\\|Messages\\)\\*"
+			     (display-buffer-in-side-window)
+			     (window-height . 0.25)
+			     (side . bottom)
+			     (slot . 0)))))
+  (defun efs/set-font-faces ()
+    (message "Setting faces!")
+    (set-face-attribute 'default nil :font "FiraCode Nerd Font" :height 168)
+
+    ;; Set the fixed pitch face
+    (set-face-attribute 'fixed-pitch nil :font "FiraCode Nerd Font" :height 168)
+
+    ;; Set the variable pitch face
+    (set-face-attribute 'variable-pitch nil :font "FiraCode Nerd Font" :height 168 :weight 'regular))
+
+  (if (daemonp)
+      (add-hook 'after-make-frame-functions
+		(lambda (frame)
+		  (with-selected-frame frame
+		    (efs/set-font-faces))))
+    (efs/set-font-faces))
+#+end_src
+
 ** Dried
 #+begin_src emacs-lisp
   ;;;###autoload
@@ -194,83 +276,6 @@
     (setq dired-dwim-target t
           dired-listing-switches "-alh"))
 #+end_src
-** Font and Windows
-#+begin_src emacs-lisp
-    (defun delete-other-windows-advice (function &rest args)
-      (if current-prefix-arg
-          (if (winum-get-window-by-number current-prefix-arg)
-              (switch-to-buffer (window-buffer
-                                 (winum-get-window-by-number current-prefix-arg)))))
-      (apply function args))
-
-    (advice-add 'delete-other-windows :around #'delete-other-windows-advice)
-
-    (defun custom/display-buffer-at-bottom ()
-      (interactive)
-      (let ((buffer (current-buffer)))
-        (with-current-buffer buffer
-          (delete-window)
-          (display-buffer-at-bottom
-           buffer '(
-                    ;; (window-parameters . ((mode-line-format . (" " "%b"))))
-                    ;; (window-height . 0.25)
-                    )))))
-
-    (use-package window
-      :ensure nil
-      :bind (("<f8>" . window-toggle-side-windows))
-      :config
-      (custom-set-variables
-       '(display-buffer-base-action
-         '((display-buffer--maybe-same-window
-            display-buffer-reuse-window
-            display-buffer--maybe-pop-up-frame-or-window
-            display-buffer-in-previous-window
-            display-buffer-below-selected
-            display-buffer-at-bottom
-            display-buffer-pop-up-frame))))
-      ;; '(window-min-height 18)
-      ;; '(window-min-width 40))
-
-      (setq
-       split-width-threshold 0
-       split-height-threshold nil)
-      :custom
-      (display-buffer-alist '(("\\*\\(e?shell\\|vterm\\|Python\\)\\*"
-                               (display-buffer-in-side-window)
-                               (window-height . 0.25)
-                               (side . bottom)
-                               ;; (window-parameters . ((mode-line-format . ("" "%b"))))
-                               (slot . -1))
-
-                              ;; ;;[Hh]elp
-                              ;; ("\\*help" 
-                              ;;  (display-buffer-reuse-window display-buffer-in-side-window)
-                              ;;  (window-width . 75))
-
-                              ("\\*\\(Backtrace\\|Warnings\\|Compile-log\\|Messages\\)\\*"
-                               (display-buffer-in-side-window)
-                               (window-height . 0.25)
-                               (side . bottom)
-                               (slot . 0)))))
-    (defun efs/set-font-faces ()
-      (message "Setting faces!")
-      (set-face-attribute 'default nil :font "FiraCode Nerd Font" :height 168)
-
-      ;; Set the fixed pitch face
-      (set-face-attribute 'fixed-pitch nil :font "FiraCode Nerd Font" :height 168)
-
-      ;; Set the variable pitch face
-      (set-face-attribute 'variable-pitch nil :font "FiraCode Nerd Font" :height 168 :weight 'regular))
-
-    (if (daemonp)
-        (add-hook 'after-make-frame-functions
-                  (lambda (frame)
-                    (with-selected-frame frame
-                      (efs/set-font-faces))))
-      (efs/set-font-faces))
-#+end_src
-
 ** Shell
 #+begin_src emacs-lisp
   (setenv "PATH" (concat (getenv "PATH") "/Users/rwilson/anaconda3/condabin:/Users/rwilson/bin:/usr/local/bin:/Users/rwilson/Library/Python/3.8/bin:/Users/rwilson/Library/Python/3.9/bin:/Library/PostgreSQL/13/bin:/usr/local/opt/mysql-client/bin:/Users/rwilson/go/bin:./node_modules/.bin:/Applications/Emacs.app/Contents/MacOS/bin:/opt/local/bin:/opt/local/sbin:/Library/Frameworks/Python.framework/Versions/3.9/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/TeX/texbin:/usr/local/go/bin:/usr/local/MacGPG2/bin:/opt/X11/bin:/Library/Apple/usr/bin:/Users/rwilson/.cargo/bin"))
