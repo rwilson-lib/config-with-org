@@ -1791,14 +1791,15 @@
 #+end_src
 ** Rest Client
 #+begin_src emacs-lisp
-(use-package restclient
-;; :defer 2
-:mode ("\\.http\\'" . restclient-mode)
-;; :hook (restclient-mode . company-mode)
-:bind (:map restclient-mode-map
-	    ("C-c C-f" . json-mode-beautify))
-:config
-(message "restclient loaded"))
+  (use-package restclient
+    :commands (restclient-mode)
+    :mode ( ("\\.http\\'"  . restclient-mode)
+	    ("\\.https\\'" . restclient-mode))
+    ;; :hook (restclient-mode . company-mode)
+    :bind (:map restclient-mode-map
+		("C-c C-f" . json-mode-beautify))
+    :config
+    (message "restclient loaded ✔"))
 #+end_src
 ** Yaml
 #+begin_src emacs-lisp
