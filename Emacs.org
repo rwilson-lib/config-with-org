@@ -325,6 +325,15 @@
       :config
       (message "try ready ✔"))
 #+end_src
+** FFAP
+#+begin_src emacs-lisp
+  (use-package ffap
+    :ensure nil
+    :defer 3
+    :config
+    (ffap-bindings)
+    (message "ffap loaded! ✔"))
+#+end_src
 * Key Binding
 ** Evil
 #+begin_src emacs-lisp
