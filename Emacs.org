@@ -1646,6 +1646,11 @@
     ;; (setq live-py-path "/usr/bin/python3")
     (setq live-py-version "python")
     (message "live py ready ✔"))
+
+  (use-package pyenv-mode
+    :commands (pyenv-mode pyenv-mode-set pyenv-mode-unset)
+    :config
+    (message "pyenv loaded! ✔"))
 #+end_src
 ** Virtual Envs
 #+begin_src emacs-lisp
