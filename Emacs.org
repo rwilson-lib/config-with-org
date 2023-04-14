@@ -642,11 +642,13 @@
 * User Interface Improvements
 #+begin_src emacs-lisp
   (use-package visual-regexp
-    :commands (vr/mc-mark vr/replace vr/query-replace))
-  
-  (use-package fancy-narrow
-    :commands (fancy-narrow-mode)
+    :commands (vr/mc-mark vr/replace vr/query-replace)
     :config
+    (message "visual-regexp loaded! ✔"))
+
+  (use-package fancy-narrow
+    :config
+    (fancy-narrow-mode)
     (message "fancy-narrow loaded! ✔"))
 #+end_srC
 ** Toggle Line Number
