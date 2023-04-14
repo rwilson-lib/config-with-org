@@ -351,8 +351,8 @@
   ;; change all prompts to y or n
   (fset 'yes-or-no-p 'y-or-n-p)
   (setq delete-by-moving-to-trash t
-        trash-directory "~/.trash"
-        confirm-kill-emacs 'y-or-n-p)
+	trash-directory "~/.trash"
+	confirm-kill-emacs 'y-or-n-p)
 
   ;; Emacs watch file on disk for changes
   (global-auto-revert-mode 1)
