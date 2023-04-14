@@ -1635,11 +1635,11 @@
     :config
     (when (executable-find "ipython")
       (setq python-shell-interpreter "ipython"
-            python-shell-interpreter-args "-i --simple-prompt --InteractiveShell.display_page=True"))
+	    python-shell-interpreter-args "-i --simple-prompt --InteractiveShell.display_page=True"))
 
     (setq python-indent-guess-indent-offset nil
-          python-indent-offset 4
-          python-shell-completion-native-enable nil))
+	  python-indent-offset 4
+	  python-shell-completion-native-enable nil))
 
   (use-package live-py-mode
     :disabled
