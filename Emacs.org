@@ -278,16 +278,62 @@
 #+end_src
 ** Shell
 #+begin_src emacs-lisp
-  (setenv "PATH" (concat (getenv "PATH") "/Users/rwilson/anaconda3/condabin:/Users/rwilson/bin:/usr/local/bin:/Users/rwilson/Library/Python/3.8/bin:/Users/rwilson/Library/Python/3.9/bin:/Library/PostgreSQL/13/bin:/usr/local/opt/mysql-client/bin:/Users/rwilson/go/bin:./node_modules/.bin:/Applications/Emacs.app/Contents/MacOS/bin:/opt/local/bin:/opt/local/sbin:/Library/Frameworks/Python.framework/Versions/3.9/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/TeX/texbin:/usr/local/go/bin:/usr/local/MacGPG2/bin:/opt/X11/bin:/Library/Apple/usr/bin:/Users/rwilson/.cargo/bin"))
+  (setenv "PATH" (concat (getenv "PATH") (mapconcat 'identity
+						    '("/Users/rwilson/anaconda3/condabin"
+						      "/Users/rwilson/bin"
+						      "/usr/local/bin"
+						      "/Library/PostgreSQL/13/bin"
+						      "/usr/local/opt/mysql-client/bin"
+						      "/Users/rwilson/go/bin"
+						      "./node_modules/.bin"
+						      "/Applications/Emacs.app/Contents/MacOS/bin"
+						      "/opt/local/bin"
+						      "/opt/local/sbin"
+						      "/Library/Frameworks/Python.framework/Versions/3.9/bin"
+						      "/usr/local/bin"
+						      "/usr/bin"
+						      "/bin"
+						      "/usr/sbin"
+						      "/sbin"
+						      "/Library/TeX/texbin"
+						      "/usr/local/go/bin"
+						      "/usr/local/MacGPG2/bin"
+						      "/opt/X11/bin"
+						      "/Library/Apple/usr/bin"
+						      "/Users/rwilson/.cargo/bin") ":" )))
 
-  (setq exec-path (append exec-path '("/Users/rwilson/anaconda3/condabin/" "/Users/rwilson/bin/" "/usr/local/bin/" "/Users/rwilson/Library/Python/3.8/bin/" "/Users/rwilson/Library/Python/3.9/bin/" "/Library/PostgreSQL/13/bin/" "/usr/local/opt/mysql-client/bin/" "/Users/rwilson/go/bin/" "./node_modules/.bin/" "/Applications/Emacs.app/Contents/MacOS/bin/" "/opt/local/bin/" "/opt/local/sbin/" "/Library/Frameworks/Python.framework/Versions/3.9/bin/" "/usr/local/bin/" "/usr/bin/" "/bin/" "/usr/sbin/" "/sbin/" "/Library/TeX/texbin/" "/usr/local/go/bin/" "/usr/local/MacGPG2/bin/" "/opt/X11/bin/" "/Library/Apple/usr/bin/" "/Users/rwilson/.cargo/bin/" "/Applications/Emacs.app/Contents/MacOS/libexec/")))
+	  (setq exec-path (append exec-path '("/Users/rwilson/anaconda3/condabin/"
+					      "/Users/rwilson/bin/"
+					      "/usr/local/bin/"
+					      "/Users/rwilson/Library/Python/3.8/bin/"
+					      "/Users/rwilson/Library/Python/3.9/bin/"
+					      "/Library/PostgreSQL/13/bin/"
+					      "/usr/local/opt/mysql-client/bin/"
+					      "/Users/rwilson/go/bin/"
+					      "./node_modules/.bin/"
+					      "/Applications/Emacs.app/Contents/MacOS/bin/"
+					      "/opt/local/bin/"
+					      "/opt/local/sbin/"
+					      "/Library/Frameworks/Python.framework/Versions/3.9/bin/"
+					      "/usr/local/bin/"
+					      "/usr/bin/"
+					      "/bin/"
+					      "/usr/sbin/"
+					      "/sbin/"
+					      "/Library/TeX/texbin/"
+					      "/usr/local/go/bin/"
+					      "/usr/local/MacGPG2/bin/"
+					      "/opt/X11/bin/"
+					      "/Library/Apple/usr/bin/"
+					      "/Users/rwilson/.cargo/bin/"
+					      "/Applications/Emacs.app/Contents/MacOS/libexec/")))
 
-  (setq comint-terminfo-terminal "eterm-256color")
+	  (setq comint-terminfo-terminal "eterm-256color")
 
-  (setenv "GIT_EDITOR" "emacs")
+	  (setenv "GIT_EDITOR" "emacs")
 
-  ;; (use-package exec-path-from-shell
-  ;;   :config (exec-path-from-shell-initialize))
+	  ;; (use-package exec-path-from-shell
+	  ;;   :config (exec-path-from-shell-initialize))
 
 #+end_src
   
