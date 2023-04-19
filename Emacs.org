@@ -768,11 +768,12 @@
 * Avy
 #+begin_src emacs-lisp
   (use-package avy
-    :bind ((:map evil-normal-state-map
-		 ("s" . evil-avy-goto-char-2)
-		 ("gsac" . avy-goto-char)
-		 ("gsal" . avy-goto-line)))
     :config
+    (general-define-key
+     ;; :keymaps '(text-mode-map)
+     :states '(normal visual)
+     "s"  'evil-avy-goto-char
+     "g:" 'evil-avy-goto-line)
     (message "avy loaded! ✔"))
 
   (use-package ace-link
