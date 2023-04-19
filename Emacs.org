@@ -662,30 +662,6 @@
     :diminish which-key-mode
     :config (setq which-key-idle-delay 0.3))
 #+end_src
-** Evil-Text Object
-#+begin_src emacs-lisp
-  ;; (use-package evil-textobj-tree-sitter
-  ;;   :config
-  ;;   (general-define-key
-  ;;    :keymaps '(evil-outer-text-objects-map)
-  ;;    "/" (evil-textobj-tree-sitter-get-textobj "comment.outer")
-  ;;    "=" (evil-textobj-tree-sitter-get-textobj "statement.outer")
-  ;;    "." (evil-textobj-tree-sitter-get-textobj "block.outer")
-  ;;    "&" (evil-textobj-tree-sitter-get-textobj "parameter.outer")
-  ;;    "l" (evil-textobj-tree-sitter-get-textobj "loop.outer")
-  ;;    "d" (evil-textobj-tree-sitter-get-textobj "conditional.outer")
-  ;;    "c" (evil-textobj-tree-sitter-get-textobj "class.outer")
-  ;;    "f" (evil-textobj-tree-sitter-get-textobj "function.outer"))
-
-  ;;   (general-define-key
-  ;;    :keymaps '(evil-inner-text-objects-map)
-  ;;    "." (evil-textobj-tree-sitter-get-textobj "block.inner")
-  ;;    "&" (evil-textobj-tree-sitter-get-textobj "parameter.inner")
-  ;;    "l" (evil-textobj-tree-sitter-get-textobj "loop.inner")
-  ;;    "d" (evil-textobj-tree-sitter-get-textobj "conditional.inner")
-  ;;    "c" (evil-textobj-tree-sitter-get-textobj "class.inner")
-  ;;    "f" (evil-textobj-tree-sitter-get-textobj "function.inner")))
-#+end_src
 * User Interface Improvements
 #+begin_src emacs-lisp
   (use-package visual-regexp
@@ -992,11 +968,6 @@
     :hook (dired-mode . treemacs-icons-dired-enable-once)
     :config
     (message "treemacs-projectile ready"))
-
-  ;;(use-package treemacs-persp ;;treemacs-perspective if you use perspective.el vs. persp-mode
-  ;;  :after (treemacs persp-mode) ;;or perspective vs. persp-mode
-  ;;  :ensure t
-  ;;  :config (treemacs-set-scope-type 'Perspectives))
 
   (use-package treemacs-projectile
     :after (treemacs projectile)
