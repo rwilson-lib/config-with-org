@@ -618,7 +618,13 @@
       "SPC c" (general-simulate-key "C-c")
       "SPC g" (general-simulate-key "M-g")
       "SPC s" (general-simulate-key "M-s"))
-    
+
+    (general-define-key
+     :prefix "C-x / l"
+     ;; application spefic binding 
+     "o" 'link-hint-open-link
+     "c" 'link-hint-copy-link)
+
     (general-define-key
      :keymaps '(normal visual)
      :prefix "g SPC"
@@ -767,13 +773,9 @@
 
   (use-package link-hint
     :commands (link-hint-open-link link-hint-copy-link)
+      
     :config
-    (general-define-key
-     :prefix "C-x / l"
-     ;; application spefic binding 
-     "o" 'link-hint-open-link
-     "c" 'link-hint-copy-link
-    (message "link-hint ready ✔")))
+     (message "link-hint ready ✔"))
 #+end_src
 
 ** Order-less
