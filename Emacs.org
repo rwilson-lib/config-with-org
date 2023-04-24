@@ -228,53 +228,38 @@
 
 ** Dried
 #+begin_src emacs-lisp
-  ;;;###autoload
-  (defun ora-dired-rsync (dest)
-    (interactive
-     (list
-      (expand-file-name
-       (read-file-name
-        "Rsync to:"
-        (dired-dwim-target-directory)))))
-    ;; store all selected files into "files" list
-    (let ((files (dired-get-marked-files
-                  nil current-prefix-arg))
-          ;; the rsync command
-          (tmtxt/rsync-command
-           "rsync -arvz --progress "))
-      ;; add all selected file names as arguments
-      ;; to the rsync command
-      (dolist (file files)
-        (setq tmtxt/rsync-command
-              (concat tmtxt/rsync-command
-                      (shell-quote-argument file)
-                      " ")))
-      ;; append the destination
-      (setq tmtxt/rsync-command
-            (concat tmtxt/rsync-command
-                    (shell-quote-argument dest)))
-      ;; run the async shell command
-      (async-shell-command tmtxt/rsync-command "*rsync*")
-      ;; finally, switch to that window
-      (other-window 1)))
 
   (use-package dired
     :ensure nil
     :hook (dired-mode . (lambda ()
-                             ;; Set dired-x buffer-local variables here.  For example:
-                             ;; (dired-omit-mode 1)
-                             (setq-local truncate-lines t)
-                             (define-key dired-mode-map (kbd "C-c C-x c")
-                               (lambda ()
-                                 (interactive)
-                                 (let ((org-attach-method 'cp))
-                                   (call-interactively #'org-attach-dired-to-subtree))))))
+			  ;; Set dired-x buffer-local variables here.  For example:
+			  ;; (dired-omit-mode 1)
+			  (setq-local truncate-lines t)
+			  (define-key dired-mode-map (kbd "C-c C-x c")
+				      (lambda ()
+					(interactive)
+					(let ((org-attach-method 'cp))
+					  (call-interactively #'org-attach-dired-to-subtree))))))
 
     :bind ((:map dired-mode-map
-                 ("Y" . ora-dired-rsync)))
+		 ("Y" . ora-dired-rsync)))
+
     :config
     (setq dired-dwim-target t
-          dired-listing-switches "-alh"))
+	  dired-listing-switches "-alh"))
+
+
+  (use-package dired-x
+    :after dired
+    :ensure nil
+    :demand t
+    :config
+    (setq auto-mode-alist (cons '("[^/]\\.dired$" . dired-virtual-mode)
+				auto-mode-alist)))
+  (use-package dired-transient-rsync
+    :after dired
+    :bind (:map dired-mode-map
+		("C-c C-x" . dired-rsync-transient)))
 #+end_src
 ** Shell
 #+begin_src emacs-lisp
