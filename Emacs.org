@@ -2593,10 +2593,6 @@
 	    ("mw" "Weight" table-line (file+headline "~/org/beorg/org/Metrics.org" "Weight")
 	     "| %U | %^{Weight} | %^{Notes} |" :kill-buffer t)))
     (message "org ready ✔"))
-
-  ;; (define-key global-map (kbd "C-c j")
-  ;;   (lambda () (interactive) (org-capture nil "jj")))
-  ;; (efs/org-font-setup))
 #+end_src
 ** Org-Agenda
 #+begin_src emacs-lisp
