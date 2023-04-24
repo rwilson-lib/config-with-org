@@ -956,11 +956,6 @@
     :config
     (message "treemacs-projectile ready"))
 
-  (use-package treemacs-projectile
-    :after (treemacs projectile)
-    :config
-    (message "treemacs-projectile ready"))
-
   (use-package treemacs-magit
     :after (treemacs magit)
     :config
