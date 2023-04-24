@@ -622,7 +622,6 @@
 
 
 
-
 ** Avy-flycheck
 #+begin_src emacs-lisp :tangle no 
   (use-package avy-flycheck
@@ -643,7 +642,6 @@
 #+begin_src emacs-lisp
   (use-package smartparens)
 #+end_src
-
 
 
 ** Evil-Text Object
