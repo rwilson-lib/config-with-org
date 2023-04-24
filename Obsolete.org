@@ -677,6 +677,44 @@
   ;;  :ensure t
   ;;  :config (treemacs-set-scope-type 'Perspectives))
 #+end_src
+
+** Projectile
+#+begin_src emacs-lisp :tangle no 
+  (use-package treemacs-projectile
+    :after (treemacs projectile)
+    :config
+    (message "treemacs-projectile ready"))
+
+
+  (use-package projectile
+    ;; :diminish projectile-mode
+    :config
+    (projectile-register-project-type 'django '("manage.py")
+				      :project-file "manage.py"
+				      :compile "python manage.py runserver"
+				      :test "npm test"
+				      :run "python manage.py runserver"
+				      :test-suffix ".py")
+    (projectile-mode t)
+    :custom ((projectile-completion-system 'default))
+    :bind-keymap
+    ("C-c p" . projectile-command-map)
+    :bind ((:map projectile-command-map
+		 ("p" . consult-projectile-switch-project)
+		 ("f" . consult-projectile-find-file)
+		 ("e" . consult-projectile-recentf)
+		 ("d" . consult-projectile-find-dir)))
+    :init
+    (when (file-directory-p "~/Projects")
+      (setq projectile-project-search-path '("~/Projects")))
+    (setq projectile-switch-project-action
+	  '(lambda ()
+	     (consult-grep))))
+
+  (use-package consult-projectile
+    :after (consult projectile))
+#+end_src
+
 ** Rsync
 #+begin_src emacs-lisp
     ;;;###autoload
