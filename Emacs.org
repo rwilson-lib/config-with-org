@@ -595,8 +595,8 @@
   (defun my/move-to-middle ()
     (interactive)
     (let* ((begin (line-beginning-position))
-           (end (line-end-position))
-           (middle (/ (+ end begin) 2)))
+	   (end (line-end-position))
+	   (middle (/ (+ end begin) 2)))
       (goto-char middle)))
 
   (use-package general
