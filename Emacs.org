@@ -39,17 +39,19 @@
     (package-install 'use-package)))
 
   (require 'use-package)
-
   (setq use-package-always-ensure t)
+
 #+end_src
 ** Emacs
 #+begin_src emacs-lisp
   ;; A few more useful configurations...
   (use-package emacs
+
     :bind (("C-S-u" . universal-argument)
 	   ("C-r" . recursive-edit)
 	   ("<f12>" . tmm-menubar)
 	   ("C-x |" . display-fill-column-indicator-mode)
+	   ("C-." . context-menu-open)
 	   ("s-<up>" . scroll-other-window)
 	   ("s-<down>" . scroll-other-window-down))
 
