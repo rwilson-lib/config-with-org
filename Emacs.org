@@ -362,31 +362,19 @@
      ((eq evil-state 'normal) (keyboard-quit))
      (t (evil-force-normal-state))))
 
-  (defun tab-bar-switch-to-next-tab-m()
-    (interactive)
-    (if (equal current-prefix-arg nil) ; no C-u
-        (tab-bar-switch-to-next-tab)
-      (tab-bar-select-tab current-prefix-arg)))
-
-  (defun tab-bar-switch-to-prev-tab-m()
-    (interactive)
-    (if (equal current-prefix-arg nil) ; no C-u
-        (tab-bar-switch-to-prev-tab)
-      (tab-bar-select-tab current-prefix-arg)))
-
   (use-package evil
     :demand t 
 
     :bind ((:map evil-normal-state-map
-                 ("<escape>" . custom/force-normal-state-or-exit)))
+		 ("<escape>" . custom/force-normal-state-or-exit)))
 
     :init
     (setq evil-want-C-i-jump nil
-          evil-want-C-u-delete t
-          evil-want-C-u-scroll t
-          evil-want-C-w-in-emacs-state t
-          evil-want-integration t
-          evil-want-keybinding nil)
+	  evil-want-C-u-delete t
+	  evil-want-C-u-scroll t
+	  evil-want-C-w-in-emacs-state t
+	  evil-want-integration t
+	  evil-want-keybinding nil)
 
     ;; (setq evil-disable-insert-state-bindings t)
 
@@ -395,124 +383,9 @@
 
     :config
     (setq evil-ex-search-case "insensitive"
-          evil-auto-balance-w nil)
+	  evil-auto-balance-w nil)
 
-    (evil-define-command evil-delete-buffer-m (count)
-      "Deletes the current window.
-             If `evil-auto-balance-windows' is non-nil then all children of
-             the deleted window's parent window are rebalanced."
-      :repeat nil
-      (interactive "<c>")
-      (let ((p (window-parent)))
-        (if (not count)
-            (evil-delete-buffer (current-buffer))
-          (if (winum-get-window-by-number count)
-              (evil-delete-buffer (window-buffer (winum-get-window-by-number count)))
-            (message "window does not exist")))
-        (when evil-auto-balance-windows
-          ;; balance-windows raises an error if the parent does not have
-          ;; any further children (then rebalancing is not necessary anyway)
-          (condition-case nil
-              (balance-windows p)
-            (error)))))
 
-    (evil-define-command evil-window-exchange-m (count)
-      "Without COUNT: exchange current window with next one.
-      With COUNT: Exchange current window with COUNTth window."
-      :repeat nil
-      (interactive "<c>")
-      (let ((this-buffer (window-buffer))
-            (this-window (selected-window))
-            other-buffer other-window)
-        (if (not count)
-            (setq other-buffer (window-buffer (next-window))
-                  other-window (next-window))
-          (save-window-excursion
-            (evil-window-next count)
-            (setq other-buffer (window-buffer)
-                  other-window (selected-window))))
-        (switch-to-buffer other-buffer nil t)
-        (select-window other-window)
-        (switch-to-buffer this-buffer nil t)
-        (select-window this-window)))
-
-    (evil-define-command evil-window-delete-m (&optional count)
-      "Deletes the current window.
-             If `evil-auto-balance-windows' is non-nil then all children of
-             the deleted window's parent window are rebalanced."
-      :repeat nil
-      (interactive "<c>")
-      (let ((p (window-parent)))
-        (if (not count)
-            (delete-window)
-          (if (winum-get-window-by-number count)
-              (delete-window(winum-get-window-by-number count))
-            (message "cant delete window")))
-        (when evil-auto-balance-windows
-          ;; balance-windows raises an error if the parent does not have
-          ;; any further children (then rebalancing is not necessary anyway)
-          (condition-case nil
-              (balance-windows p)
-            (error)))))
-
-    (evil-define-command evil-sfind (file)
-      "Open FILE in a split"
-      (interactive "<f>")
-      (find-file-other-window file))
-
-    (evil-define-command evil-tabedit (file)
-      "Open FILE in a new tab"
-      (interactive "<f>")
-      (find-file-other-tab file))
-
-    (evil-define-operator evil-write-delete-buffer (beg end type file-or-append &optional bang)
-      "Save the current buffer, from BEG to END, to FILE-OR-APPEND.
-            If FILE-OR-APPEND is of the form \" FILE\", append to FILE
-            instead of overwriting.  The current buffer's filename is not
-            changed unless it has no associated file and no region is
-            specified.  If the file already exists and the BANG argument is
-            non-nil, it is overwritten without confirmation."
-      :motion nil
-      :move-point nil
-      :type line
-      :repeat nil
-      (interactive "<R><fsh><!>")
-      (let* ((append-and-filename (evil-extract-append file-or-append))
-             (append (car append-and-filename))
-             (filename (cdr append-and-filename))
-             (bufname (buffer-file-name (buffer-base-buffer))))
-        (when (zerop (length filename))
-          (setq filename bufname))
-        (cond
-         ((zerop (length filename))
-          (user-error "Please specify a file name for the buffer"))
-         ;; execute command on region
-         ((eq (aref filename 0) ?!)
-          (shell-command-on-region beg end (substring filename 1)))
-         ;; with region or append, always save to file without resetting
-         ;; modified flag
-         ((or append (and beg end))
-          (write-region beg end filename append nil nil (not (or append bang))))
-         ;; no current file
-         ((null bufname)
-          (write-file filename (not bang)))
-         ;; save current buffer to its file
-         ((string= filename bufname)
-          (if (not bang) (save-buffer) (write-file filename)))
-         ;; save to another file
-         (t
-          (write-region nil nil filename
-                        nil (not bufname) nil
-                        (not bang))))))
-
-    (evil-ex-define-cmd "wd[elete]" 'evil-write-delete-buffer)
-    (evil-ex-define-cmd "sf[ind]" 'evil-sfind)
-    (evil-ex-define-cmd "tabedit" 'evil-tabedit)
-
-    ;; example how to map a command in normal mode (called 'normal state' in evil)
-    (define-key evil-normal-state-map (kbd "z <return>") 'enlarge-window)
-    (define-key evil-normal-state-map (kbd "g t") 'tab-bar-switch-to-next-tab-m)
-    (define-key evil-normal-state-map (kbd "g T") 'tab-bar-switch-to-prev-tab-m)
     (evil-mode 1)
     (message "Done Loading Evil"))
 
