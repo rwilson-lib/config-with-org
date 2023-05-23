@@ -1290,8 +1290,8 @@
 			 (electric-pair-local-mode)
 			 (rainbow-delimiters-mode)
 			 (display-line-numbers-mode 1)
-			 (flycheck-mode)	; linting
-			 (yas-minor-mode)))	; snippet
+			 (yas-minor-mode)
+			 (flycheck-mode)))	
     :config
     (setq-local visual-fill-column-width 100
 		visual-fill-column-center-text t)
@@ -1300,7 +1300,6 @@
 ** Snippet
 #+begin_src emacs-lisp
   (use-package yasnippet
-    :defer 2
     :hook
     (yas-minor-mode . (lambda ()
 			(define-key yas-minor-mode-map (kbd "<tab>") nil)
