@@ -1400,6 +1400,9 @@
 	    ("ctemplate" . "realtimecrm/.*\\.html\\'"))))
 
   (use-package markdown-mode
+    :ensure-system-package
+    (multimarkdown . multimarkdown)
+    
     :commands (markdown-mode gfm-mode)
     :mode (("README\\.md\\'" . gfm-mode)
 	   ("\\.md\\'" . markdown-mode)
