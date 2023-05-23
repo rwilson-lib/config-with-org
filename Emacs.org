@@ -68,6 +68,8 @@
     (setq inhibit-startup-message t
 	  show-paren-context-when-offscreen 'overlay)
 
+    (ffap-bindings) ;; enable thing-at-point binding
+
     ;; (menu-bar-mode 1)
     (scroll-bar-mode -1)
     (tool-bar-mode -1)
@@ -77,6 +79,7 @@
     (column-number-mode)
     ;; enabled scroll left with C-x 
     (put 'scroll-left 'disabled nil)
+    (context-menu-mode)			; enable context menu
 
     ;; Add prompt indicator to `completing-read-multiple'.
     ;; Alternatively try `consult-completing-read-multiple'.
@@ -362,14 +365,7 @@
       :config
       (message "try ready ✔"))
 #+end_src
-** FFAP
-#+begin_src emacs-lisp
-  (use-package ffap
-    :ensure nil
-    :defer 3
     :config
-    (ffap-bindings)
-    (message "ffap loaded! ✔"))
 #+end_src
 * Key Binding
 ** Evil
