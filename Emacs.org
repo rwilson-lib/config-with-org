@@ -439,12 +439,6 @@
       ("s" mpc-stop "stop")
       (">" mpc-next "next")
       ("<" mpc-prev "previous")
-      ("<escape>" nil "finish"))
-
-    (defhydra hydra-aya (:timeout 4)
-      "aya"
-      ("c" aya-create "aya create")
-      ("e" aya-expand "aya expand")
       ("<escape>" nil "finish")))
 #+end_src
 ** General
