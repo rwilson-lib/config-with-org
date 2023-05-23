@@ -726,17 +726,23 @@
   (recentf-mode 1)
 
   ;; Remeber window layout
-  (winner-mode)
-
-  ;; Emacs remeber cursor last position
-  (save-place-mode 1)
-
-  ;; Emacs remeber input history
-  (use-package savehist
+  (use-package winner
+    :ensure nil
     :init
-    (savehist-mode)
-    :config
-    (setq history-length 150))
+    (winner-mode)
+    :bind
+    (("s-<right>" . winner-redo)         
+     ("s-<left>" . winner-undo)))
+
+    ;; Emacs remeber cursor last position
+    (save-place-mode 1)
+
+    ;; Emacs remeber input history
+    (use-package savehist
+      :init
+      (savehist-mode)
+      :config
+      (setq history-length 150))
 
 #+end_src
 ** Marginalia
