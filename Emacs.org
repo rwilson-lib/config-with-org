@@ -418,8 +418,7 @@
   (add-hook 'text-mode-hook
 	    (lambda () (evil-surround-mode)
 	      (evil-matchit-mode)))
-
-  (evil-set-initial-state 'mu4e 'emacs)
+  
 #+end_src
 ** Hydra
 #+begin_src emacs-lisp
