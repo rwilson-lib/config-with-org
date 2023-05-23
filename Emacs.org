@@ -348,12 +348,10 @@
 #+end_src
 ** Try
 #+begin_src emacs-lisp
-    (use-package try
-      :disabled
-      :config
-      (message "try ready ✔"))
-#+end_src
+  (use-package try
+    :disabled
     :config
+    (message "try ready ✔"))
 #+end_src
 * Key Binding
 ** Evil
