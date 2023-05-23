@@ -1705,24 +1705,6 @@
   :config
   (message "gnuplot mode loaded"))
 #+end_src
-** Ledger
-#+begin_src emacs-lisp
-(use-package hledger-mode
-:disabled
-
-;; To open files with .journal extension in hledger-mode
-:mode ("\\.journal\\'" . hledger-mode)
-:config
-
-;; Provide the path to you journal file.
-;; The default location is too opinionated.
-;; (setq hledger-jfile "/path/to/your/journal-file.journal")
-
-;; Auto-completion for account names
-;; For company-mode users,
-(add-to-list 'company-backends 'hledger-company)
-(message "hledger loaded  ✔"))
-#+end_src
 * Writing
 ** Grammar 
 #+begin_src emacs-lisp
@@ -2916,3 +2898,57 @@
     (message "CRDT ready ✔"))
 #+end_src
 
+** Whisper
+#+begin_src emacs-lisp
+  ;; https://github.com/natrys/whisper.el 
+#+end_src
+
+** Ledger
+#+begin_src emacs-lisp
+(use-package hledger-mode
+:disabled
+
+;; To open files with .journal extension in hledger-mode
+:mode ("\\.journal\\'" . hledger-mode)
+:config
+
+;; Provide the path to you journal file.
+;; The default location is too opinionated.
+;; (setq hledger-jfile "/path/to/your/journal-file.journal")
+
+;; Auto-completion for account names
+;; For company-mode users,
+(add-to-list 'company-backends 'hledger-company)
+(message "hledger loaded  ✔"))
+#+end_src
+
+** Docker
+#+begin_src emacs-lisp
+  (use-package docker
+    :defer 5
+    :config
+    (message "docker loaded ✔"))
+#+end_src
+* Personal
+#+begin_src emacs-lisp
+  (use-package flycheck-ruff
+    :ensure nil
+    :after flycheck
+    :init
+    (unless (package-installed-p 'flycheck-ruff)
+      (package-vc-install "https://github.com/rwilson-lib/flycheck-ruff")))
+
+
+  (use-package ol-media
+    :ensure nil
+    :after org
+    :init
+    (unless (package-installed-p 'ol-media)
+      (package-vc-install "https://github.com/rwilson-lib/ol-media")))
+
+  (use-package my-emacs-extensions
+    :ensure nil
+    :init
+    (unless (package-installed-p 'my-emacs-extensions)
+      (package-vc-install "https://github.com/rwilson-lib/my-emacs-extensions.git")))
+#+end_src
