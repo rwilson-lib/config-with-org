@@ -510,8 +510,11 @@
     (message "visual-regexp loaded! ✔"))
 
   (use-package fancy-narrow
-    :config
+    :bind ((:map fancy-narrow-mode-map
+		 ("C-x n d" . fancy-narrow-defun)))
+    :init
     (fancy-narrow-mode)
+    :config
     (message "fancy-narrow loaded! ✔"))
 #+end_srC
 ** Toggle Line Number
