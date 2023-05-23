@@ -1310,22 +1310,15 @@
 			;; will still call 'self-insert-command' otherwise).
 			(define-key yas-minor-mode-map (kbd "SPC") yas-maybe-expand)
 			;; Bind `C-c y' to 'yas-expand' ONLY.
-			(define-key yas-minor-mode-map (kbd "C-c y") #'yas-expand)))
-    ;; (yas-activate-extra-mode 'fundamental-mode)))
-    ;; (add-to-list 'yas-snippet-dirs "~/.emacs.d/snippets")
-    :config
-    (message "yasnippet loaded  ✔"))
-  
-  ;; :hook
-  ;; (org-mode . (lambda () 
-  ;;               (setq-local yas-buffer-local-condition
-  ;;                           '(not (org-in-src-block-p t)))))
-  ;; (yas-global-mode 1))
+			(define-key yas-minor-mode-map
+				    (kbd "C-c y") #'yas-expand))))
+
 
   (use-package yasnippet-snippets
-    :after yasnippet
+    :defer 1
     :config
-    (message "yasnippet snippets loaded  ✔"))
+    (message "yasnippet loaded  ✔"))
+
 
   (use-package auto-yasnippet
     :commands (aya-create
