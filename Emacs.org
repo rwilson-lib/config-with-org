@@ -2638,9 +2638,9 @@
 ** Org Pandoc
 #+begin_src emacs-lisp
   (use-package ox-pandoc
-      :after org
-      :config
-      (message "Ox Pandoc ready ✔"))
+    :after org
+    :config
+    (message "Ox Pandoc ready ✔"))
 #+end_src
 * Pretty Symbols
 ** Org Symbols
