@@ -2770,10 +2770,9 @@
     (message "consult-org roam loaded  ✔"))
 #+end_src
 * Media
-** Vuiet  
+** Vuiet 
 #+begin_src emacs-lisp
   (use-package  vuiet
-    :disabled
     :requires lastfm
     :config
 
@@ -2791,7 +2790,6 @@
 #+begin_src emacs-lisp
   (use-package mpc
     :commands (mpc)
-    :disabled
     :config
     (message "mpc loaded  ✔"))
 #+end_src
