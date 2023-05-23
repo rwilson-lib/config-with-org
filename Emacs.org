@@ -236,35 +236,23 @@
 
   (use-package dired
     :ensure nil
-    :hook (dired-mode . (lambda ()
-			  ;; Set dired-x buffer-local variables here.  For example:
-			  ;; (dired-omit-mode 1)
-			  (setq-local truncate-lines t)
-			  (define-key dired-mode-map (kbd "C-c C-x c")
-				      (lambda ()
-					(interactive)
-					(let ((org-attach-method 'cp))
-					  (call-interactively #'org-attach-dired-to-subtree))))))
-
-    :bind ((:map dired-mode-map
-		 ("Y" . ora-dired-rsync)))
+    :bind (("C-x d" . dired)
+	   (:map dired-mode-map 
+		 ("C-c C-x c" . (lambda ()
+				  (interactive)
+				  (let ((org-attach-method 'cp))
+				    (call-interactively #'org-attach-dired-to-subtree))))))
 
     :config
+    (setq-local truncate-lines t)
     (setq dired-dwim-target t
-	  dired-listing-switches "-alh"))
-
-
-  (use-package dired-x
-    :after dired
-    :ensure nil
-    :demand t
-    :config
+	  dired-listing-switches "-alh")
     (setq auto-mode-alist (cons '("[^/]\\.dired$" . dired-virtual-mode)
 				auto-mode-alist)))
-  (use-package dired-transient-rsync
-    :after dired
-    :bind (:map dired-mode-map
-		("C-c C-x" . dired-rsync-transient)))
+
+  (use-package dired-rsync-transient
+    :commands (dired-rsync)
+    :after dired)
 #+end_src
 ** Shell
 #+begin_src emacs-lisp
