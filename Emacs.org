@@ -520,22 +520,28 @@
   (defun toggle-line-number()
     (interactive)
     (if (equal current-prefix-arg nil) ; no C-u
-        (acase display-line-numbers-type
-          ('t (menu-bar--display-line-numbers-mode-relative))
-          ('nil (menu-bar--display-line-numbers-mode-relative))
-          ('visual (menu-bar--display-line-numbers-mode-relative))
-          ('relative (menu-bar--display-line-numbers-mode-absolute)))
+	(cond ((eq display-line-numbers-type 't)
+	       (menu-bar--display-line-numbers-mode-relative))
+	      ((eq display-line-numbers-type 'nil)
+	       (menu-bar--display-line-numbers-mode-relative))
+	      ((eq display-line-numbers-type 'visual)
+	       (menu-bar--display-line-numbers-mode-relative))
+	      ((eq display-line-numbers-type 'relative)
+	       (menu-bar--display-line-numbers-mode-absolute)))
       (menu-bar--display-line-numbers-mode-none)))
 #+end_src
 ** All Icons
 #+begin_src emacs-lisp
   (use-package all-the-icons
-
+    :disabled
     :hook (after-init . all-the-icons-completion-mode)
     :hook (marginalia-mode . all-the-icons-completion-marginalia-setup)
 
     :config
-    (use-package all-the-icons-completion :after all-the-icons))
+    (use-package all-the-icons-completion :after all-the-icons)
+    (use-package treemacs-all-the-icons
+      :config
+      (treemacs-load-theme "all-the-icons")))
 #+end_src
 
 ** Themes and Mode-line
@@ -544,8 +550,6 @@
 	display-time-24hr-format t)
 
   (display-time)
-
-  (use-package sculpture-themes) 
 
   (use-package modus-themes
     :ensure nil
