@@ -2509,53 +2509,44 @@
 #+end_src
 ** Org Babel 
 #+begin_src emacs-lisp
-  (use-package ob-napkin
-    :after ob
-    :config
-    (add-to-list 'org-src-lang-modes '("napkin-puml" . plantuml))
-    (message "ob-napkin ready ✔"))
+    (use-package ob-napkin
+      :after ob
+      :config
+      (add-to-list 'org-src-lang-modes '("napkin-puml" . plantuml))
+      (message "ob-napkin ready ✔"))
 
-  (use-package ob-sql-mode
-    :ensure nil
-    :after ob
-    ;; :init (require 'ob-sql-mode)
-    :config
-    (setq org-confirm-babel-evaluate
-	  (lambda (lang body)
-	    (not (string= lang "sql-mode"))))
-    (message "ob-sql ready ✔"))
+    (use-package ob-restclient
+      :after ob
+      :config
+      (add-to-list 'org-src-lang-modes '("restclient" . restclient))
+      (message "ob-restclient ready ✔"))
 
-  (use-package ob-restclient
-    :after ob
-    :config
-    (add-to-list 'org-src-lang-modes '("restclient" . restclient))
-    (message "ob-restclient ready ✔"))
-
-  (use-package ob
-    :ensure nil
-    :hook (org-babel-after-execute . org-redisplay-inline-images)
-    :config (progn
-	      ;; load more languages for org-babel
-	      (org-babel-do-load-languages
-	       'org-babel-load-languages
-	       '((C . t)
-		 (R . t)
-		 (lua . t)
-		 (sqlite . t)
-		 (shell . t)
-		 (julia . t)
-		 (latex . t)
-		 (python . t)
-		 (gnuplot . t)
-		 (plantuml . t)
-		 (restclient . t)
-		 (emacs-lisp . t)
-		 (jupyter . t)))
-	      ;; (setq org-babel-default-header-args:sh    '((:results . "output replace"))
-	      ;;       org-babel-default-header-args:bash  '((:results . "output replace"))
-	      ;;       org-babel-default-header-args:shell '((:results . "output replace"))
-	      ;;       org-babel-default-header-args:python '((:results . "output replace")))
-	      (add-to-list 'org-src-lang-modes (quote ("plantuml" . plantuml)))))
+    (use-package ob
+      :ensure nil
+      :hook (org-babel-after-execute . org-redisplay-inline-images)
+      :config (progn
+		;; load more languages for org-babel
+		(org-babel-do-load-languages
+		 'org-babel-load-languages
+		 '((R . t)
+		   ;; (C . t)
+		   ;; (lua . t)
+		   (sql . t)
+		   (sqlite . t)
+		   (shell . t)
+		   ;; (julia . t)
+		   (latex . t)
+		   (python . t)
+		   (gnuplot . t)
+		   (plantuml . t)
+		   (restclient . t)
+		   (emacs-lisp . t)
+		   (jupyter . t)))
+		;; (setq org-babel-default-header-args:sh    '((:results . "output replace"))
+		;;       org-babel-default-header-args:bash  '((:results . "output replace"))
+		;;       org-babel-default-header-args:shell '((:results . "output replace"))
+		;;       org-babel-default-header-args:python '((:results . "output replace")))
+		(add-to-list 'org-src-lang-modes (quote ("plantuml" . plantuml)))))
 #+end_src
 
 ** Org Tempo
