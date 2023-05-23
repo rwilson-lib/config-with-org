@@ -800,12 +800,7 @@
 ** Tree-Macs
 #+begin_src emacs-lisp
   (use-package treemacs
-    :commands (treemacs)
-    :config
-    (use-package treemacs-all-the-icons
-      :config
-      (treemacs-load-theme "all-the-icons"))
-    (message "treemacs loaded"))
+    :commands (treemacs))
 
   (use-package treemacs-icons-dired
     :after (treemacs dired)
@@ -957,9 +952,9 @@
      "f"  'make-frame
      "N"  'evil-buffer-new
      "m"  'evil-window-exchange
-     "x"  'evil-window-exchange-m
-     "d"  'evil-delete-buffer-m
-     "c"  'evil-window-delete-m
+     "x"  'evil-window-exchange
+     "d"  'evil-delete-buffer 
+     "c"  'evil-window-delete
      "t"  'tab-bar-move-window-to-tab
      "C"  'tab-close
      "SPC" 'custom/display-buffer-at-bottom
@@ -1010,9 +1005,6 @@
 #+begin_src emacs-lisp
   (use-package vterm
     :commands (vterm)
-    :hook
-    (vterm-mode . (lambda () 
-                    (setq-local mode-line-format nil)))
     :config
     (setq vterm-shell "/usr/local/bin/tmux")
     (setq vterm-max-scrollback 1000))
