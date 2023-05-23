@@ -578,13 +578,13 @@
 	    (t . (semilight 1.1))))
     :bind ("<f5>" . modus-themes-toggle))
 
-  (load-theme 'sculpture-themes-light t)
+  (load-theme 'leuven t)
 #+End_src
 *** Doom Modeline
 #+begin_src emacs-lisp
     (use-package doom-modeline
+      :commands (doom-modeline-mode)
       :hook (after-init . doom-modeline-mode)
-
       :custom    
       (doom-modeline-height 25)
       (doom-modeline-bar-width 1)
