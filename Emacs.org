@@ -2216,7 +2216,7 @@
   (use-package org-msg
     :defer 3
     :after mu4e
-    :hook (message-mode lambda ()
+    :hook (org-msg-mode lambda ()
 			(auto-fill-mode)
 			(org-msg-mode)
 			(flyspell-mode))
