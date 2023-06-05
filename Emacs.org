@@ -479,6 +479,12 @@
      :prefix "g SPC"
      "x" (general-simulate-key "C-c C-c"))
 
+
+    (general-define-key
+     :keymaps '(transient-base-map)
+     "<escape>" 'transient-quit-one)
+
+
     (general-define-key
      :keymaps '(normal insert visual emacs)
      :prefix "C-x"
