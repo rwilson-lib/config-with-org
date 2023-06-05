@@ -459,8 +459,8 @@
       "g \\" 'toggle-line-number
       "g m" 'my/move-to-middle
       "; ;" 'evil-buffer
-      "SPC f" 'find-file
-      "SPC F" 'find-file-other-window
+      ;; "SPC f" 'find-file
+      ;; "SPC F" 'find-file-other-window
       "SPC b" 'consult-buffer
       "SPC B" 'consult-buffer-other-window
       "SPC SPC" 'execute-extended-command
