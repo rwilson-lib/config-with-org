@@ -1016,7 +1016,6 @@
 ** Vterm
 #+begin_src emacs-lisp
   (use-package vterm
-    :commands (vterm)
     :config
     (setq vterm-shell "/usr/local/bin/tmux")
     (setq vterm-max-scrollback 1000))
