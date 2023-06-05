@@ -54,7 +54,7 @@
 	   ("C-." . context-menu-open)
 	   ("s-<up>" . scroll-other-window)
 	   ("s-<down>" . scroll-other-window-down))
-
+    
     :hook (xwidget-webkit-mode . (lambda ()
 				   (goto-address-mode 0 )))
 
@@ -124,7 +124,7 @@
     ;; Do not use system clip board
     ;; (setq x-select-enable-clipboard nil)
     ;; Treat clipboard input as UTF-8 string first; compound text next, etc.
-  (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
+    (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
 
     ;; Backups
     (setq backup-directory-alist '(("." . "~/.emacs.d/backup-dir")))
@@ -143,9 +143,9 @@
 
     ;; Enable recursive minibuffers
     (setq enable-recursive-minibuffers t)
-  :if (treesit-available-p) 		; check if Emacs is built with tree-sitter library
-  :config
-  (setq treesit-extra-load-path '("~/.lib/tree-sitter-langs/")))
+    :if (treesit-available-p) 		; check if Emacs is built with tree-sitter library
+    :config
+    (setq treesit-extra-load-path '("~/.lib/tree-sitter-langs/")))
 #+end_src
 
 ** Font and Windows
@@ -154,7 +154,7 @@
   (set-frame-parameter nil 'alpha-background 90)
   ;; For all new frames henceforth
   (add-to-list 'default-frame-alist '(alpha-background . 90)) 
-  
+
   (defun delete-other-windows-advice (function &rest args)
     (if current-prefix-arg
 	(if (winum-get-window-by-number current-prefix-arg)
@@ -195,12 +195,13 @@
      split-width-threshold 0
      split-height-threshold nil)
     :custom
+
     (display-buffer-alist '(("\\*\\(e?shell\\|vterm\\|Python\\)\\*"
 			     (display-buffer-in-side-window)
 			     (window-height . 0.25)
 			     (side . bottom)
-			     ;; (window-parameters . ((mode-line-format . ("" "%b"))))
-			     (slot . -1))
+			     (slot . -1)
+			     (window-parameters (mode-line-format . none)))
 
 			    ;; ;;[Hh]elp
 			    ;; ("\\*help" 
@@ -438,6 +439,7 @@
       (">" mpc-next "next")
       ("<" mpc-prev "previous")
       ("<escape>" nil "finish")))
+      
 #+end_src
 ** General
 #+begin_src emacs-lisp
