@@ -2882,6 +2882,9 @@
 ** CRDT
 #+begin_src emacs-lisp
   (use-package crdt
+    :ensure-system-package
+    (tuntox . tuntox)
+
     :commands (crdt-list-sessions
 	       crdt-list-users
 	       crdt-list-buffers
