@@ -1119,6 +1119,12 @@
      "." 'websearch-point)
     (message "websearch ready ✔"))
 #+end_src
+** Ripgreg
+#+begin_src emacs-lisp
+  (use-package rg
+    :defer 5
+    :ensure-system-package rg)
+#+end_src
 * Version Control
 ** Magit
 #+begin_src emacs-lisp
