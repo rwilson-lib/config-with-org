@@ -2583,12 +2583,13 @@
 ** Org Alert
 #+begin_src emacs-lisp
   (use-package org-alert
+    :ensure-system-package terminal-notifier
     :custom (alert-default-style 'notifications)
     ;; :custom (alert-default-style 'fringe)
     :after (org alert)
     :config
     (setq org-alert-interval 300
-          org-alert-notification-title "Org Alert Reminder")
+	  org-alert-notification-title "Org Alert Reminder")
     (org-alert-enable)
     (message "org-alert ready ✔"))
 #+end_src
@@ -2617,6 +2618,8 @@
 ** Org Pandoc
 #+begin_src emacs-lisp
   (use-package ox-pandoc
+    :ensure-system-package
+    (pandoc . pandoc)
     :after org
     :config
     (message "Ox Pandoc ready ✔"))
@@ -2768,6 +2771,11 @@
 ** MPC
 #+begin_src emacs-lisp
   (use-package mpc
+    :ensure-system-package
+    (mpd . mpd)
+    (mpc . mpc)
+    (ncmpcpp . ncmpcpp)
+
     :commands (mpc)
     :config
     (message "mpc loaded  ✔"))
@@ -2775,6 +2783,8 @@
 ** MPV
 #+begin_src emacs-lisp
   (use-package mpv
+    :ensure-system-package
+    (mpv . mpv)
     :commands (mpv-start mpv-play mpv-play-url)
     :config
     (message "mpv loaded  ✔"))
