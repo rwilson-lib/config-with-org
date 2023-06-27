@@ -2911,21 +2911,23 @@
 
 ** Ledger
 #+begin_src emacs-lisp
-(use-package hledger-mode
-:disabled
+  (use-package hledger-mode
+    :disabled
+    :ensure-system-package
+    (hledger . hledger)
 
-;; To open files with .journal extension in hledger-mode
-:mode ("\\.journal\\'" . hledger-mode)
-:config
+    ;; To open files with .journal extension in hledger-mode
+    :mode ("\\.journal\\'" . hledger-mode)
+    :config
 
-;; Provide the path to you journal file.
-;; The default location is too opinionated.
-;; (setq hledger-jfile "/path/to/your/journal-file.journal")
+    ;; Provide the path to you journal file.
+    ;; The default location is too opinionated.
+    ;; (setq hledger-jfile "/path/to/your/journal-file.journal")
 
-;; Auto-completion for account names
-;; For company-mode users,
-(add-to-list 'company-backends 'hledger-company)
-(message "hledger loaded  ✔"))
+    ;; Auto-completion for account names
+    ;; For company-mode users,
+    (add-to-list 'company-backends 'hledger-company)
+    (message "hledger loaded  ✔"))
 #+end_src
 
 ** Docker
