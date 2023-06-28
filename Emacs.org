@@ -2584,6 +2584,7 @@
 ** Org Present
 #+begin_src emacs-lisp
   (use-package org-present
+    :commands (org-present)
     :after org
     :config
     (message "org-present loaded"))
