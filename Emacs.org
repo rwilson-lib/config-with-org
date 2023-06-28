@@ -2614,10 +2614,10 @@
     :after org
     :config
     (org-remark-create "memorize"
-                       '(:foreground "white" :underline "black")
-                       '(CATEGORY "exam"))
+		       '(:foreground "white" :underline "black")
+		       '(CATEGORY "exam"))
     (org-remark-create "magnet"
-                       '(modus-themes-nuanced-magenta))
+		       '(modus-themes-nuanced-magenta))
     (message "org-remark ready ✔"))
 #+end_src
 ** Org Transclusion
