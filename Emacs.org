@@ -998,8 +998,7 @@
 ** Eshell
 #+begin_src emacs-lisp
   (use-package eshell
-    :defer 3
-    :commands (eshell)
+    :ensure nil
     :config
     (message "eshell loaded ✔"))
 #+end_src
@@ -1012,7 +1011,6 @@
   (advice-add 'term-handle-exit :after 'my-term-handle-exit)
 
   (use-package term
-    :commands (term)
     :config
     (setq explicit-shell-file-name "zsh")
     (setq term-prompt-regexp "^[^#$%>\n]*[#$%>] *")
