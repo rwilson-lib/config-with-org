@@ -1463,10 +1463,7 @@
 		       (make-local-variable 'js-indent-level)
 		       (setq tab-width 2)
 		       (setq js-indent-level 2))))
-
-  (use-package jsonian
-    :mode (("\\.json\\'" . jsonian-mode)))
-
+  
   ;; (require 'dap-firefox)
   ;; (require 'dap-node)
 #+end_src
