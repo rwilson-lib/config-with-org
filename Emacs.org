@@ -202,22 +202,24 @@
     :custom
 
     (display-buffer-alist '(("\\*\\(e?shell\\|vterm\\|Python\\)\\*"
+			     
 			     (display-buffer-in-side-window)
 			     (window-height . 0.25)
 			     (side . bottom)
 			     (slot . -1)
 			     (window-parameters (mode-line-format . none)))
 
+
 			    ;; ;;[Hh]elp
 			    ;; ("\\*help" 
 			    ;;  (display-buffer-reuse-window display-buffer-in-side-window)
 			    ;;  (window-width . 75))
 
-			    ("\\*\\(Backtrace\\|Warnings\\|Compile-log\\|Messages\\)\\*"
+			    ("\\*\\(Backtrace\\|Warnings\\|Flycheck errors\\|Compile-log\\|Messages\\)\\*"
 			     (display-buffer-in-side-window)
 			     (window-height . 0.25)
 			     (side . bottom)
-			     (slot . 0)))))
+			     (slot . 1)))))
   (defun efs/set-font-faces ()
     (message "Setting faces!")
     (set-face-attribute 'default nil :font "FiraCode Nerd Font" :height 168)
@@ -2284,16 +2286,17 @@
     (setq-local truncate-lines t)
     (setq-local truncate-lines t)
 
+    (setq org-hide-leading-stars t)
+
     (setq-local fill-column 80)
     (auto-fill-mode)
-    
+
     (setq-local visual-fill-column-width 100
 		visual-fill-column-center-text t)
 
     (variable-pitch-mode 1))
 
   (defun efs/org-font-setup ()
-
     ;; Replace list hyphen with dot
     ;; (font-lock-add-keywords 'org-mode
     ;; 			  '(("^ *\\([-]\\) "
@@ -2767,7 +2770,6 @@
   (use-package  vuiet
     :requires lastfm
     :config
-
     (general-define-key
      :keymaps '(vuiet-mode-map)
      :states '(normal)
