@@ -1730,14 +1730,9 @@
 #+begin_src emacs-lisp
   (add-to-list 'ispell-skip-region-alist '("#\\+begin_src" . "#\\+end_src"))
 
-  (use-package text-mode
-    :ensure nil
-    :hook (text-mode . (lambda ()
-			 (flyspell-mode))))
-
   ;; (setq-local whitespace-line-column 80)
   ;; (whitespace-mode)
-  
+
   ;; (setq-local fill-column 80)
   ;; (display-fill-column-indicator-mode 1)
 
