@@ -420,12 +420,15 @@
     :requires evil)
 
   (use-package evil-surround
-    :requires evil)
+    :requires evil
 
-  (add-hook 'text-mode-hook
-	    (lambda () (evil-surround-mode)
-	      (evil-matchit-mode)))
-  
+    :hook ((text-mode prog-mode) . (lambda ()
+				     (evil-surround-mode)
+				     (evil-matchit-mode))))
+
+
+
+
 #+end_src
 ** Hydra
 #+begin_src emacs-lisp
