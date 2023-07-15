@@ -1609,31 +1609,36 @@
   ;;   (setq sqlformat-command 'sqlformat
   ;;         sqlformat-args '("-kupper")))
 
-  (add-hook 'sql-interactive-mode-hook
-          (lambda ()
-            (toggle-truncate-lines t)))
+  (use-package sql
+    :ensure nil
+    :hook (sql-interactive-mode .
+				(lambda ()
+				  (toggle-truncate-lines t)))
 
-  (setq sql-sqlite-options '("-table"))
-(setq sql-connection-alist
-    '((pgsql-prod (sql-product 'postgres)
-		    (sql-port 5432)
-		    (sql-server "localhost")
-		    (sql-user "postgres")
-		    (sql-password "root")
-		    (sql-database ""))
-	(pgsql-staging (sql-product 'postgres)
+    :hook (sql-mode . eglot-ensure)
+
+    :config
+    (setq sql-sqlite-options '("-table"))
+    (setq sql-connection-alist
+	  '((pgsql-prod (sql-product 'postgres)
 			(sql-port 5432)
-			(sql-server "db.staging.com")
-			(sql-user "user")
-			(sql-password "password")
-			(sql-database "my-app"))
-	(mysql-dev (sql-product 'mysql)
-		    (sql-port 3306)
-		    (sql-server "localhost")
-		    (sql-user "root")
-		    (sql-password "root")
-		    (sql-mysql-options '("--protocol=tcp"))
-		    (sql-database ""))))
+			(sql-server "localhost")
+			(sql-user "postgres")
+			(sql-password "root")
+			(sql-database ""))
+	    (pgsql-staging (sql-product 'postgres)
+			   (sql-port 5432)
+			   (sql-server "db.staging.com")
+			   (sql-user "user")
+			   (sql-password "password")
+			   (sql-database "my-app"))
+	    (mysql-dev (sql-product 'mysql)
+		       (sql-port 3306)
+		       (sql-server "localhost")
+		       (sql-user "root")
+		       (sql-password "root")
+		       (sql-mysql-options '("--protocol=tcp"))
+		       (sql-database "")))))
 #+end_src
 ** Rest Client
 #+begin_src emacs-lisp
