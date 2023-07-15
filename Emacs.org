@@ -1868,48 +1868,18 @@
 ** PDF Tools
 #+begin_src emacs-lisp
   ;;   (use-package pdf-tools
-  ;;     :ensure t
   ;;     :config
-  ;;     (defun pdf-password-protect ()
-  ;;       "Password protect current pdf in buffer or `dired' file."
-  ;;       (interactive)
-  ;;       (unless (executable-find "qpdf")
-  ;; 	(user-error "qpdf not installed"))
-  ;;       (unless (equal "pdf"
-  ;; 		     (or (when (buffer-file-name)
-  ;; 			   (downcase (file-name-extension (buffer-file-name))))
-  ;; 			 (when (dired-get-filename nil t)
-  ;; 			   (downcase (file-name-extension (dired-get-filename nil t))))))
-  ;; 	(user-error "no pdf to act on"))
-  ;;       (let* ((user-password (read-passwd "user-password: "))
-  ;; 	     (owner-password (read-passwd "owner-password: "))
-  ;; 	     (input (or (buffer-file-name)
-  ;; 			(dired-get-filename nil t)))
-  ;; 	     (output (concat (file-name-sans-extension input)
-  ;; 			     "_enc.pdf")))
-  ;; 	(message
-  ;; 	 (string-trim
-  ;; 	  (shell-command-to-string
-  ;; 	   (format "qpdf --verbose --encrypt %s %s 256 -- %s %s"
-  ;; 		   user-password owner-password input output))))))
-
   ;;     ;; Use brew upgrade pdf-tools instead.
   ;;     (custom-set-variables '(pdf-tools-handle-upgrades nil)) 
-  ;;     (setq pdf-info-epdfinfo-program "/usr/local/bin/epdfinfo")
 
-  ;;     ;; (add-hook 'pdf-tools-enabled-hook 'pdf-view-midnight-minor-mode)
+  ;;     (add-hook 'pdf-tools-enabled-hook 'pdf-view-midnight-minor-mode)
   ;;     (add-hook 'LaTeX-mode-hook 'TeX-PDF-mode)
   ;;     (add-hook 'LaTeX-mode-hook 'TeX-source-correlate-mode)
-  ;;     (setq TeX-source-correlate-method 'synctex)
-  ;;     (setq TeX-source-correlate-start-server t))
-
-
-  ;; ;; In saveplace-pdf-view-find-file:
-  ;; ;; saveplace-pdf-view.el:57:26: Warning: ‘load-save-place-alist-from-file’ is an obsolete function (as of 29.1); use ‘save-place-load-alist-from-file’ instead.
-
-  ;; ;; In saveplace-pdf-view-to-alist:
-  ;; ;; saveplace-pdf-view.el:76:26: Warning: ‘load-save-place-alist-from-file’ is an obsolete function (as of 29.1); use ‘save-place-load-alist-from-file’ instead.
-  ;; ;; Compilation finished.
+  ;;     (setq TeX-source-correlate-method 'synctex
+  ;;           TeX-source-correlate-start-server t
+  ;;           pdf-info-epdfinfo-program "/usr/local/bin/epdfinfo")
+  ;; :inti
+  ;; (pdf-loader-install))
 
   ;; (use-package saveplace-pdf-view 
   ;;     :init
@@ -1920,8 +1890,6 @@
   ;;     :init
   ;;     (use-package org-noter-pdftools
   ;;       :after  pdf-tools))
-
-  ;;   (pdf-tools-install)
 #+end_src
 ** CDLaTex
 #+begin_src emacs-lisp
