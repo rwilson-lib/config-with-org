@@ -745,3 +745,18 @@
       ;; finally, switch to that window
       (other-window 1)))
 #+end_src
+
+
+** All Icons
+#+begin_src emacs-lisp
+  (use-package all-the-icons
+    :disabled
+    :hook (after-init . all-the-icons-completion-mode)
+    :hook (marginalia-mode . all-the-icons-completion-marginalia-setup)
+
+    :config
+    (use-package all-the-icons-completion :after all-the-icons)
+    (use-package treemacs-all-the-icons
+      :config
+      (treemacs-load-theme "all-the-icons")))
+#+end_src
