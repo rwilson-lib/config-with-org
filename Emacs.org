@@ -1476,22 +1476,23 @@
 				  (remove-hook 'flymake-diagnostic-functions 'eglot-flymake-backend)))
 
     :hook (eglot-managed-mode . flycheck-eglot-mode)
-				
+
     :bind (:map eglot-mode-map
 		("C-c r" . eglot-rename)
 		("C-c h" . eldoc)
 		("C-c f" . eglot-format)
 		("C-c F" . eglot-format-buffer))
+
     :config
-    (add-to-list 'eglot-server-programs
-		 '(web-mode . ("vscode-html-language-server" "--node-ipc"))
-		 '(R-mode . ("R" "--slave" "-e" "languageserver::run()")))
     (message "eglot loaded"))
 
-  (use-package consult-eglot
-    :after eglot
-    :config
-    (message "consult-eglot loaded ✔"))
+    (use-package consult-eglot
+      :after eglot
+      :config
+      (message "consult-eglot loaded ✔"))
+
+		   ;; '((web-mode) . ("vscode-html-language-server" "--node-ipc"))
+		   ;; '((R-mode) . ("R" "--slave" "-e" "languageserver::run()")))
 #+end_src
 ** Python
 #+begin_src emacs-lisp
