@@ -1888,22 +1888,6 @@
     :after (org tex))
 #+end_src
 * Email
-** Email Global Variables
-#+begin_src emacs-lisp
-  (setq
-   user-full-name               "Ramus Jabee Lloyd Wilson"
-   user-mail-address            "ramus@rjlwjr.com"
-   send-mail-function		'smtpmail-send-it
-
-   message-send-mail-function	'smtpmail-send-it
-   message-default-mail-headers "Cc: \nBcc: \n"
-
-   smtpmail-smtp-server         "smtp.mail.me.com"
-   smtpmail-smtp-service        587
-   smtpmail-stream-type         'starttls
-
-   mail-user-agent 'mu4e-user-agent)
-#+end_src
 ** Mu4e Function
 #+begin_src emacs-lisp
   (defun diary-from-outlook-mu4e (&optional noconfirm)
