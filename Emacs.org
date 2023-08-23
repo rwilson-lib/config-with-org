@@ -2191,14 +2191,10 @@
 #+begin_src emacs-lisp
   (use-package org-msg
     :defer 3
-    :after mu4e
-    :hook (org-msg-mode lambda ()
-			(auto-fill-mode)
-			(org-msg-mode)
-			(flyspell-mode))
 
     :config
-    (setq-local fill-column 75) ;; email
+    (setq-local fill-column 80) ; email
+
 
     (setq org-msg-options "tex:dvisvgm html-postamble:nil H:5 num:nil ^:{} toc:nil author:nil email:nil \\n:t"
 	  org-msg-startup "hidestars indent inlineimages"
