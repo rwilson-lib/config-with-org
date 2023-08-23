@@ -2895,4 +2895,15 @@
     :init
     (unless (package-installed-p 'my-emacs-extensions)
       (package-vc-install "https://github.com/rwilson-lib/my-emacs-extensions.git")))
+
+  (use-package yasnippet-capf
+    :ensure nil
+    :after cape
+    :init
+    (unless (package-installed-p 'yasnippet-capf)
+      (package-vc-install "https://github.com/elken/yasnippet-capf"))
+    :config
+    (add-to-list 'completion-at-point-functions 'yasnippet-capf))
 #+end_src
+
+
