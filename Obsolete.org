@@ -760,6 +760,42 @@
       :config
       (treemacs-load-theme "all-the-icons")))
 #+end_src
+** Org Transclusion
+#+begin_src emacs-lisp
+  (use-package org-transclusion
+    :disabled
+    :after org
+    :config
+    (message "org-transclusion ready ✔"))
+#+end_src
+
+
+** Org remark
+#+begin_src emacs-lisp
+  (use-package org-remark
+    :disabled
+    :after org
+    :config
+    (org-remark-create "memorize"
+		       '(:foreground "white" :underline "black")
+		       '(CATEGORY "exam"))
+    (org-remark-create "magnet"
+		       '(modus-themes-nuanced-magenta))
+    (message "org-remark ready ✔"))
+#+end_src
+** Org Alert
+#+begin_src emacs-lisp
+  (use-package org-alert
+    :ensure-system-package terminal-notifier
+    :custom (alert-default-style 'notifications)
+    ;; :custom (alert-default-style 'fringe)
+    :after (org alert)
+    :config
+    (setq org-alert-interval 300
+	  org-alert-notification-title "Org Alert Reminder")
+    (org-alert-enable)
+    (message "org-alert ready ✔"))
+#+end_src
 ** Company
 #+begin_src emacs-lisp 
   (use-package company
