@@ -843,23 +843,38 @@
     (add-to-list 'global-mode-string '("" mode-line-keycast))
     (message "keycast loaded ✔"))
 #+end_src
-    :config
-
-
-
 ** Cape
 #+begin_src emacs-lisp
+  (use-package corfu
+    :config
+    (setq corfu-auto nil
+	  corfu-auto-prefix 1
+	  corfu-quit-no-match nil
+	  corfu-popupinfo-delay 0.3
+	  corfu-popupinfo-max-width 70
+	  corfu-popupinfo-max-height 20)
+    (use-package kind-icon
+      :after corfu
+      :custom
+      (kind-icon-default-face 'corfu-default) ; to compute blended backgrounds correctly
+      :config
+      (setq kind-icon-use-icons nil)
+      (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
+
+    :init
+    (corfu-popupinfo-mode 1))
+
+
+
   (use-package cape
     :config
     ;; Bind dedicated completion commands
     (general-define-key
      :states '(insert)
-     :prefix "S-SPC"			  ; vim i_Ctrx-x
+     :prefix "S-SPC"			  ; vim i_Ctr-x
      "l"  'cape-line
      "n"  'completion-at-point            ; capf
      "k"  'cape-dict
-     "t"  'powerthesaurus-lookup-synonyms-dwim
-     "T"  'powerthesaurus-lookup-dwim
      "]"  'complete-tag                   ; etags
      "i"  'cape-dabbrev                   ; or dabbrev-completion
      "f"  'cape-file
