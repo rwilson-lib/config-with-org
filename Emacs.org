@@ -673,7 +673,7 @@
 		"<escape>" #'abort-minibuffers ; Close minibuffer
 		"C-SPC" #'vertico-quick-exit
 		"C-S-SPC" #'vertico-quick-insert
-		"M-o" #'embark-act
+		"C-." #'embark-act
 		"C-M-o" #'kb/vertico-quick-embark
 
 		;; NOTE 2022-02-05: Cycle through candidate groups
