@@ -760,3 +760,74 @@
       :config
       (treemacs-load-theme "all-the-icons")))
 #+end_src
+** Company
+#+begin_src emacs-lisp 
+  (use-package company
+    ;; (define-key company-active-map [return] nil)
+    ;; (define-key company-active-map [tab] 'company-complete-common)
+    ;; (define-key company-active-map (kbd "TAB") 'company-complete-common)
+    ;; (define-key company-active-map (kbd "M-TAB") 'company-complete-selection)
+    :bind (:map company-active-map
+		("<escape>" . company-abort)
+		("<tab>" . company-complete-selection))
+    :custom
+    (company-minimum-prefix-length 1)
+    (company-idle-delay 0.0)
+    :config
+    (setq company-selection-wrap-around t
+	  company-tooltip-align-annotations t
+	  company-idle-delay 0
+	  company-minimum-prefix-length 2
+	  company-tooltip-limit 10))
+
+  (use-package company-box
+    :after company
+    :hook (company-mode . company-box-mode))
+
+  
+  (use-package consult-company
+    :after consult company)
+#+end_src
+** Company Back-ends
+#+begin_src emacs-lisp 
+  (use-package company-web
+    :after (company web-mode)
+    :config
+    (add-to-list 'company-backends 'company-web-html)
+    (add-to-list 'company-backends 'company-web-jade)
+    (add-to-list 'company-backends 'company-web-slim))
+
+  (use-package company-restclient
+    :after ( company restclient )
+    :config 
+    (add-to-list 'company-backends 'company-restclient))
+
+  ;; (use-package company-tabnine
+  ;;   :config
+  ;;   (add-to-list 'company-backends #'company-tabnine)
+  ;;   (setq company-idle-delay 0))
+#+end_src
+
+
+** Evil Org 
+#+begin_src emacs-lisp
+  ;; (use-package evil-org
+  ;;   :after (evil org)
+  ;;   :config
+  ;;   (setq evil-want-C-i-jump nil)
+  ;;   (message "evil org ready ✔"))
+#+End_src
+
+** ACE
+#+begin_src emacs-lisp
+  (use-package ace-link
+    :commands (ace-link)
+    :config
+    (message "ace-link loaded! ✔"))
+
+  (use-package link-hint
+    :commands (link-hint-open-link link-hint-copy-link)
+
+    :config
+     (message "link-hint ready ✔"))
+#+end_src
