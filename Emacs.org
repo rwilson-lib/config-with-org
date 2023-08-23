@@ -82,8 +82,7 @@
     (set-fringe-mode 10)
     (display-battery-mode 1)
     (column-number-mode)
-    ;; enabled scroll left with C-x 
-    (put 'scroll-left 'disabled nil)
+    (put 'scroll-left 'disabled nil)    ; enabled scroll left with C-x 
     (context-menu-mode)			; enable context menu
 
     ;; Add prompt indicator to `completing-read-multiple'.
@@ -99,8 +98,7 @@
 
     (global-goto-address-mode)
 
-    ;; switch C-q input from default oct
-    (setq read-quoted-char-radix 16)
+    (setq read-quoted-char-radix 16) ; switch C-q input from default oct
 
     ;; (set-frame-parameter nil 'fullscreen 'fullboth)
     (setq visible-bell t)
