@@ -1000,7 +1000,7 @@
 #+begin_src emacs-lisp
   (use-package vterm
     :config
-    (setq vterm-shell "/usr/local/bin/tmux")
+    ;; (setq vterm-shell "/usr/local/bin/tmux")
     (setq vterm-max-scrollback 1000))
 #+end_src
 * Searches
