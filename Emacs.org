@@ -312,10 +312,6 @@
 	  (setq comint-terminfo-terminal "eterm-256color")
 
 	  (setenv "GIT_EDITOR" "emacs")
-
-	  ;; (use-package exec-path-from-shell
-	  ;;   :config (exec-path-from-shell-initialize))
-
 #+end_src
   
 ** Undo Fu
