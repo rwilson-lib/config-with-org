@@ -629,17 +629,25 @@
   (use-package avy
     :config
     (general-define-key
-     ;; :keymaps '(text-mode-map)
      :states '(normal visual)
-     "s"  'evil-avy-goto-char
+     "g/" 'evil-avy-goto-char
      "g:" 'evil-avy-goto-line)
+
+    (general-define-key
+     :keymaps '(normal insert visual emacs)
+     :prefix "C-;"
+     "/" 'avy-isearch
+
+     "yl" 'avy-copy-line
+     "yr" 'avy-copy-region
+
+     "kl" 'avy-kill-whole-line
+     "kr" 'avy-kill-region
+
+     "ml" 'avy-move-line
+     "mr" 'avy-move-region)
+
     (message "avy loaded! ✔"))
-
-  (use-package ace-link
-    :commands (ace-link)
-    :config
-    (message "ace-link loaded! ✔"))
-
 
 #+end_src
 
