@@ -56,10 +56,10 @@
 	   ("C-r" . recursive-edit)
 	   ("<f12>" . tmm-menubar)
 	   ("C-x |" . display-fill-column-indicator-mode)
-	   ("C-." . context-menu-open)
+	   ("s-." . context-menu-open)
 	   ("s-<up>" . scroll-other-window)
 	   ("s-<down>" . scroll-other-window-down))
-    
+
     :hook (xwidget-webkit-mode . (lambda ()
 				   (goto-address-mode 0 )))
 
