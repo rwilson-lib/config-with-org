@@ -2191,39 +2191,50 @@
 					 (reply-to-text	. (text)))
 	  org-msg-convert-citation t
 	  org-msg-greeting-fmt "\nHi%s,\n\n"
-	  org-msg-signature
-	  "
+	  org-msg-signature "
   Regards,
 
-  #+begin_signature
+  ,#+begin_signature
   ---------------------------
-  *Ramus Jabee Lloyd Wilson*
+  ,*Ramus Jabee Lloyd Wilson*
   ICT Consultant | Smile Technology LLC
   /email: ramus@rjlwjr.com/
   /work-email: ramus.wilson@smiletech.com/
   /mobile phone: +231-77-797-8125 +231-88-697-8125/
   /The simple act of paying attention can take you a long way/
   send from Gnus Emacs mu4e client
-  #+end_signature")
+  ,#+end_signature")
+    (org-msg-mode)
     (message "org-msg ready ✔"))
 #+end_src
-* Org Mode
-** Evil Org 
+** Email Global Variables
 #+begin_src emacs-lisp
-  (use-package evil-org
-    :after (evil org)
-    :config
-    (setq evil-want-C-i-jump nil)
-    (message "evil org ready ✔"))
-#+End_src
+  (setq user-full-name               "Ramus Jabee Lloyd Wilson"
+	user-mail-address            "ramus@rjlwjr.com"
+	send-mail-function		'smtpmail-send-it
+
+	message-send-mail-function	'smtpmail-send-it
+	message-default-mail-headers "Cc: \nBcc: \n"
+
+	smtpmail-smtp-server         "smtp.mail.me.com"
+	smtpmail-smtp-service        587
+	smtpmail-stream-type         'starttls
+
+	mail-user-agent 'mu4e-user-agent)
+
+  (add-hook 'message-setup-hook ( lambda ()
+				  (auto-fill-mode)
+				  (flyspell-mode)))
+#+end_src
+* Org Mode
 ** Custom function
 #+begin_src emacs-lisp
 
   ;; Org Mode Configuration ------------------------------------------------------
   (defun efs/org-mode-setup ()
+    (org-modern-mode 1)
     (org-indent-mode -1)
     ;; (visual-line-mode 1)
-    (evil-org-mode)
     (visual-fill-column-mode 1)
     ;; (hl-todo-mode)
     (setq-local truncate-lines t)
@@ -2368,10 +2379,6 @@
     :after org
     :commands (org-agenda)
     :bind (("C-c a" . org-agenda))
-    :init
-    (require 'evil-org-agenda)
-    (evil-org-agenda-set-keys)
-
     :config
     (setq org-agenda-include-diary t)
     (setq org-agenda-start-with-log-mode t)
