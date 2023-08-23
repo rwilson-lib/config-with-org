@@ -1060,8 +1060,6 @@
     :config
     (message "consult ready ✔"))
   
-  (use-package consult-yasnippet
-    :after consult yasnippet)
 #+End_src
 ** Isearch
 #+begin_src emacs-lisp
