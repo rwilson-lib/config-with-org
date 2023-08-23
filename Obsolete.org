@@ -760,6 +760,7 @@
       :config
       (treemacs-load-theme "all-the-icons")))
 #+end_src
+
 ** Org Transclusion
 #+begin_src emacs-lisp
   (use-package org-transclusion
@@ -796,6 +797,7 @@
     (org-alert-enable)
     (message "org-alert ready ✔"))
 #+end_src
+
 ** Company
 #+begin_src emacs-lisp 
   (use-package company

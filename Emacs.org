@@ -155,6 +155,10 @@
 		    (when (stringp method)
 		      (member method '("su" "sudo" "doas"))))))))
 
+
+    ;; mark ring
+    (setq set-mark-command-repeat-pop t)
+
     ;; Enable recursive minibuffers
     (setq enable-recursive-minibuffers t)
     :if (treesit-available-p) 		; check if Emacs is built with tree-sitter library
@@ -483,12 +487,10 @@
       "SPC g" (general-simulate-key "M-g")
       "SPC s" (general-simulate-key "M-s"))
 
-
     (general-define-key
      :keymaps '(normal visual)
      :prefix "g SPC"
      "x" (general-simulate-key "C-c C-c"))
-
 
     (general-define-key
      :keymaps '(transient-base-map)
@@ -1302,7 +1304,6 @@
     :config
     (message "yasnippet loaded  ✔"))
 
-
   (use-package auto-yasnippet
     :commands (aya-create
 	       aya-expand
@@ -1985,7 +1986,6 @@
     :hook (mu4e-view-mode lambda ()
 			  (mu4e-icalendar-setup)
 			  (gnus-icalendar-org-setup))
-
     :config
     (setq mu4e-maildir "~/Mail"
 	  mu4e-get-mail-command "mbsync -a"
