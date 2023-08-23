@@ -1335,6 +1335,14 @@
     :config
     (message "emmet loaded  ✔"))   ;; expand with ctrl-enter
 #+end_src
+#+begin_src emacs-lisp
+  (use-package dash-docs
+    :init
+    (use-package consult-dash)
+    :config
+    (setq dash-docs-browser-func 'xwidget-webkit-browse-url
+	  dash-docs-enable-debugging nil))
+#+end_src
 ** Web Mode
 #+begin_src emacs-lisp
   (use-package web-mode
