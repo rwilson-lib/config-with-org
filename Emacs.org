@@ -70,6 +70,8 @@
 			  (unless (server-running-p)
 			    (server-start))))
     :init
+    (add-to-list 'default-frame-alist '(height . 35))
+    (add-to-list 'default-frame-alist '(width . 115))
     ;; open emacs in tmp folder on startup
     (setq default-directory "~/tmp/")
 
