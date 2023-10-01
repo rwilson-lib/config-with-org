@@ -1527,6 +1527,11 @@
   (advice-add 'org-babel-execute:jupyter-python :around #'org-babel-execute:jupyter-advice)
 
 
+  (use-package pyenv-mode
+    :commands (pyenv-mode pyenv-mode-set pyenv-mode-unset)
+    :config
+    (message "pyenv loaded! ✔"))
+
   (use-package pyvenv 
     :requires pipenv
     :commands (pyvenv-mode)
