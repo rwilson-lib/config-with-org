@@ -869,3 +869,18 @@
     :config
      (message "link-hint ready ✔"))
 #+end_src
+
+** MU4E Alert
+#+begin_src emacs-lisp
+  (use-package mu4e-alert
+    :defer 3 
+    :requires alert
+    :custom((doom-modeline-mu4e t)
+	    (mu4e-alert-style 'notifier))
+    :config
+    ;; (setq mu4e-alert-icon "~/.emacs.d/e-mail.svg")
+    (add-hook 'after-init-hook #'mu4e-alert-enable-notifications)
+    (add-hook 'after-init-hook #'mu4e-alert-enable-mode-line-display)
+    (setq alert-default-style 'notifier)
+    (message "mu4e-alert ready ✔"))
+#+end_src
