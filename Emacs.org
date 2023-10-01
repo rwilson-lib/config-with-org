@@ -632,7 +632,7 @@
   (advice-add #'doom-modeline--font-height :override #'my-doom-modeline--font-height)
 
 #+end_src
-* Avy
+** Avy
 #+begin_src emacs-lisp
   (use-package avy
     :config
