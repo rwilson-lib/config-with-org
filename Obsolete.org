@@ -856,7 +856,7 @@
   ;;   (message "evil org ready ✔"))
 #+End_src
 
-** ACE
+** Ace Link
 #+begin_src emacs-lisp
   (use-package ace-link
     :commands (ace-link)
