@@ -70,8 +70,6 @@
 			  (unless (server-running-p)
 			    (server-start))))
     :init
-    (add-to-list 'default-frame-alist '(height . 35))
-    (add-to-list 'default-frame-alist '(width . 115))
     ;; open emacs in tmp folder on startup
     (setq default-directory "~/tmp/")
 
@@ -171,9 +169,12 @@
 ** Font and Windows
 #+begin_src emacs-lisp
   ;; For current frame
-  (set-frame-parameter nil 'alpha-background 90)
+  ;; (set-frame-parameter nil 'alpha-background 100) ; not working
+
   ;; For all new frames henceforth
-  (add-to-list 'default-frame-alist '(alpha-background . 90)) 
+  (add-to-list 'default-frame-alist '(height . 35))
+  (add-to-list 'default-frame-alist '(width . 115))
+
 
   (defun delete-other-windows-advice (function &rest args)
     (if current-prefix-arg
