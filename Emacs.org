@@ -667,6 +667,7 @@
           completion-category-default nil
           completion-category-overrides '((file (styles . (partial-completion))))))
 #+end_src
+
 ** Vertico
 #+begin_src emacs-lisp
     (use-package vertico
@@ -1068,7 +1069,7 @@
 	   ("M-s e" . consult-isearch-history))
     :config
     (message "consult ready ✔"))
-  
+
 #+End_src
 ** Isearch
 #+begin_src emacs-lisp
@@ -2918,5 +2919,7 @@
     :config
     (add-to-list 'completion-at-point-functions 'yasnippet-capf))
 #+end_src
+
+
 
 
