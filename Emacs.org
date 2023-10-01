@@ -832,11 +832,6 @@
     :after (treemacs magit)
     :config
     (message "treemacs-magit ready"))
-
-  (use-package treemacs-evil
-    :after (treemacs evil)
-    :config
-    (message "treemacs-evil ready"))
 #+end_src
 ** Key-cast
 #+begin_src emacs-lisp
