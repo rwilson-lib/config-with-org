@@ -1,4 +1,4 @@
-# -*- org-confirm-babel-evaluate: nil; eval: (add-hook 'after-save-hook #'org-babel-tangle);-*-
+# -*- org-confirm-babel-evaluate: nil; eval: (add-hook 'after-save-hook 'org-babel-tangle nil t);-*-
 #+TITLE: Emacs Configuration
 #+PROPERTY: header-args:emacs-lisp :tangle ~/.emacs.d/init.el
 * Benchmark
