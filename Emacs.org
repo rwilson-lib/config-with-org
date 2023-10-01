@@ -531,15 +531,7 @@
     :commands (vr/mc-mark vr/replace vr/query-replace)
     :config
     (message "visual-regexp loaded! ✔"))
-
-  (use-package fancy-narrow
-    :bind ((:map fancy-narrow-mode-map
-		 ("C-x n d" . fancy-narrow-defun)))
-    :init
-    (fancy-narrow-mode)
-    :config
-    (message "fancy-narrow loaded! ✔"))
-#+end_srC
+#+end_src
 ** Toggle Line Number
 #+begin_src emacs-lisp
   (defun toggle-line-number()
