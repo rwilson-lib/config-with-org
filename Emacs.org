@@ -1419,10 +1419,6 @@
     :config
     (setq js-jsx-indent-level 2))
 
-  (use-package prettier-js
-    :after rjsx-mode
-    :hook (rjsx-mode . prettier-js-mode))
-
   (use-package json-mode
     :mode "\\.json\\'"
     :config
