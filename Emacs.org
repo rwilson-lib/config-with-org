@@ -335,8 +335,6 @@
 					      "/Applications/Emacs.app/Contents/MacOS/libexec/")))
 
 	  (setq comint-terminfo-terminal "eterm-256color")
-
-	  (setenv "GIT_EDITOR" "emacs")
 #+end_src
   
 ** Undo Fu
@@ -1107,15 +1105,20 @@
     :defer 5
     :ensure-system-package rg)
 #+end_src
+
+
 * Version Control
 ** Magit
 #+begin_src emacs-lisp
   (use-package magit
     :commands (magit magit-init magit-status)
-    :defer 3
-    :custom (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1)
-    :config
 
+    :custom (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1)
+
+    :init
+    (setenv "GIT_EDITOR" "emacs")
+
+    :config
     (setq magit-section-initial-visibility-alist
 	  '((untracked . hide)
 	    (unstaged . hide)
