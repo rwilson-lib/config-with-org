@@ -1510,19 +1510,13 @@
 	  python-shell-completion-native-enable nil))
 
   (use-package live-py-mode
-    :disabled
-    ;; :requires python
+    :commands (live-py-mode)
+    :requires python
     :config
-    ;; (setq live-py-path "/usr/bin/python3")
     (setq live-py-version "python")
     (message "live py ready ✔"))
-
-  (use-package pyenv-mode
-    :commands (pyenv-mode pyenv-mode-set pyenv-mode-unset)
-    :config
-    (message "pyenv loaded! ✔"))
 #+end_src
-** Virtual Envs
+*** Virtual Envs
 #+begin_src emacs-lisp
   (use-package conda
     :commands (conda-env-activate-for-buffer conda-env-list conda-env-activate)
