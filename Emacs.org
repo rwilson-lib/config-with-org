@@ -1462,15 +1462,14 @@
 #+end_src
 ** Python
 #+begin_src emacs-lisp
-
-  ;; fix issues with python inferial process
   (use-package python
     :hook (python-mode . ( lambda ()
-			   (pyvenv-mode)
 			   (eglot-ensure)))
     :bind (:map python-mode-map
 		("C-c TAB ." . python-import-symbol-at-point))
     :config
+    (setq-local pyvenv-mode 1)
+
     (when (executable-find "ipython")
       (setq python-shell-interpreter "ipython"
 	    python-shell-interpreter-args "-i --simple-prompt --InteractiveShell.display_page=True"))
