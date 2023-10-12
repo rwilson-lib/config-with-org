@@ -847,17 +847,16 @@
 	  corfu-popupinfo-delay 0.3
 	  corfu-popupinfo-max-width 70
 	  corfu-popupinfo-max-height 20)
-    (use-package kind-icon
-      :after corfu
-      :custom
-      (kind-icon-default-face 'corfu-default) ; to compute blended backgrounds correctly
-      :config
-      (setq kind-icon-use-icons nil)
-      (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 
+    (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter)
+
+    (use-package corfu-candidate-overlay)
     :init
-    (corfu-popupinfo-mode 1))
+    (corfu-popupinfo-mode 1)
+    (corfu-candidate-overlay-mode 1))
 
+
+  (use-package nerd-icons-corfu)
 
 
   (use-package cape
