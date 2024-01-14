@@ -1342,9 +1342,7 @@
     :init (setq markdown-command "multimarkdown"))
 
   (use-package css-mode
-    :mode "\\.css\\'"
-    :config
-    (add-to-list 'company-backends 'company-css))
+    :mode "\\.css\\'")
 #+end_src
 ** JavaScript
 #+begin_src emacs-lisp
