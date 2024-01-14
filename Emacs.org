@@ -1095,6 +1095,7 @@
     :config
     (setq
      diff-hl-side "left"
+     diff-hl-draw-borders nil
      diff-hl-show-staged-changes nil)
     (message "diff-hl ready ✔"))
 #+end_src
