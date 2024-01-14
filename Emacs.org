@@ -1180,10 +1180,9 @@
 ** Git Time-machine
 #+begin_src emacs-lisp
   (use-package git-timemachine
-    :disabled
     :after magit
-    :bind (:map evil-normal-state-map
-                (";gt" . git-timemachine-toggle))
+    :commands (git-timemachine-toggle)
+
     :config
     (general-define-key
      :keymaps '(git-timemachine-mode-map)
