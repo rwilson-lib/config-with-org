@@ -589,7 +589,7 @@
 	  (3 . (rainbow bold 1.2))
 	  (t . (semilight 1.1))))
 
-  (load-theme 'modus-operandi t)
+  (load-theme 'modus-vivendi t)
 #+end_src
 *** Doom Modeline
 #+begin_src emacs-lisp
