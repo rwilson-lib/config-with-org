@@ -2623,6 +2623,7 @@
     (mpv . mpv)
     :commands (mpv-start mpv-play mpv-play-url)
     :config
+    (add-to-list 'mpv-default-options "--idle")
     (message "mpv loaded  ✔"))
 #+end_src
 * News Reader & IRC
