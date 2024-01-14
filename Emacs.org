@@ -5,7 +5,7 @@
 #+begin_src emacs-lisp 
   (use-package benchmark-init
     :ensure t
-    ;; remove this line when you want to take benchmark at init 
+    ;; remove this line when you want to take benchmark at init
     ;; :commands (benchmark-init/activate benchmark-init/install)
     :config
     ;; To disable collection of benchmark data after init is done.
