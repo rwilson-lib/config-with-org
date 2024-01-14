@@ -884,3 +884,18 @@
     (setq alert-default-style 'notifier)
     (message "mu4e-alert ready ✔"))
 #+end_src
+* Web Search
+#+begin_src emacs-lisp
+  (use-package websearch
+    :commands (websearch websearch-term websearch-point websearch-region)
+    :config
+    (setq websearch-custom-browse-url-function 'xwidget-webkit-browse-url)
+ 
+    (general-define-key
+     :prefix "C-x /"
+     ;; application spefic binding 
+     "t" 'websearch-term
+     "r" 'websearch-region
+     "." 'websearch-point)
+    (message "websearch ready ✔"))
+#+end_src

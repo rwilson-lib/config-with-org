@@ -1061,19 +1061,6 @@
     (use-package fd-dired
       :commands (fd-dired))
 #+end_src
-** Web Search
-#+begin_src emacs-lisp
-  (use-package websearch
-    :commands (websearch websearch-term websearch-point websearch-region)
-    :config
-    (general-define-key
-     :prefix "C-c s"
-     ;; application spefic binding 
-     "t" 'websearch-term
-     "r" 'websearch-region
-     "." 'websearch-point)
-    (message "websearch ready ✔"))
-#+end_src
 ** Ripgreg
 #+begin_src emacs-lisp
   (use-package rg
