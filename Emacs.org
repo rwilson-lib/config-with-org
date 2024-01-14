@@ -986,7 +986,14 @@
   (use-package vterm
     :config
     ;; (setq vterm-shell "/usr/local/bin/tmux")
-    (setq vterm-max-scrollback 1000))
+    (setq vterm-max-scrollback 1000)
+
+    (setq display-buffer-alist '(("\\*vterm\\*"
+				  (display-buffer-in-side-window)
+				  (window-height . 0.25)
+				  (side . bottom)
+				  (slot . -1)
+				  (window-parameters (mode-line-format . none))))))
 #+end_src
 * Searches
 ** Consult
