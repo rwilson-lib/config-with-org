@@ -510,11 +510,7 @@
 
     (general-define-key
      :keymaps '(normal insert visual emacs)
-     :prefix "C-x"
-     "mc" 'compose-mail
-     "4mc" 'compose-mail-other-window
-     "5mc" 'compose-mail-other-frame
-     "mm" 'mu4e)
+     "<C-escape>" 'keyboard-quit)
 
     (nvmap :prefix "SPC"
       "m" '(:ignore t :which-key "music")
