@@ -163,6 +163,8 @@
 		    (when (stringp method)
 		      (member method '("su" "sudo" "doas"))))))))
 
+    ;; Ediff
+    (setq ediff-window-setup-function #'ediff-setup-windows-plain)
 
     ;; mark ring
     (setq set-mark-command-repeat-pop t)
