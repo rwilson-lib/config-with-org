@@ -402,11 +402,10 @@
     (setq evil-want-C-i-jump nil
 	  evil-want-C-u-delete t
 	  evil-want-C-u-scroll t
+	  evil-want-C-h-delete t
 	  evil-want-C-w-in-emacs-state t
 	  evil-want-integration t
 	  evil-want-keybinding nil)
-
-    ;; (setq evil-disable-insert-state-bindings t)
 
     (setq evil-undo-system 'undo-fu)
     (setq evil-want-fine-undo t) 
