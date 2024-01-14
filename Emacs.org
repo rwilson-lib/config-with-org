@@ -1365,7 +1365,7 @@
   (use-package typescript-mode
     :hook (typescript-mode . eglot-ensure)
     :config
-    (setq typescript-indent-level 4))
+    (setq typescript-indent-level 2))
 
   (use-package rjsx-mode
     :mode "\\.js\\'"
