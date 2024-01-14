@@ -447,9 +447,6 @@
 				     (evil-surround-mode)
 				     (evil-matchit-mode))))
 
-
-
-
 #+end_src
 ** Hydra
 #+begin_src emacs-lisp
@@ -1073,7 +1070,6 @@
     :ensure-system-package rg)
 #+end_src
 
-
 * Version Control
 ** Magit
 #+begin_src emacs-lisp
@@ -1341,7 +1337,7 @@
   (use-package markdown-mode
     :ensure-system-package
     (multimarkdown . multimarkdown)
-    
+
     :commands (markdown-mode gfm-mode)
     :mode (("README\\.md\\'" . gfm-mode)
 	   ("\\.md\\'" . markdown-mode)
@@ -1383,7 +1379,8 @@
 		       (make-local-variable 'js-indent-level)
 		       (setq tab-width 2)
 		       (setq js-indent-level 2))))
-  
+
+  (setq eglot-ignored-server-capabilites '(:documentHighlightProvider))
   ;; (require 'dap-firefox)
   ;; (require 'dap-node)
 #+end_src
@@ -1686,6 +1683,8 @@
 #+begin_src emacs-lisp
   (use-package tex
     :ensure auctex
+
+    :defer
 
     :bind ((:map TeX-mode-map
 		 ("<tab>" . TeX-complete-symbol)))
