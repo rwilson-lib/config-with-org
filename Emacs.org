@@ -383,6 +383,25 @@
     :config
     (message "try ready ✔"))
 #+end_src
+** LLM
+#+begin_src emacs-lisp
+  (use-package gptel
+
+    :config
+
+    (add-hook 'gptel-post-response-hook 'gptel-end-of-response)
+
+    (general-define-key
+     :states '(normal visual)
+	"g RET" 'gptel-send
+	"g -" 'gptel)
+
+    (setq-default gptel-model "gemini-pro" ; Pick your default model
+		  gptel-backend 
+		  (gptel-make-gemini
+		   "Gemini"
+		   :stream t)))
+#+end_src
 * Key Binding
 ** Evil
 #+begin_src emacs-lisp
