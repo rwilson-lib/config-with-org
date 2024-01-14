@@ -218,38 +218,37 @@
 	  display-buffer-below-selected
 	  display-buffer-at-bottom
 	  display-buffer-pop-up-frame))))
-    ;; '(window-min-height 18)
-    ;; '(window-min-width 40))
-
     (setq
      split-width-threshold 0
      split-height-threshold nil)
-    :custom
 
-    (display-buffer-alist '(("\\*Occur\\*"
-			     (display-buffer-reuse-window display-buffer-in-side-window)
-			     (side . right)
-			     (slot . -1)
-			     (window-width . 0.5))))
-
-    (display-buffer-alist '(("\\*\\(e?shell\\|vterm\\|Python\\)\\*"
-			     (display-buffer-in-side-window)
-			     (window-height . 0.25)
-			     (side . bottom)
-			     (slot . -1)
-			     (window-parameters (mode-line-format . none)))
+    (setq display-buffer-alist '(("\\*eshell\\*"
+				  (display-buffer-in-side-window)
+				  (window-height . 0.25)
+				  (side . bottom)
+				  (slot . -1)
+				  (window-parameters (mode-line-format . none)))))
 
 
-			    ;; ;;[Hh]elp
-			    ;; ("\\*help" 
-			    ;;  (display-buffer-reuse-window display-buffer-in-side-window)
-			    ;;  (window-width . 75))
+    (setq display-buffer-alist 
+	  '(("\\*Occur\\*"
+	     (display-buffer-reuse-window display-buffer-in-side-window)
+	     (side . right)
+	     (slot . -1)
+	     (window-width . 0.5))))
 
-			    ("\\*\\(Backtrace\\|Warnings\\|Flycheck errors\\|Compile-log\\|Messages\\)\\*"
-			     (display-buffer-in-side-window)
-			     (window-height . 0.25)
-			     (side . bottom)
-			     (slot . 1))))
+    (setq display-buffer-alist 
+	  '(("\\*\\(Backtrace\\|Warnings\\|Flycheck errors\\|Compile-log\\|Messages|compilation\\)\\*"
+	     (display-buffer-in-side-window)
+	     (window-height . 0.25)
+	     (side . bottom)
+	     (slot . 1)))))
+
+  ;; ;;[Hh]elp
+  ;; ("\\*help" 
+  ;;  (display-buffer-reuse-window display-buffer-in-side-window)
+  ;;  (window-width . 75))
+
   (defun efs/set-font-faces ()
     (message "Setting faces!")
     (set-face-attribute 'default nil :font "FiraCode Nerd Font" :height 168)
