@@ -1408,13 +1408,13 @@
     :config
     (message "eglot loaded"))
 
-    (use-package consult-eglot
-      :after eglot
-      :config
-      (message "consult-eglot loaded ✔"))
+  (use-package consult-eglot
+    :after eglot
+    :config
+    (message "consult-eglot loaded ✔"))
 
-		   ;; '((web-mode) . ("vscode-html-language-server" "--node-ipc"))
-		   ;; '((R-mode) . ("R" "--slave" "-e" "languageserver::run()")))
+  ;; '((web-mode) . ("vscode-html-language-server" "--node-ipc"))
+  ;; '((R-mode) . ("R" "--slave" "-e" "languageserver::run()")))
 #+end_src
 ** Python
 #+begin_src emacs-lisp
