@@ -884,6 +884,7 @@
     (setq alert-default-style 'notifier)
     (message "mu4e-alert ready ✔"))
 #+end_src
+
 * Web Search
 #+begin_src emacs-lisp
   (use-package websearch
