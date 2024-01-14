@@ -2599,9 +2599,11 @@
      :states '(normal)
      "<return>" 'org-open-at-point)
 
-    (setq-local mpv-start-timeout 10)
     (setq vuiet-update-mode-line-automatically t)
     (setq vuiet-update-mode-line-interval 1)
+    (add-to-list 'mpv-default-options "--idle")
+    (setq mpv-start-timeout 10)
+
     (message "vuiet loaded  ✔"))
 #+end_src
 ** MPC
