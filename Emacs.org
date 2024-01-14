@@ -1252,46 +1252,17 @@
 			 (electric-pair-local-mode)
 			 (rainbow-delimiters-mode)
 			 (display-line-numbers-mode 1)
-			 (yas-minor-mode)
-			 (flycheck-mode)))	
+			 ;; (yas-minor-mode)
+			 (flycheck-mode)	
+		     (setq-local completion-at-point-functions
+				 (list (cape-capf-super #'tempel-complete #'cape-keyword )))))
+
     :config
     (setq-local visual-fill-column-width 100
 		visual-fill-column-center-text t)
     (setq-local fill-column 79))
 #+end_src
 ** Snippet
-#+begin_src emacs-lisp
-  (use-package yasnippet
-    :hook
-    (yas-minor-mode . (lambda ()
-			(define-key yas-minor-mode-map (kbd "<tab>") nil)
-			(define-key yas-minor-mode-map (kbd "TAB") nil)
-			;; Bind 'SPC' to 'yas-expand' when snippet expansion available (it
-			;; will still call 'self-insert-command' otherwise).
-			(define-key yas-minor-mode-map (kbd "SPC") yas-maybe-expand)
-			;; Bind `C-c y' to 'yas-expand' ONLY.
-			(define-key yas-minor-mode-map
-				    (kbd "C-c y") #'yas-expand))))
-
-
-  (use-package yasnippet-snippets
-    :defer 1
-    :config
-    (message "yasnippet loaded  ✔"))
-
-  (use-package auto-yasnippet
-    :commands (aya-create
-	       aya-expand
-	       aya-expand-from-history
-	       aya-delete-from-history
-	       aya-clear-history
-	       aya-next-in-history
-	       aya-previous-in-history
-	       aya-persist-snippet
-	       aya-open-line)
-    :config
-    (message "auto-yasnippet loaded  ✔"))
-#+end_src
 #+begin_src emacs-lisp
   (use-package emmet-mode
     :hook
