@@ -400,6 +400,7 @@
 		  gptel-backend 
 		  (gptel-make-gemini
 		   "Gemini"
+		   :key (gptel-api-key-from-auth-source "generativelanguage.googleapis.com")
 		   :stream t)))
 #+end_src
 * Key Binding
