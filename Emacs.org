@@ -958,13 +958,6 @@
   ;;       (visual-fill-column-mode 1))
 #+end_src
 * Terminal
-** Eshell
-#+begin_src emacs-lisp
-  (use-package eshell
-    :ensure nil
-    :config
-    (message "eshell loaded ✔"))
-#+end_src
 ** Term
 #+begin_src emacs-lisp
   (defun my-term-handle-exit (&optional process-name msg)
