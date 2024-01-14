@@ -138,8 +138,9 @@
 	  read-buffer-completion-ignore-case t
 	  completion-ignore-case t)
 
-    ;; Do not use system clip board
+    ;; Do not use system clipboard
     ;; (setq x-select-enable-clipboard nil)
+
     ;; Treat clipboard input as UTF-8 string first; compound text next, etc.
     (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
 
