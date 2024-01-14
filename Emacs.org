@@ -44,7 +44,11 @@
 
   (use-package use-package-ensure-system-package
     :init
-    (use-package system-packages))
+    (use-package system-packages
+      :config
+      (setq system-packages-package-manager 'brew
+	    system-packages-use-sudo nil)))
+
 
 #+end_src
 ** Emacs
