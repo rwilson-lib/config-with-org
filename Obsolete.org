@@ -934,3 +934,11 @@
     :config
     (message "auto-yasnippet loaded  ✔"))
 #+end_src
+
+* Emacs Everywhere
+#+begin_src emacs-lisp
+  (use-package emacs-everywhere
+    :commands (emacs-everywhere)
+    :config
+    (message "emacs-everywhere ready ✔"))
+#+end_src

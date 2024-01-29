@@ -2760,14 +2760,6 @@ if one already exists."
     (message "activity-watch ready ✔"))
 #+end_src
 * Utilities
-** Emacs Everywhere
-#+begin_src emacs-lisp
-  (use-package emacs-everywhere
-    :commands (emacs-everywhere)
-    :config
-    (message "emacs-everywhere ready ✔"))
-#+end_src
-
 ** CRDT
 #+begin_src emacs-lisp
   (use-package crdt
