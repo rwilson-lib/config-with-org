@@ -396,6 +396,9 @@
 	"g RET" 'gptel-send
 	"g -" 'gptel)
 
+    (setq-default  gptel-default-mode 'org-mode)
+
+
     (setq-default gptel-model "gemini-pro" ; Pick your default model
 		  gptel-backend 
 		  (gptel-make-gemini
