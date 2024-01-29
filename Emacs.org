@@ -2788,10 +2788,6 @@ if one already exists."
     (message "CRDT ready ✔"))
 #+end_src
 
-** Whisper
-#+begin_src emacs-lisp
-  ;; https://github.com/natrys/whisper.el 
-#+end_src
 ** Ledger
 #+begin_src emacs-lisp
   (use-package hledger-mode
