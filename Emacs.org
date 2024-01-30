@@ -2128,7 +2128,6 @@ if one already exists."
 #+begin_src emacs-lisp
   (use-package org-msg
     :defer 3
-
     :config
     (setq-local fill-column 80) ; email
 
