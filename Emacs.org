@@ -539,12 +539,6 @@
     :config (setq which-key-idle-delay 0.3))
 #+end_src
 * User Interface Improvements
-#+begin_src emacs-lisp
-  (use-package visual-regexp
-    :commands (vr/mc-mark vr/replace vr/query-replace)
-    :config
-    (message "visual-regexp loaded! ✔"))
-#+end_src
 ** Toggle Line Number
 #+begin_src emacs-lisp
   (defun toggle-line-number()
