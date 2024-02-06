@@ -674,79 +674,98 @@
 
 ** Vertico
 #+begin_src emacs-lisp
-    (use-package vertico
-      :demand t 
-      :general
-      (:keymaps 'vertico-map
-		"<tab>" #'vertico-insert        ; Insert selected candidate into text area
-		"<S-tab>" #'vertico-previous  ; Insert selected candidate into text area
-		"C-j" #'vertico-next
-		"C-k" #'vertico-previous
-		"C-f" 'vertico-exit
-		"<escape>" #'abort-minibuffers ; Close minibuffer
-		"C-SPC" #'vertico-quick-exit
-		"C-S-SPC" #'vertico-quick-insert
-		"C-." #'embark-act
-		"C-M-o" #'kb/vertico-quick-embark
+  (use-package vertico
+    :demand t 
+    :general
+    (:keymaps 'vertico-map
+	      "<tab>" #'vertico-insert        ; Insert selected candidate into text area
+	      "<S-tab>" #'vertico-previous  ; Insert selected candidate into text area
+	      "C-j" #'vertico-next
+	      "C-k" #'vertico-previous
+	      "C-f" 'vertico-exit
+	      "<escape>" #'abort-minibuffers ; Close minibuffer
+	      "C-SPC" #'vertico-quick-exit
+	      "C-S-SPC" #'vertico-quick-insert
+	      "C-." #'embark-act
+	      "C-M-o" #'kb/vertico-quick-embark
 
-		;; NOTE 2022-02-05: Cycle through candidate groups
-		"C-M-j" #'vertico-next-group
-		"C-M-k" #'vertico-previous-group
+	      ;; NOTE 2022-02-05: Cycle through candidate groups
+	      "C-M-j" #'vertico-next-group
+	      "C-M-k" #'vertico-previous-group
 
-		;; Toggle Vertico multiforms in active minibuffer
-		"C-l" #'vertico-multiform-grid
-		"M-F" #'vertico-multiform-flat
-		"C-;" #'vertico-multiform-vertical
-		"M-U" #'vertico-multiform-unobtrusive)
+	      ;; Toggle Vertico multiforms in active minibuffer
+	      "C-l" #'vertico-multiform-grid
+	      "M-F" #'vertico-multiform-flat
+	      "C-;" #'vertico-multiform-vertical
+	      "M-U" #'vertico-multiform-unobtrusive)
 
-      (:keymaps 'minibuffer-local-map
-		"<tab>" #'completion-at-point        ; Insert selected candidate into text area
-		"<escape>" #'abort-minibuffers ; Close minibuffer
-		"C-u"  #'delete-minibuffer-contents
-		"C-w"  #'backward-kill-word)
+    (:keymaps 'minibuffer-local-map
+	      "<tab>" #'completion-at-point        ; Insert selected candidate into text area
+	      "<escape>" #'abort-minibuffers ; Close minibuffer
+	      "C-u"  #'delete-minibuffer-contents
+	      "C-w"  #'backward-kill-word)
 
-      :config
-      ;; Use 'consult-completion-in-region' if Vertico is enabled.
-      ;; Otherwise use the default 'completion--in-region' function.
-      (setq completion-in-region-function
-	    (lambda (&rest args)
-	      (apply (if vertico-mode
-			 #'consult-completion-in-region
-		       #'completion--in-region)
-		     args)))
+    :config
+    ;; Use 'consult-completion-in-region' if Vertico is enabled.
+    ;; Otherwise use the default 'completion--in-region' function.
+    (setq completion-in-region-function
+	  (lambda (&rest args)
+	    (apply (if vertico-mode
+		       #'consult-completion-in-region
+		     #'completion--in-region)
+		   args)))
 
-      (defun kb/vertico-quick-embark (&optional arg)
-	"Embark on candidate using quick keys."
-	(interactive)
-	(when (vertico-quick-jump)
-	  (embark-act arg)))
+    (defun kb/vertico-quick-embark (&optional arg)
+      "Embark on candidate using quick keys."
+      (interactive)
+      (when (vertico-quick-jump)
+	(embark-act arg)))
 
-      ;;(advice-add #'completing-read-multiple
-      ;;            :override #'consult-completing-read-multiple)
+    ;;(advice-add #'completing-read-multiple
+    ;;            :override #'consult-completing-read-multiple)
 
+    ;; Configure the display per command.
+    ;; Use a buffer with indices for imenu
+    ;; and a flat (Ido-like) menu for M-x.
+    (setq vertico-multiform-commands
+	  '((consult-imenu buffer indexed)
+	    (consult-grep buffer indexed)
+	    (consult-fd buffer indexed)
+	    (consult-buffer flat indexed)))
+    ;; (execute-extended-command flat indexed)))
 
-      ;; Configure the display per command.
-      ;; Use a buffer with indices for imenu
-      ;; and a flat (Ido-like) menu for M-x.
-      (setq vertico-multiform-commands
-	    '((consult-imenu buffer indexed)
-	      (consult-grep buffer)
-	      (consult-buffer flat indexed)
-	      (execute-extended-command flat indexed)))
+    ;; Configure the display per completion category.
+    ;; Use the grid display for files and a buffer
+    ;; for the consult-grep commands.
+    (setq vertico-multiform-categories
+	  '((file grid indexed)
+	    ;;(t reverse)
+	    ))
+    :custom
+    (vertico-cycle t)
+    :init
+    (vertico-mode)
+    ;; Enable vertico-multiform
+    (vertico-multiform-mode))
+#+end_src
+*** Vertico Extension
+#+begin_src emacs-lisp
+  (use-package vertico-posframe
+    ;; :hook (vertico-posframe-mode .
+    ;; 			       (lambda () (set-frame-parameter (selected-frame) 'alpha '(85 . 50))))
 
-      ;; Configure the display per completion category.
-      ;; Use the grid display for files and a buffer
-      ;; for the consult-grep commands.
-      (setq vertico-multiform-categories
-	    '((file grid indexed)
-	      ;;(t reverse)
-	      ))
-      :custom
-      (vertico-cycle t)
-      :init
-      (vertico-mode)
-      ;; Enable vertico-multiform
-      (vertico-multiform-mode))
+    :config
+    (setq vertico-multiform-commands
+	  '((consult-fd
+	     posframe
+	     indexed
+	     (vertico-posframe-poshandler . posframe-poshandler-frame-center)
+	     (vertico-posframe-border-width . 1)
+	     ;; NOTE: This is useful when emacs is used in both in X and
+	     ;; terminal, for posframe do not work well in terminal, so
+	     ;; vertico-buffer-mode will be used as fallback at the
+	     ;; moment.
+	     (vertico-posframe-fallback-mode . vertico-buffer-mode)))))
 #+end_src
 
 ** History 
