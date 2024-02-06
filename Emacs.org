@@ -57,7 +57,6 @@
   (use-package emacs
 
     :bind (("C-S-u" . universal-argument)
-	   ("C-r" . recursive-edit)
 	   ("<f12>" . tmm-menubar)
 	   ("C-x |" . display-fill-column-indicator-mode)
 	   ("s-." . context-menu-open)
