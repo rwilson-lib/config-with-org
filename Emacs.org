@@ -1112,16 +1112,25 @@
 #+end_src
 ** Diff-hl
 #+begin_src emacs-lisp
-  (use-package diff-hl
-    :after magit
-    :commands (diff-hl-mode global-diff-hl-mode)
-    :config
-    (setq
-     diff-hl-side "left"
-     diff-hl-draw-borders nil
-     diff-hl-show-staged-changes nil)
-    (message "diff-hl ready ✔"))
-#+end_src
+    (defun diff-hl-handle-buffer-switch ()
+    "Toggle `diff-hl-mode' and `diff-hl-flydiff-mode' based on VC state."
+    (interactive)
+    (when (buffer-file-name)
+      (let ((stage (vc-state (buffer-file-name (current-buffer)))))
+	(when stage
+	  (diff-hl-mode)
+	  (diff-hl-show-hunk-mouse-mode)
+	  (diff-hl-flydiff-mode)))))
+
+    (use-package diff-hl
+      :hook (buffer-list-update . diff-hl-handle-buffer-switch)
+      :config
+      (setq
+       diff-hl-side "left"
+       diff-hl-draw-borders nil
+       diff-hl-show-staged-changes nil)
+      (message "diff-hl ready ✔"))
+    #+end_src
 ** Forge  
 #+begin_src emacs-lisp
   (use-package forge
