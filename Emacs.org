@@ -1088,7 +1088,7 @@
     :ensure-system-package rg)
 #+end_src
 
-* Version Control
+ Version Control
 ** Magit
 #+begin_src emacs-lisp
   (use-package magit
