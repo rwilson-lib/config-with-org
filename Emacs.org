@@ -956,11 +956,8 @@
 
     (general-define-key
      :keymaps '(evil-window-map)
-     "f"  'make-frame
-     "N"  'evil-buffer-new
-     "m"  'evil-window-exchange
+     "n"  'evil-buffer-new
      "x"  'evil-window-exchange
-     "d"  'evil-delete-buffer 
      "c"  'evil-window-delete
      "t"  'tab-bar-move-window-to-tab
      "C"  'tab-close
