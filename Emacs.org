@@ -185,16 +185,6 @@
   (add-to-list 'default-frame-alist '(height . 35))
   (add-to-list 'default-frame-alist '(width . 115))
 
-
-  (defun delete-other-windows-advice (function &rest args)
-    (if current-prefix-arg
-	(if (winum-get-window-by-number current-prefix-arg)
-	    (switch-to-buffer (window-buffer
-			       (winum-get-window-by-number current-prefix-arg)))))
-    (apply function args))
-
-  (advice-add 'delete-other-windows :around #'delete-other-windows-advice)
-
   (defun custom/display-buffer-at-bottom ()
     (interactive)
     (let ((buffer (current-buffer)))
@@ -1675,6 +1665,7 @@ if one already exists."
     :config
     (message "ESS View loaded ✔"))
 #+end_src
+** Gnuplot
 #+begin_src emacs-lisp
   (use-package gnuplot
   :after (org gnuplot)
