@@ -556,16 +556,13 @@
 	       (menu-bar--display-line-numbers-mode-absolute)))
       (menu-bar--display-line-numbers-mode-none)))
 #+end_src
-
 ** NerdFont
 #+begin_src emacs-lisp
-
   (use-package nerd-icons)
   (use-package nerd-icons-completion)
-
 #+end_src
-
 ** Themes and Mode-line
+*** Modus Theme Config
 #+begin_src emacs-lisp
   (setq display-time-day-and-date t
 	display-time-24hr-format t)
@@ -586,7 +583,7 @@
 	modus-themes-italic-constructs t
 
 	modus-themes-mode-line (quote (borderless accented))
-	
+
 	modus-themes-mixed-fonts t
 
 	modus-themes-scale-headings t
@@ -1308,7 +1305,7 @@ if one already exists."
     (html-mode . emmet-mode)
     (rjsx-mode . emmet-mode)
     (css-mode  . emmet-mode) ;; enable Emmet's css abbreviation.
-    
+
     ;; :bind (:map emmet-mode-keymap 
     ;;             ("C-c C-c p" . emmet-preview-mode))
 
