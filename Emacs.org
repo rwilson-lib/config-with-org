@@ -600,7 +600,7 @@
 #+begin_src emacs-lisp
   (defun toggle-line-number()
     (interactive)
-    (if (equal current-prefix-arg nil) ; no C-u
+    (if (not current-prefix-arg)
 	(cond ((eq display-line-numbers-type 't)
 	       (menu-bar--display-line-numbers-mode-relative))
 	      ((eq display-line-numbers-type 'nil)
