@@ -1250,7 +1250,7 @@ if one already exists."
       (vterm t))))
 
 #+end_src
-** Programming
+* Programming
 #+begin_src emacs-lisp
 
   (use-package flycheck
