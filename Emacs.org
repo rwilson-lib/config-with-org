@@ -97,6 +97,7 @@
     (column-number-mode)
     (put 'scroll-left 'disabled nil)    ; enabled scroll left with C-x 
     (context-menu-mode)			; enable context menu
+    (repeat-mode)			; enable repeat mode 
 
     ;; Add prompt indicator to `completing-read-multiple'.
     ;; Alternatively try `consult-completing-read-multiple'.
