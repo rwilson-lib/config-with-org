@@ -1325,6 +1325,11 @@ if one already exists."
     :config
     (message "emmet loaded  ✔"))   ;; expand with ctrl-enter
 #+end_src
+*** Tempel
+#+begin_src emacs-lisp
+  (use-package tempel)
+#+end_src
+
 ** Web Mode
 #+begin_src emacs-lisp
   (use-package web-mode
