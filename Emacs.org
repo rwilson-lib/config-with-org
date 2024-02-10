@@ -12,12 +12,12 @@
     (message "benchmark-init loaded ✔"))
 #+end_src
 * Environment
-** Custom File
+** Byte Init
 #+begin_src emacs-lisp
-  ;; (setq custom-file (locate-user-emacs-file "custom.el"))
-  (setq custom-file (concat user-emacs-directory "custom.el"))
-  (when (file-exists-p custom-file)
-    (load custom-file))
+  (defun byte-compile-init-file ()
+    "Byte-compile the init file whenever it's saved."
+    (interactive)
+    (byte-compile-file (expand-file-name user-init-file)))
 #+end_src
 ** Package Install
 #+begin_src emacs-lisp
@@ -69,6 +69,8 @@
 			  (unless (server-running-p)
 			    (server-start))))
     :init
+    ;; set customization ui conf-file location
+    (setq custom-file (concat user-emacs-directory "custom.el"))
     ;; open emacs in tmp folder on startup
     (setq default-directory "~/tmp/")
 
@@ -169,6 +171,9 @@
     (setq enable-recursive-minibuffers t)
     :if (treesit-available-p) 		; check if Emacs is built with tree-sitter library
     :config
+    ;; auto-load custom-file when is exist
+    (when (file-exists-p custom-file)
+      (load custom-file))
     (setq treesit-extra-load-path '("~/.lib/tree-sitter-langs/")))
 #+end_src
 
