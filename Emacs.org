@@ -556,12 +556,16 @@
       ;; "SPC F" 'find-file-other-window
       "SPC b" 'consult-buffer
       "SPC B" 'consult-buffer-other-window
-      "SPC SPC" 'execute-extended-command
       "SPC w" (general-simulate-key "C-w")
       "SPC x" (general-simulate-key "C-x")
+      "SPC v" (general-simulate-key "C-x v")
       "SPC c" (general-simulate-key "C-c")
       "SPC g" (general-simulate-key "M-g")
       "SPC s" (general-simulate-key "M-s"))
+
+    (general-define-key
+     :keymaps '(normal visual)
+     "g X" 'link-hint-open-link)
 
     (general-define-key
      :keymaps '(normal visual)
