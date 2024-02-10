@@ -1499,7 +1499,7 @@ if one already exists."
   ;;  pipenv-projectile-after-switch-function
   ;;    #'pipenv-projectile-after-switch-extended))
 #+end_src
-** Universal Modeling Language
+** PlantUML
 #+begin_src emacs-lisp
   (use-package plantuml-mode
     :mode (("\\.pu\\'" . plantuml-mode)
