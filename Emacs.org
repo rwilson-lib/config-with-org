@@ -889,35 +889,18 @@
     ;; Bind dedicated completion commands
     (general-define-key
      :states '(insert)
-     :prefix "S-SPC"			  ; vim i_Ctr-x
-     "l"  'cape-line
-     "n"  'completion-at-point            ; capf
-     "k"  'cape-dict
-     "]"  'complete-tag                   ; etags
-     "i"  'cape-dabbrev                   ; or dabbrev-completion
-     "f"  'cape-file
-     "w"  'cape-keyword
-     "o"  'cape-symbol			  ; vim omni completion
-     "a"  'cape-abbrev
-     "s"  'cape-ispell
-     "\\" 'cape-tex
-     "&" 'cape-sgml
-     "r" 'cape-rfc1345)
+     :prefix "C-x C-x"			 ; vim i_Ctr-x
+     "C-l" 'cape-line
+     "C-o" 'completion-at-point          ; vim omni completion 
+     "C-k" 'cape-dict
+     "C-]" 'complete-tag                 ; etags
+     "C-i" 'cape-dabbrev                 ; or dabbrev-completion
+     "C-f" 'cape-file
+     "C-a" 'cape-abbrev
+     "C-s" 'cape-ispell
+     "C-&" 'cape-sgml)
     :init
-    (setq cape-dict-file "/usr/share/dict/words")
-    ;; Add `completion-at-point-functions', used by `completion-at-point'.
-    ;;(add-to-list 'completion-at-point-functions #'cape-dabbrev)
-    ;;(add-to-list 'completion-at-point-functions #'cape-sgml)
-    ;;(add-to-list 'completion-at-point-functions #'cape-rfc1345)
-    ;;(add-to-list 'completion-at-point-functions #'cape-abbrev)
-    ;;(add-to-list 'completion-at-point-functions #'cape-ispell)
-    ;;(add-to-list 'completion-at-point-functions #'cape-dict)
-    ;;(add-to-list 'completion-at-point-functions #'cape-line)
-    ;;(add-to-list 'completion-at-point-functions #'cape-yasnippet)
-    (add-to-list 'completion-at-point-functions #'cape-file)
-    ;; (add-to-list 'completion-at-point-functions #'cape-tex)
-    (add-to-list 'completion-at-point-functions #'cape-symbol)
-    (add-to-list 'completion-at-point-functions #'cape-keyword))
+    (setq cape-dict-file "/usr/share/dict/words"))
 #+end_src
 ** IBuffer
 #+begin_src emacs-lisp
