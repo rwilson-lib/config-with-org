@@ -2613,7 +2613,7 @@ if one already exists."
   (use-package key-quiz
     :disabled
     :init
-    (evil-set-initial-state 'key-quiz-mode 'insert)
+    (evil-set-initial-state 'key-quiz-mode 'emacs)
     :config
     (message "speed-type ready ✔"))
 #+end_src
