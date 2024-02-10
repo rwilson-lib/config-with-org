@@ -1842,6 +1842,12 @@ if one already exists."
   ;;     (use-package org-noter-pdftools
   ;;       :after  pdf-tools))
 #+end_src
+** Zotero
+#+begin_src emacs-lisp
+(use-package zotero
+  :disabled
+  :commands (zotero-browser))
+#+end_src
 * Email
 ** Mu4e Function
 #+begin_src emacs-lisp
