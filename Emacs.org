@@ -898,6 +898,14 @@
     :config
     (message "IBuffer loaded ✔"))
 #+end_src
+** Link hint
+#+begin_src emacs-lisp
+  (use-package link-hint
+    :commands (link-hint-open-link link-hint-copy-link)
+    :config
+    (message "link-hint ready ✔"))
+#+end_src
+
 * Window Management
 ** Winum Mode
 #+begin_src emacs-lisp
