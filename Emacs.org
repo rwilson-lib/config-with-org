@@ -1364,15 +1364,18 @@ if one already exists."
 			 (display-line-numbers-mode 1)
 			 ;; (yas-minor-mode)
 			 (flycheck-mode)	
-		     (setq-local completion-at-point-functions
-				 (list (cape-capf-super #'tempel-complete #'cape-keyword )))))
-
+			 (setq-local completion-at-point-functions
+				     (cape-capf-super
+				      #'codeium-completion-at-point
+				      #'tempel-complete
+				      #'cape-keyword ))))
     :config
     (setq-local visual-fill-column-width 100
 		visual-fill-column-center-text t)
     (setq-local fill-column 79))
 #+end_src
 ** Snippet
+*** Emmet
 #+begin_src emacs-lisp
   (use-package emmet-mode
     :hook
