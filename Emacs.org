@@ -922,9 +922,9 @@
 	  corfu-popupinfo-max-width 70
 	  corfu-popupinfo-max-height 20)
 
-    (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter)
+    (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
 
-    (use-package corfu-candidate-overlay)
+  (use-package corfu-candidate-overlay
     :init
     (corfu-popupinfo-mode 1)
     (corfu-candidate-overlay-mode 1))
