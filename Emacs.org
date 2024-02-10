@@ -1119,8 +1119,8 @@
 	   ;; Isearch integration
 	   ("M-s e" . consult-isearch-history))
     :config
+    (setq-default consult-locate-args "locate -i")
     (message "consult ready ✔"))
-
 #+End_src
 ** Isearch
 #+begin_src emacs-lisp
