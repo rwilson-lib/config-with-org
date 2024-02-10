@@ -907,15 +907,8 @@
 ** Key-cast
 #+begin_src emacs-lisp
   (use-package keycast
-    :commands (keycast-mode keycast-tab-bar keycast-mode-line)
+    :commands (keycast-mode keycast-tab-bar)
     :config
-    (define-minor-mode keycast-mode
-      "Show current command and its key binding in the mode line (fix for use with doom-mode-line)."
-      :global t
-      (if keycast-mode
-	  (add-hook 'pre-command-hook 'keycast--update t)
-	(remove-hook 'pre-command-hook 'keycast--update)))
-    (add-to-list 'global-mode-string '("" mode-line-keycast))
     (message "keycast loaded ✔"))
 #+end_src
 ** Cape
