@@ -1,4 +1,3 @@
-# -*- org-confirm-babel-evaluate: nil; eval: (add-hook 'after-save-hook 'org-babel-tangle nil t);-*-
 #+TITLE: Emacs Configuration
 #+PROPERTY: header-args:emacs-lisp :tangle ~/.emacs.d/init.el
 * Benchmark
@@ -2849,6 +2848,7 @@ if one already exists."
       (package-vc-install "https://github.com/rwilson-lib/my-emacs-extensions.git")))
 #+end_src
 
-
-
-
+# Local Variables:
+# org-confirm-babel-evaluate: nil
+# eval: (add-hook 'after-save-hook 'org-babel-tangle nil t)
+# End:
