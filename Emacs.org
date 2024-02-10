@@ -1092,14 +1092,25 @@
 	  (diff-hl-show-hunk-mouse-mode)
 	  (diff-hl-flydiff-mode)))))
 
-    (use-package diff-hl
-      :hook (buffer-list-update . diff-hl-handle-buffer-switch)
-      :config
-      (setq
-       diff-hl-side "left"
-       diff-hl-draw-borders nil
-       diff-hl-show-staged-changes nil)
-      (message "diff-hl ready ✔"))
+  (use-package diff-hl
+    :hook (buffer-list-update . diff-hl-handle-buffer-switch)
+    :bind
+    ;; https://www.gnu.org/software/emacs/manual/html_node/use-package/Binding-to-repeat_002dmaps.html
+    (:repeat-map diff-hl-command-map 
+		 ("n" . diff-hl-show-hunk-next)
+		 ("p" . diff-hl-show-hunk-previous) 
+		 ("s" . diff-hl-stage-current-hunk)
+		 ("r" . diff-hl-revert-hunk)
+		 :exit
+		 ("c" . magit-commit-create)
+		 ("C" . magit-commit)
+		 ("b" . magit-blame))
+    :config
+    (setq
+     diff-hl-side "left"
+     diff-hl-draw-borders nil
+     diff-hl-show-staged-changes nil)
+    (message "diff-hl ready ✔"))
     #+end_src
 ** Forge  
 #+begin_src emacs-lisp
