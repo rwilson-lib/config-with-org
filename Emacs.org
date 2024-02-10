@@ -1395,7 +1395,7 @@ if one already exists."
 		       (setq tab-width 2)
 		       (setq js-indent-level 2))))
 
-  (setq eglot-ignored-server-capabilites '(:documentHighlightProvider))
+  (setq eglot-ignored-server-capabilities '(:documentHighlightProvider))
   ;; (require 'dap-firefox)
   ;; (require 'dap-node)
 #+end_src
@@ -1881,7 +1881,7 @@ if one already exists."
 
   (defun mu4e-action-save-to-pdf (msg)
     (let* ((date (mu4e-message-field msg :date))
-	   (infile (mu4e~write-body-to-html msg))
+	   (infile (mu4e-write-body-to-html msg))
 	   (dir (read-directory-name "Directory:"))
 	   (outfile (format-time-string "%Y-%m-%d%H%M%S.pdf" date)))
       (with-temp-buffer
@@ -1915,8 +1915,7 @@ if one already exists."
 			  (mu4e-icalendar-setup)
 			  (gnus-icalendar-org-setup))
     :config
-    (setq mu4e-maildir "~/Mail"
-	  mu4e-get-mail-command "mbsync -a"
+    (setq mu4e-get-mail-command "mbsync -a"
 	  mu4e-change-filenames-when-moving t
 	  mu4e-compose-format-flowed t
 	  message-kill-buffer-on-exit t
@@ -1929,8 +1928,7 @@ if one already exists."
     (setq mu4e-text2speech-command "espeak")
 
     (require 'mu4e-icalendar)
-    (setq mu4e-view-use-gnus t
-	  mu4e-icalendar-diary-file "~/.emacs.d/diary"
+    (setq mu4e-icalendar-diary-file "~/.emacs.d/diary"
 	  gnus-icalendar-org-capture-file "~/org/beorg/org/Mails.org"
 	  ;;make sure to create Calendar heading first
 	  gnus-icalendar-org-capture-headline '("Calendar"))
@@ -1948,8 +1946,7 @@ if one already exists."
 	  mu4e-headers-encrypted-mark '("x" . "🔑 ")
 	  mu4e-headers-signed-mark    '("s" . ""))
 
-    (setq mu4e-view-prefer-html nil
-	  mu4e-completing-read-function 'completing-read)
+    (setq mu4e-completing-read-function 'completing-read)
 
     (add-to-list 'mu4e-view-actions
 		 '("Save to PDF" . do.mail.html/render-pdf) t)
