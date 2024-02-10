@@ -885,6 +885,7 @@
 
 
   (use-package cape
+    :requires evil
     :config
     ;; Bind dedicated completion commands
     (general-define-key
@@ -898,8 +899,21 @@
      "C-f" 'cape-file
      "C-a" 'cape-abbrev
      "C-s" 'cape-ispell
-     "C-&" 'cape-sgml)
+     "C-&" 'cape-sgml
+     "C-e" 'evil-scroll-line-down
+     "C-y" 'evil-scroll-line-up)
+
     :init
+    ;; https://karthinks.com/software/it-bears-repeating/
+    (defvar evil-insert-state-repeat-map 
+      (let ((map (make-sparse-keymap)))
+	(define-key map (kbd "C-e") 'evil-scroll-line-down)
+	(define-key map (kbd "C-y") 'evil-scroll-line-up)
+	map))
+
+    (dolist (cmd '(evil-scroll-line-down evil-scroll-line-up))
+      (put cmd 'repeat-map 'evil-insert-state-repeat-map))
+
     (setq cape-dict-file "/usr/share/dict/words"))
 #+end_src
 ** IBuffer
