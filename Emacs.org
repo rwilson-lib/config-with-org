@@ -807,32 +807,6 @@
   ;; iedit-goto-last-occurrences
   ;; iedit-goto-first-occurrences
 #+end_src
-** Embark
-#+begin_src emacs-lisp
-  (use-package embark
-    :bind
-    (("M-o" . embark-act)         ;; pick some comfortable binding
-     ("M-O" . embark-dwim)        ;; good alternative: M-.
-     ("C-h B" . embark-bindings) ;; alternative for `describe-bindings'
-
-     :map minibuffer-local-map
-     ("C-b" . embark-become)) 
-
-    :init
-    ;; Optionally replace the key help with a completing-read interface
-    (setq prefix-help-command #'embark-prefix-help-command)
-
-    :config
-    ;; Hide the mode line of the Embark live/completions buffers
-    (add-to-list 'display-buffer-alist
-                 '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
-                   nil
-                   (window-parameters (mode-line-format . none)))))
-  ;; use C-u to perform multiple action
-
-  (use-package avy-embark-collect
-    :after embark)
-#+end_src
 ** Tree-Macs
 #+begin_src emacs-lisp
   (use-package treemacs
@@ -1705,15 +1679,6 @@ if one already exists."
     :config
     (setq flyspell-lazy-idle-seconds 2))
 #+end_src
-** Lang tools
-#+begin_src emacs-lisp
-(use-package flycheck-languagetool 	
-:disabled
-:ensure t
-:hook (text-mode . flycheck-languagetool-setup)
-:init
-(setq flycheck-languagetool-server-jar "~/bin/LanguageTool-5.7/languagetool-server.jar"))
-#+end_src
 ** Dictionary & Thesaurus 
 #+begin_src emacs-lisp
   (use-package dictionary
@@ -1819,15 +1784,12 @@ if one already exists."
 	  (lambda (fpath)
 	    (call-process "open" nil 0 nil fpath))))
 
-  (use-package citar-embark
-    :after  citar-embark)
-
   (use-package org-roam-bibtex ; optional: if using Org-ref v2 or v3 citation links
     :after org-roam)
   ;; :config
   ;; (require 'org-ref)
 
-  ;; (use-package org-ref
+  ; (use-package org-ref
   ;;   :bind (:map bibtex-mode-map
   ;;               ("H-b" . org-ref-bibtex-hydra/body)
   ;;               (:map biblio-selection-mode-map
@@ -2508,62 +2470,6 @@ if one already exists."
     :config
     (message "Ox Pandoc ready ✔"))
 #+end_src
-* Pretty Symbols
-** Org Symbols
-#+begin_src emacs-lisp
-  ;; (defun my/org-mode/load-prettify-symbols ()
-  ;;   (interactive)
-  ;;   "Beautify org mode keywords."
-  ;;   (setq prettify-symbols-alist '(("TODO" . " ")
-  ;;                                  ("WAIT" . "")        
-  ;;                                  ("NOPE" . "")
-  ;;                                  ("DONE" . "")
-  ;;                                  ("[#A]" . "")
-  ;;                                  ("[#B]" . "")
-  ;;                                  ("[#C]" . "")
-  ;;                                  ("[ ]" . "")
-  ;;                                  ("[X]" . "")
-  ;;                                  ("[-]" . "")
-  ;;                                  ("#+BEGIN_SRC" . " ")
-  ;;                                  ("#+END_SRC" . "―")
-  ;;                                  (":PROPERTIES:" . "")
-  ;;                                  ("#+PROPERTY:" . "")
-  ;;                                  (":END:" . "―")
-  ;;                                  ("#+STARTUP:" . "")
-  ;;                                  ("#+TITLE: " . "")
-  ;;                                  ("#+RESULTS:" . "")
-  ;;                                  ("#+NAME:" . "")
-  ;;                                  ("#+ROAM_TAGS:" . "")
-  ;;                                  ("#+FILETAGS:" . "")
-  ;;                                  ("#+HTML_HEAD:" . "")
-  ;;                                  ("#+SUBTITLE:" . "")
-  ;;                                  ("#+AUTHOR:" . "")
-  ;;                                  (":Effort:" . "")
-  ;;                                  ("SCHEDULED:" . " ")
-  ;;                                  ("DEADLINE:" . "")))
-  ;;   (prettify-symbols-mode 1))
-
-  ;; (add-hook 'org-mode-hook 'my/org-mode/load-prettify-symbols)
-#+end_src
-** Prog Symbols
-#+begin_src emacs-lisp
-  (defun my/prog-mode/load-prettify-symbols ()
-    (interactive)
-    "Beautify prog mode keywords."
-    (setq prettify-symbols-alist '(("lambda" . "λ")
-                                   ;;("|>" . "▶")
-                                   ;;("<|" . "◁")
-                                   ;;("->>" . "↠")
-                                   ;;("->" . "➞")
-                                   ;;("<-" . "←")
-                                   ;;("=>" . "⇒")
-                                   ;;("<=" . "≤")
-                                   ;;(">=" . "≥")
-                                   ))
-    (prettify-symbols-mode 1))
-
-  (add-hook 'prog-mode-hook 'my/prog-mode/load-prettify-symbols)
-#+end_src
 * Notes
 ** Org Roam
 #+begin_src emacs-lisp
@@ -2721,13 +2627,6 @@ if one already exists."
     (evil-set-initial-state 'speed-type-mode 'insert)
     :config
     (message "speed-type ready ✔"))
-#+end_src
-** Chess
-#+begin_src emacs-lisp
-  (use-package chess
-    :disabled
-    :config
-    (message "chess ready ✔"))
 #+end_src
 * Timer and Watcher
 #+begin_src emacs-lisp
