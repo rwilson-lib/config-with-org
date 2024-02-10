@@ -1005,10 +1005,10 @@
       (global-set-key [remap other-window] 'ace-window)
       (custom-set-faces
        '(aw-leading-char-face
-         ((t (:inhert ace-jump-face-background :height 1.5))))))
+	 ((t (:inhert ace-jump-face-background :height 1.5))))))
     :config
     (setq aw-dispatch-always t
-          aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
+	  aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
 
     (general-define-key
      :states '(normal insert)
