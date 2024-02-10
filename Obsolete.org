@@ -862,12 +862,6 @@
     :commands (ace-link)
     :config
     (message "ace-link loaded! ✔"))
-
-  (use-package link-hint
-    :commands (link-hint-open-link link-hint-copy-link)
-
-    :config
-     (message "link-hint ready ✔"))
 #+end_src
 
 ** MU4E Alert
@@ -941,4 +935,101 @@
     :commands (emacs-everywhere)
     :config
     (message "emacs-everywhere ready ✔"))
+#+end_src
+
+* Embark
+** Embark
+#+begin_src emacs-lisp
+  (use-package embark
+    :bind
+    (("M-o" . embark-act)         ;; pick some comfortable binding
+     ("M-O" . embark-dwim)        ;; good alternative: M-.
+     ("C-h B" . embark-bindings) ;; alternative for `describe-bindings'
+
+     :map minibuffer-local-map
+     ("C-b" . embark-become)) 
+
+    :init
+    ;; Optionally replace the key help with a completing-read interface
+    (setq prefix-help-command #'embark-prefix-help-command)
+
+    :config
+    ;; Hide the mode line of the Embark live/completions buffers
+    (add-to-list 'display-buffer-alist
+		 '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+		   nil
+		   (window-parameters (mode-line-format . none)))))
+  ;; use C-u to perform multiple action
+
+  (use-package avy-embark-collect
+    :after embark)
+
+  (use-package citar-embark
+    :after  citar-embark)
+#+end_src
+
+** Lang tools
+#+begin_src emacs-lisp
+(use-package flycheck-languagetool 	
+:disabled
+:ensure t
+:hook (text-mode . flycheck-languagetool-setup)
+:init
+(setq flycheck-languagetool-server-jar "~/bin/LanguageTool-5.7/languagetool-server.jar"))
+#+end_src
+* Pretty Symbols
+** Org Symbols
+#+begin_src emacs-lisp
+  ;; (defun my/org-mode/load-prettify-symbols ()
+  ;;   (interactive)
+  ;;   "Beautify org mode keywords."
+  ;;   (setq prettify-symbols-alist '(("TODO" . " ")
+  ;;                                  ("WAIT" . "")        
+  ;;                                  ("NOPE" . "")
+  ;;                                  ("DONE" . "")
+  ;;                                  ("[#A]" . "")
+  ;;                                  ("[#B]" . "")
+  ;;                                  ("[#C]" . "")
+  ;;                                  ("[ ]" . "")
+  ;;                                  ("[X]" . "")
+  ;;                                  ("[-]" . "")
+  ;;                                  ("#+BEGIN_SRC" . " ")
+  ;;                                  ("#+END_SRC" . "―")
+  ;;                                  (":PROPERTIES:" . "")
+  ;;                                  ("#+PROPERTY:" . "")
+  ;;                                  (":END:" . "―")
+  ;;                                  ("#+STARTUP:" . "")
+  ;;                                  ("#+TITLE: " . "")
+  ;;                                  ("#+RESULTS:" . "")
+  ;;                                  ("#+NAME:" . "")
+  ;;                                  ("#+ROAM_TAGS:" . "")
+  ;;                                  ("#+FILETAGS:" . "")
+  ;;                                  ("#+HTML_HEAD:" . "")
+  ;;                                  ("#+SUBTITLE:" . "")
+  ;;                                  ("#+AUTHOR:" . "")
+  ;;                                  (":Effort:" . "")
+  ;;                                  ("SCHEDULED:" . " ")
+  ;;                                  ("DEADLINE:" . "")))
+  ;;   (prettify-symbols-mode 1))
+
+  ;; (add-hook 'org-mode-hook 'my/org-mode/load-prettify-symbols)
+#+end_src
+** Prog Symbols
+#+begin_src emacs-lisp
+  (defun my/prog-mode/load-prettify-symbols ()
+    (interactive)
+    "Beautify prog mode keywords."
+    (setq prettify-symbols-alist '(("lambda" . "λ")
+                                   ;;("|>" . "▶")
+                                   ;;("<|" . "◁")
+                                   ;;("->>" . "↠")
+                                   ;;("->" . "➞")
+                                   ;;("<-" . "←")
+                                   ;;("=>" . "⇒")
+                                   ;;("<=" . "≤")
+                                   ;;(">=" . "≥")
+                                   ))
+    (prettify-symbols-mode 1))
+
+  (add-hook 'prog-mode-hook 'my/prog-mode/load-prettify-symbols)
 #+end_src
