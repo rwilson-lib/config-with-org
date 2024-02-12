@@ -595,6 +595,43 @@
     :diminish which-key-mode
     :config (setq which-key-idle-delay 0.3))
 #+end_src
+** Helper
+#+begin_src emacs-lisp
+(defun move-line-up ()
+  "Move the current line up or move the highlighted region up."
+  (interactive)
+  (if (region-active-p)
+      (let ((beg (region-beginning))
+            (end (region-end)))
+        (save-excursion
+          (goto-char beg)
+          (transpose-lines 1)
+          (forward-line -1)
+          (goto-char end)
+          (transpose-lines 1)))
+    (transpose-lines 1)
+    (forward-line -2)))
+
+(defun move-line-down ()
+  "Move the current line down or move the highlighted region down."
+  (interactive)
+  (if (region-active-p)
+      (let ((beg (region-beginning))
+            (end (region-end)))
+        (save-excursion
+          (goto-char end)
+          (forward-line 1)
+          (transpose-lines 1)
+          (forward-line -1)
+          (goto-char beg)
+          (transpose-lines 1)))
+    (forward-line 1)
+    (transpose-lines 1)
+    (forward-line -1)))
+
+(global-set-key (kbd "M-<up>") 'move-line-up)
+(global-set-key (kbd "M-<down>") 'move-line-down)
+#+end_src
 * User Interface Improvements
 ** Toggle Line Number
 #+begin_src emacs-lisp
