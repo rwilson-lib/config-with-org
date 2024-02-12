@@ -966,6 +966,14 @@
 
   (use-package citar-embark
     :after  citar-embark)
+
+  ;; "C-." #'embark-act
+  ;; "C-M-o" #'kb/vertico-quick-embark
+  ;; (defun kb/vertico-quick-embark (&optional arg)
+  ;;   "Embark on candidate using quick keys."
+  ;;   (interactive)
+  ;;   (when (vertico-quick-jump)
+  ;;     (embark-act arg)))
 #+end_src
 
 ** Lang tools
