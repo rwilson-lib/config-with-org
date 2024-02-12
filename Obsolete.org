@@ -977,6 +977,28 @@
 :init
 (setq flycheck-languagetool-server-jar "~/bin/LanguageTool-5.7/languagetool-server.jar"))
 #+end_src
+* Hydra
+#+begin_src emacs-lisp
+  (use-package hydra
+    :config
+    (defhydra hydra-vuiet (:timeout 4)
+      "vuiet music"
+      ("l" vuiet-love-track "like")
+      ("u" vuiet-unlove-track "dislike")
+      ("s" vuiet-stop "stop")
+      (">" vuiet-next "next")
+      ("<" vuiet-previous "previous")
+      ("<escape>" nil "finish"))
+
+    (defhydra hydra-mpc (:timeout 4)
+      "mpc music"
+      ("s" mpc-stop "stop")
+      (">" mpc-next "next")
+      ("<" mpc-prev "previous")
+      ("<escape>" nil "finish")))
+      
+#+end_src
+
 * Pretty Symbols
 ** Org Symbols
 #+begin_src emacs-lisp
