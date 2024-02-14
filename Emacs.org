@@ -11,6 +11,160 @@
     (add-hook 'after-init-hook 'benchmark-init/deactivate)
     (message "benchmark-init loaded ✔"))
 #+end_src
+* Key Binding
+** Evil
+#+begin_src emacs-lisp
+  (defun custom/force-normal-state-or-exit ()
+    (interactive)
+    (cond
+     ((eq evil-state 'normal) (keyboard-quit))
+     (t (evil-force-normal-state))))
+
+  (use-package evil
+    :demand t 
+
+    :bind ((:map evil-normal-state-map
+		 ("<escape>" . custom/force-normal-state-or-exit)))
+
+    :init
+    (setq evil-want-C-i-jump nil
+	  evil-want-C-u-delete t
+	  evil-want-C-u-scroll t
+	  evil-want-C-h-delete t
+	  evil-want-C-w-in-emacs-state t
+	  evil-want-integration t
+	  evil-want-keybinding nil)
+
+    (setq evil-undo-system 'undo-fu)
+    (setq evil-want-fine-undo t) 
+
+    :config
+    (setq evil-ex-search-case "insensitive"
+	  evil-echo-state t
+	  evil-auto-balance-w nil)
+
+
+    (evil-mode 1)
+    (message "Done Loading Evil"))
+
+  (defun moon-override-yank-pop (&optional arg)
+    "Delete the region before inserting poped string."
+    (when (and evil-mode (eq 'visual evil-state))
+      (kill-region (region-beginning) (region-end))))
+
+  (advice-add 'consult-yank-pop :before #'moon-override-yank-pop)
+#+end_src
+** Evil Collection
+#+begin_src emacs-lisp
+  (use-package evil-collection
+    :after evil
+    ;; (evil-set-initial-state 'calc-mode 'emacs)
+
+    :config
+    (condition-case err
+	(evil-collection-init)
+      (error (message "Error initializing evil-collection-init: %S" err))))
+
+  (use-package evil-matchit
+    :requires evil)
+
+  (use-package evil-surround
+    :requires evil
+
+    :hook ((text-mode prog-mode) . (lambda ()
+				     (evil-surround-mode)
+				     (evil-matchit-mode))))
+
+#+end_src
+** General
+#+begin_src emacs-lisp
+  (defun my/move-to-middle ()
+    (interactive)
+    (let* ((begin (line-beginning-position))
+	   (end (line-end-position))
+	   (middle (/ (+ end begin) 2)))
+      (goto-char middle)))
+
+  (use-package general
+    :after evil
+    :config
+    (general-evil-setup t)
+
+    (general-nvmap
+      "g \\" 'toggle-line-number
+      "g m" 'my/move-to-middle
+      "; ;" 'evil-buffer
+      ;; "SPC f" 'find-file
+      ;; "SPC F" 'find-file-other-window
+      "SPC b" 'consult-buffer
+      "SPC B" 'consult-buffer-other-window
+      "SPC w" (general-simulate-key "C-w")
+      "SPC x" (general-simulate-key "C-x")
+      "SPC v" (general-simulate-key "C-x v")
+      "SPC c" (general-simulate-key "C-c")
+      "SPC g" (general-simulate-key "M-g")
+      "SPC s" (general-simulate-key "M-s"))
+
+    (general-define-key
+     :keymaps '(normal visual)
+     :prefix "g SPC"
+     "x" (general-simulate-key "C-c C-c"))
+
+    (general-define-key
+     :keymaps '(transient-base-map)
+     "<escape>" 'transient-quit-one)
+
+
+    (general-define-key
+     :keymaps '(normal insert visual emacs)
+     "<C-escape>" 'keyboard-quit))
+
+#+end_src
+
+** Which-Key
+#+begin_src emacs-lisp
+  (use-package which-key
+    :init (which-key-mode)
+    :diminish which-key-mode
+    :config (setq which-key-idle-delay 0.3))
+#+end_src
+** Helper
+#+begin_src emacs-lisp
+(defun move-line-up ()
+  "Move the current line up or move the highlighted region up."
+  (interactive)
+  (if (region-active-p)
+      (let ((beg (region-beginning))
+            (end (region-end)))
+        (save-excursion
+          (goto-char beg)
+          (transpose-lines 1)
+          (forward-line -1)
+          (goto-char end)
+          (transpose-lines 1)))
+    (transpose-lines 1)
+    (forward-line -2)))
+
+(defun move-line-down ()
+  "Move the current line down or move the highlighted region down."
+  (interactive)
+  (if (region-active-p)
+      (let ((beg (region-beginning))
+            (end (region-end)))
+        (save-excursion
+          (goto-char end)
+          (forward-line 1)
+          (transpose-lines 1)
+          (forward-line -1)
+          (goto-char beg)
+          (transpose-lines 1)))
+    (forward-line 1)
+    (transpose-lines 1)
+    (forward-line -1)))
+
+(global-set-key (kbd "M-<up>") 'move-line-up)
+(global-set-key (kbd "M-<down>") 'move-line-down)
+#+end_src
 * Environment
 ** Byte Init
 #+begin_src emacs-lisp
