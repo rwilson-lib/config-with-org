@@ -1,5 +1,41 @@
 #+TITLE: Emacs Configuration
 #+PROPERTY: header-args:emacs-lisp :tangle ~/.emacs.d/init.el
+* Init
+** Package Install
+#+begin_src emacs-lisp
+  (require 'package)
+
+  ;; Add Homebrew directory to exec-path
+  (add-to-list 'exec-path "/opt/homebrew/bin")  ; Use "" for Apple Silicon
+  ;; Update PATH environment variable
+  (setenv "PATH" (concat "/opt/homebrew/bin:" (getenv "PATH")))  ; Use "" for Apple Silicon
+
+
+  (setq package-archives '(("melpa" . "https://melpa.org/packages/")
+			   ("melpa-stable" . "https://stable.melpa.org/packages/")
+			   ("org" . "https://orgmode.org/elpa/")
+			   ("elpa" . "https://elpa.gnu.org/packages/")))
+  (package-initialize)
+
+  (unless package-archive-contents
+    (package-refresh-contents))
+
+
+  (if (version< emacs-version "29.0")
+      ((require 'use-package)
+       (unless (package-installed-p 'use-package)
+	 (package-install 'use-package))))
+
+  (setq use-package-always-ensure t)
+
+  (use-package use-package-ensure-system-package)
+
+  (use-package system-packages
+    :config
+    (setq system-packages-package-manager 'brew
+	  system-packages-use-sudo nil))
+#+end_src
+
 * Benchmark
 #+begin_src emacs-lisp 
   (use-package benchmark-init
@@ -172,34 +208,6 @@
     "Byte-compile the init file whenever it's saved."
     (interactive)
     (byte-compile-file (expand-file-name user-init-file)))
-#+end_src
-** Package Install
-#+begin_src emacs-lisp
-  (require 'package)
-
-  (setq package-archives '(("melpa" . "https://melpa.org/packages/")
-			   ("melpa-stable" . "https://stable.melpa.org/packages/")
-			   ("org" . "https://orgmode.org/elpa/")
-			   ("elpa" . "https://elpa.gnu.org/packages/")))
-  (package-initialize)
-
-  (unless package-archive-contents
-    (package-refresh-contents))
-
-
-  (if (version< emacs-version "29.0")
-      ((require 'use-package)
-       (unless (package-installed-p 'use-package)
-	 (package-install 'use-package))))
-
-  (setq use-package-always-ensure t)
-
-  (use-package use-package-ensure-system-package)
-
-  (use-package system-packages
-    :config
-    (setq system-packages-package-manager 'brew
-	  system-packages-use-sudo nil))
 #+end_src
 ** Emacs
 #+begin_src emacs-lisp
