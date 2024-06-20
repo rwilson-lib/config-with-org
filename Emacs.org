@@ -1247,6 +1247,8 @@
 ** Consult
 #+begin_src emacs-lisp
   (use-package consult
+    :ensure-system-package
+    (rg . rg)
     :after vertico 
     :bind (;; C-c bindings (mode-specific-map)
 	   ("C-c h" . consult-history)
