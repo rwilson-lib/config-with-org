@@ -2603,7 +2603,7 @@ if one already exists."
     (message "docker loaded ✔"))
 #+end_src
 
-* Custom key binding
+* Key binding
 ** Evil
 #+begin_src emacs-lisp
   (defun custom/force-normal-state-or-exit ()
