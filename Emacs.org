@@ -2712,40 +2712,50 @@ if one already exists."
 #+end_src
 ** Helper
 #+begin_src emacs-lisp
-(defun move-line-up ()
-  "Move the current line up or move the highlighted region up."
-  (interactive)
-  (if (region-active-p)
-      (let ((beg (region-beginning))
-            (end (region-end)))
-        (save-excursion
-          (goto-char beg)
-          (transpose-lines 1)
-          (forward-line -1)
-          (goto-char end)
-          (transpose-lines 1)))
-    (transpose-lines 1)
-    (forward-line -2)))
+  (defun custom/display-buffer-at-bottom ()
+    (interactive)
+    (let ((buffer (current-buffer)))
+      (with-current-buffer buffer
+        (delete-window)
+        (display-buffer-at-bottom
+         buffer '(;; (window-parameters . ((mode-line-format . (" " "%b"))))
+                      ;; (window-height . 0.25)
+                      )))))
 
-(defun move-line-down ()
-  "Move the current line down or move the highlighted region down."
-  (interactive)
-  (if (region-active-p)
-      (let ((beg (region-beginning))
-            (end (region-end)))
-        (save-excursion
-          (goto-char end)
-          (forward-line 1)
-          (transpose-lines 1)
-          (forward-line -1)
-          (goto-char beg)
-          (transpose-lines 1)))
-    (forward-line 1)
-    (transpose-lines 1)
-    (forward-line -1)))
+  (defun move-line-up ()
+    "Move the current line up or move the highlighted region up."
+    (interactive)
+    (if (region-active-p)
+        (let ((beg (region-beginning))
+              (end (region-end)))
+          (save-excursion
+            (goto-char beg)
+            (transpose-lines 1)
+            (forward-line -1)
+            (goto-char end)
+            (transpose-lines 1)))
+      (transpose-lines 1)
+      (forward-line -2)))
 
-(global-set-key (kbd "M-<up>") 'move-line-up)
-(global-set-key (kbd "M-<down>") 'move-line-down)
+  (defun move-line-down ()
+    "Move the current line down or move the highlighted region down."
+    (interactive)
+    (if (region-active-p)
+        (let ((beg (region-beginning))
+              (end (region-end)))
+          (save-excursion
+            (goto-char end)
+            (forward-line 1)
+            (transpose-lines 1)
+            (forward-line -1)
+            (goto-char beg)
+            (transpose-lines 1)))
+      (forward-line 1)
+      (transpose-lines 1)
+      (forward-line -1)))
+
+  (global-set-key (kbd "M-<up>") 'move-line-up)
+  (global-set-key (kbd "M-<down>") 'move-line-down)
 #+end_src
 
 ** Font and Windows
@@ -2756,16 +2766,6 @@ if one already exists."
   ;; For all new frames henceforth
   (add-to-list 'default-frame-alist '(height . 35))
   (add-to-list 'default-frame-alist '(width . 115))
-
-  (defun custom/display-buffer-at-bottom ()
-    (interactive)
-    (let ((buffer (current-buffer)))
-      (with-current-buffer buffer
-	(delete-window)
-	(display-buffer-at-bottom
-	 buffer '(;; (window-parameters . ((mode-line-format . (" " "%b"))))
-		  ;; (window-height . 0.25)
-		  )))))
 
   (use-package window
     :ensure nil
