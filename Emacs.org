@@ -1,19 +1,30 @@
 #+TITLE: Emacs Configuration
 #+PROPERTY: header-args:emacs-lisp :tangle ~/.emacs.d/init.el
 
+* Benchmark
+#+begin_src emacs-lisp 
+  ;; (use-package benchmark-init
+  ;;   :ensure nil
+  ;;   ;; remove this line when you want to take benchmark at init
+  ;;   ;; :commands (benchmark-init/activate benchmark-init/install)
+  ;;   :config
+  ;;   ;; To disable collection of benchmark data after init is done.
+  ;;   (add-hook 'after-init-hook 'benchmark-init/deactivate)
+  ;;   (message "benchmark-init loaded ✔"))
+#+end_src
 * Package management
 Initialize the package system
 #+begin_src emacs-lisp
   (require 'package)
 
   (setq package-archives '(("melpa" . "https://melpa.org/packages/")
-			   ("melpa-stable" . "https://stable.melpa.org/packages/")
-			   ("org" . "https://orgmode.org/elpa/")
-			   ("elpa" . "https://elpa.gnu.org/packages/"))
-
-	package-archive-priorities '(("melpa"  . 100)
-				     ("gnu"    .  50)
-				     ("nongnu" .  25)))
+                           ("melpa-stable" . "https://stable.melpa.org/packages/")
+                           ("gnu" . "https://elpa.gnu.org/packages/")
+                           ("org" . "https://orgmode.org/elpa/")
+                           ("elpa" . "https://elpa.gnu.org/packages/"))
+        package-archive-priorities '(("melpa"  . 100)
+                                     ("gnu"    .  50)
+                                     ("nongnu" .  25)))
   (package-initialize)
 
   (unless package-archive-contents
@@ -152,7 +163,7 @@ File-related customizations.
     (global-goto-address-mode)
 
     (setq read-quoted-char-radix 16) ; switch C-q input from default oct
-    
+
     ;; (set-frame-parameter nil 'fullscreen 'fullboth)
     (setq visible-bell t)
 
@@ -186,8 +197,8 @@ File-related customizations.
 
     (setq backup-enable-predicate
           (lambda (name) (and (normal-backup-enable-predicate name)
-                 (not (let ((method (file-remote-p name 'method)))
-                    (when (stringp method) (member method '("su" "sudo" "doas"))))))))
+                              (not (let ((method (file-remote-p name 'method)))
+                                     (when (stringp method) (member method '("su" "sudo" "doas"))))))))
 
     ;; Ediff
     (setq ediff-window-setup-function #'ediff-setup-windows-plain)
@@ -219,244 +230,8 @@ File-related customizations.
    (set-exec-path-from-shell-PATH)
 #+end_src
 
-* Custom key binding
-** Evil
-#+begin_src emacs-lisp
-  (defun custom/force-normal-state-or-exit ()
-    (interactive)
-    (cond
-     ((eq evil-state 'normal) (keyboard-quit))
-     (t (evil-force-normal-state))))
 
-  (use-package evil
-    :demand t 
-
-    :bind ((:map evil-normal-state-map
-                 ("<escape>" . custom/force-normal-state-or-exit)))
-
-    :init
-    (setq evil-want-C-i-jump nil
-          evil-want-C-u-delete t
-          evil-want-C-u-scroll t
-          evil-want-C-h-delete t
-          evil-want-C-w-in-emacs-state t
-          evil-want-integration t
-          evil-want-keybinding nil
-          evil-undo-system 'undo-fu
-          evil-want-fine-undo t) 
-
-    :config
-    (setq evil-ex-search-case "insensitive"
-          evil-echo-state t
-          evil-auto-balance-w nil)
-    (evil-mode 1)
-    (message "Done Loading Evil"))
-#+end_src
-** Evil Collection
-#+begin_src emacs-lisp
-  (use-package evil-collection
-    :after evil
-    ;; (evil-set-initial-state 'calc-mode 'emacs)
-
-    :config
-    (condition-case err
-	(evil-collection-init)
-      (error (message "Error initializing evil-collection-init: %S" err))))
-
-  (use-package evil-matchit
-    :requires evil)
-
-  (use-package evil-surround
-    :requires evil
-
-    :hook ((text-mode prog-mode) . (lambda ()
-				     (evil-surround-mode)
-				     (evil-matchit-mode))))
-
-#+end_src
-** General
-#+begin_src emacs-lisp
-  (defun my/move-to-middle ()
-    (interactive)
-    (let* ((begin (line-beginning-position))
-	   (end (line-end-position))
-	   (middle (/ (+ end begin) 2)))
-      (goto-char middle)))
-
-  (use-package general
-    :after evil
-    :config
-    (general-evil-setup t)
-
-    (general-nvmap
-      "g \\" 'toggle-line-number
-      "g m" 'my/move-to-middle
-      "; ;" 'evil-buffer
-      ;; "SPC f" 'find-file
-      ;; "SPC F" 'find-file-other-window
-      "SPC b" 'consult-buffer
-      "SPC B" 'consult-buffer-other-window
-      "SPC w" (general-simulate-key "C-w")
-      "SPC x" (general-simulate-key "C-x")
-      "SPC v" (general-simulate-key "C-x v")
-      "SPC c" (general-simulate-key "C-c")
-      "SPC g" (general-simulate-key "M-g")
-      "SPC s" (general-simulate-key "M-s"))
-
-    (general-define-key
-     :keymaps '(normal visual)
-     :prefix "g SPC"
-     "x" (general-simulate-key "C-c C-c"))
-
-    (general-define-key
-     :keymaps '(transient-base-map)
-     "<escape>" 'transient-quit-one)
-
-
-    (general-define-key
-     :keymaps '(normal insert visual emacs)
-     "<C-escape>" 'keyboard-quit))
-
-#+end_src
-
-** Which-Key
-#+begin_src emacs-lisp
-  (use-package which-key
-    :init (which-key-mode)
-    :diminish which-key-mode
-    :config (setq which-key-idle-delay 0.3))
-#+end_src
-** Helper
-#+begin_src emacs-lisp
-(defun move-line-up ()
-  "Move the current line up or move the highlighted region up."
-  (interactive)
-  (if (region-active-p)
-      (let ((beg (region-beginning))
-            (end (region-end)))
-        (save-excursion
-          (goto-char beg)
-          (transpose-lines 1)
-          (forward-line -1)
-          (goto-char end)
-          (transpose-lines 1)))
-    (transpose-lines 1)
-    (forward-line -2)))
-
-(defun move-line-down ()
-  "Move the current line down or move the highlighted region down."
-  (interactive)
-  (if (region-active-p)
-      (let ((beg (region-beginning))
-            (end (region-end)))
-        (save-excursion
-          (goto-char end)
-          (forward-line 1)
-          (transpose-lines 1)
-          (forward-line -1)
-          (goto-char beg)
-          (transpose-lines 1)))
-    (forward-line 1)
-    (transpose-lines 1)
-    (forward-line -1)))
-
-(global-set-key (kbd "M-<up>") 'move-line-up)
-(global-set-key (kbd "M-<down>") 'move-line-down)
-#+end_src
-
-* Benchmark
-#+begin_src emacs-lisp 
-  ;; (use-package benchmark-init
-  ;;   :ensure nil
-  ;;   ;; remove this line when you want to take benchmark at init
-  ;;   ;; :commands (benchmark-init/activate benchmark-init/install)
-  ;;   :config
-  ;;   ;; To disable collection of benchmark data after init is done.
-  ;;   (add-hook 'after-init-hook 'benchmark-init/deactivate)
-  ;;   (message "benchmark-init loaded ✔"))
-#+end_src
 * Environment
-** Font and Windows
-#+begin_src emacs-lisp
-  ;; For current frame
-  ;; (set-frame-parameter nil 'alpha-background 100) ; not working
-
-  ;; For all new frames henceforth
-  (add-to-list 'default-frame-alist '(height . 35))
-  (add-to-list 'default-frame-alist '(width . 115))
-
-  (defun custom/display-buffer-at-bottom ()
-    (interactive)
-    (let ((buffer (current-buffer)))
-      (with-current-buffer buffer
-	(delete-window)
-	(display-buffer-at-bottom
-	 buffer '(;; (window-parameters . ((mode-line-format . (" " "%b"))))
-		  ;; (window-height . 0.25)
-		  )))))
-
-  (use-package window
-    :ensure nil
-    :bind (("<f8>" . window-toggle-side-windows))
-    :config
-    (custom-set-variables
-     '(display-buffer-base-action
-       '((display-buffer--maybe-same-window
-	  display-buffer-reuse-window
-	  display-buffer--maybe-pop-up-frame-or-window
-	  display-buffer-in-previous-window
-	  display-buffer-below-selected
-	  display-buffer-at-bottom
-	  display-buffer-pop-up-frame))))
-    (setq
-     split-width-threshold 0
-     split-height-threshold nil)
-
-    (setq display-buffer-alist '(("\\*eshell\\*"
-				  (display-buffer-in-side-window)
-				  (window-height . 0.25)
-				  (side . bottom)
-				  (slot . -1)
-				  (window-parameters (mode-line-format . none)))))
-
-
-    (setq display-buffer-alist 
-	  '(("\\*Occur\\*"
-	     (display-buffer-reuse-window display-buffer-in-side-window)
-	     (side . right)
-	     (slot . -1)
-	     (window-width . 0.5))))
-
-    (setq display-buffer-alist 
-	  '(("\\*\\(Backtrace\\|Warnings\\|Flycheck errors\\|Compile-log\\|Messages|compilation\\)\\*"
-	     (display-buffer-in-side-window)
-	     (window-height . 0.25)
-	     (side . bottom)
-	     (slot . 1)))))
-
-  ;; ;;[Hh]elp
-  ;; ("\\*help" 
-  ;;  (display-buffer-reuse-window display-buffer-in-side-window)
-  ;;  (window-width . 75))
-
-  ;; (defun efs/set-font-faces ()
-  ;;   (message "Setting faces!")
-  ;;   (set-face-attribute 'default nil :font "FiraCode Nerd Font" :height 168)
-
-  ;;   ;; Set the fixed pitch face
-  ;;   (set-face-attribute 'fixed-pitch nil :font "FiraCode Nerd Font" :height 168)
-
-  ;;   ;; Set the variable pitch face
-  ;;   (set-face-attribute 'variable-pitch nil :font "FiraCode Nerd Font" :height 168 :weight 'regular))
-
-  ;; (if (daemonp)
-  ;;     (add-hook 'after-make-frame-functions
-  ;; 	      (lambda (frame)
-  ;; 		(with-selected-frame frame
-  ;; 		  (efs/set-font-faces))))
-  ;;   (efs/set-font-faces)
-#+end_src
-
 ** Dried
 #+begin_src emacs-lisp
 
@@ -1038,11 +813,11 @@ File-related customizations.
     (setq vterm-max-scrollback 1000)
 
     (setq display-buffer-alist '(("\\*vterm\\*"
-				  (display-buffer-in-side-window)
-				  (window-height . 0.30)
-				  (side . bottom)
-				  (slot . -1)
-				  (window-parameters (mode-line-format . none))))))
+  		                            (display-buffer-in-side-window)
+  		                            (window-height . 0.30)
+  		                            (side . bottom)
+  		                            (slot . -1)
+  		                            (window-parameters (mode-line-format . none))))))
 #+end_src
 * Searches
 ** Consult
@@ -1461,22 +1236,19 @@ if one already exists."
 ** JavaScript
 #+begin_src emacs-lisp
   (use-package js-mode
-    ;; :mode "\\.js\\'"
     :ensure nil
-    :hook (js-mode . eglot-ensure)
+    :mode "\\.js\\'"
     :config
     (setq js-indent-level 4))
 
   (use-package typescript-mode
-    :hook (typescript-mode . eglot-ensure)
     :config
     (setq typescript-indent-level 2))
 
   (use-package rjsx-mode
     :mode "\\.js\\'"
-    :hook (rjsx-mode . eglot-ensure)
     :bind (:map rjsx-mode-map
-		("<" . self-insert-command))
+    ("<" . self-insert-command))
     :config
     (setq js-jsx-indent-level 2))
 
@@ -1484,52 +1256,67 @@ if one already exists."
     :mode "\\.json\\'"
     :config
     :hook (json-mode .
-		     (lambda ()
-		       (make-local-variable 'js-indent-level)
-		       (setq tab-width 2)
-		       (setq js-indent-level 2))))
+         (lambda ()
+           (make-local-variable 'js-indent-level)
+           (setq tab-width 2)
+           (setq js-indent-level 2))))
 
-  ;; (setq eglot-ignored-server-capabilities '(:documentHighlightProvider))
   ;; (require 'dap-firefox)
   ;; (require 'dap-node)
 #+end_src
 ** Eglot
 #+begin_src emacs-lisp
-  (use-package eglot
-    :ensure nil
-    :hook ((go-mode . eglot-ensure)
-     (web-mode . eglot-ensure)
-     (html-mode . eglot-ensure))
-    :hook (eglot-managed-mode . (lambda ()
-          (remove-hook 'flymake-diagnostic-functions 'eglot-flymake-backend)))
+      (use-package eglot
+        :ensure nil
+        :hook ((go-mode . eglot-ensure)
+               (web-mode . eglot-ensure)
+               (js-mode . eglot-ensure)
+               (python-mode . eglot-ensure)
+               (typescript-mode . eglot-ensure)
+               (rjsx-mode . eglot-ensure)
+               (sql-mode . eglot-ensure)
+               (html-mode . eglot-ensure)
+               ((c-mode-hook c-ts-mode-hook c++-mode-hook c++-ts-mode-hook) . eglot-ensure)
+               (eglot-managed-mode . (lambda ()
+                                       (flycheck-eglot-mode)
+                                       (remove-hook 'flymake-diagnostic-functions 'eglot-flymake-backend))))
+        :general
+        (:keymaps 'eglot-mode-map
+                  "C-c ." #'eglot-code-actions
+                  "C-c r" #'eglot-rename
+                  "C-c h" #'eldoc
+                  "C-c f" #'eglot-format
+                  "C-c F" #'eglot-format-buffer)
 
-    :hook (eglot-managed-mode . flycheck-eglot-mode)
+        :config
+        (add-to-list 'eglot-server-programs '(sql-mode . ("sqls")))
+        (message "eglot loaded"))
 
-    :general
-    (:keymaps 'eglot-mode-map
-        "C-c ." #'eglot-code-actions
-        "C-c r" #'eglot-rename
-        "C-c h" #'eldoc
-        "C-c f" #'eglot-format
-        "C-c F" #'eglot-format-buffer)
+      ;;   To use the bundled libc++ please add the following LDFLAGS:
+      ;;   LDFLAGS="-L/opt/homebrew/opt/llvm/lib/c++ -Wl,-rpath,/opt/homebrew/opt/llvm/lib/c++"
 
-    :config
-    (add-to-list 'eglot-server-programs '(sql-mode . ("sqls")))
-    (message "eglot loaded"))
+      ;; llvm is keg-only, which means it was not symlinked into /opt/homebrew,
+      ;; because macOS already provides this software and installing another version in
+      ;; parallel can cause all kinds of trouble.
 
-  (use-package consult-eglot
-    :after eglot
-    :config
-    (message "consult-eglot loaded ✔"))
+      ;; If you need to have llvm first in your PATH, run:
+      ;;   echo 'export PATH="/opt/homebrew/opt/llvm/bin:$PATH"' >> ~/.zshrc
 
-  ;; '((web-mode) . ("vscode-html-language-server" "--node-ipc"))
-  ;; '((R-mode) . ("R" "--slave" "-e" "languageserver::run()")))
+      ;; For compilers to find llvm you may need to set:
+      ;;   export LDFLAGS="-L/opt/homebrew/opt/llvm/lib"
+      ;;   export CPPFLAGS="-I/opt/homebrew/opt/llvm/include"
+
+      (use-package consult-eglot
+        :after eglot
+        :config
+        (message "consult-eglot loaded ✔"))
+
+      ;; '((web-mode) . ("vscode-html-language-server" "--node-ipc"))
+      ;; '((R-mode) . ("R" "--slave" "-e" "languageserver::run()")))
 #+end_src
 ** Python
 #+begin_src emacs-lisp
   (use-package python
-    :hook (python-mode . ( lambda ()
-                           (eglot-ensure)))
     :bind (:map python-mode-map
                 ("C-c TAB ." . python-import-symbol-at-point))
     :config
@@ -1588,9 +1375,8 @@ if one already exists."
   (use-package poetry
     :ensure-system-package
     (pipx . pipx)
-
-    :commands (poetry)
     :config
+    (poetry-tracking-mode)
     (message "poetry ready ✔"))
 #+end_src
 ** PlantUML
@@ -1627,9 +1413,6 @@ if one already exists."
     :hook (sql-interactive-mode .
                                 (lambda ()
                                   (toggle-truncate-lines t)))
-
-    :hook (sql-mode . eglot-ensure)
-
     :config
     (setq sql-sqlite-options '("-table")
           sql-mysql-options '("--protocol=tcp"))
@@ -2304,7 +2087,7 @@ if one already exists."
     (set-face-attribute 'org-meta-line nil :inherit '(font-lock-comment-face fixed-pitch))
     (set-face-attribute 'org-checkbox nil :inherit 'fixed-pitch))
 #+end_src
-** Org
+* Org
 #+begin_src emacs-lisp
     (use-package org
 
@@ -2320,7 +2103,7 @@ if one already exists."
 	     ("S-<backspace>" . org-table-blank-field))
 
       :config
-      ;; (setq org-display-remote-inline-images 'cache) ; org-version 9.5 not working
+      (setq org-display-remote-inline-images 'cache) ; org-version 9.5 not working
       (setq org-use-property-inheritance t)
       (setq org-directory (concat (getenv "HOME") "/org"))
       (setq org-ellipsis " ⤸")
@@ -2818,6 +2601,232 @@ if one already exists."
     :commands (docker)
     :config
     (message "docker loaded ✔"))
+#+end_src
+
+* Custom key binding
+** Evil
+#+begin_src emacs-lisp
+  (defun custom/force-normal-state-or-exit ()
+    (interactive)
+    (cond
+     ((eq evil-state 'normal) (keyboard-quit))
+     (t (evil-force-normal-state))))
+
+  (use-package evil
+    :demand t 
+
+    :bind ((:map evil-normal-state-map
+                 ("<escape>" . custom/force-normal-state-or-exit)))
+
+    :init
+    (setq evil-want-C-i-jump nil
+          evil-want-C-u-delete t
+          evil-want-C-u-scroll t
+          evil-want-C-h-delete t
+          evil-want-C-w-in-emacs-state t
+          evil-want-integration t
+          evil-want-keybinding nil
+          evil-undo-system 'undo-fu
+          evil-want-fine-undo t) 
+
+    :config
+    (setq evil-ex-search-case "insensitive"
+          evil-echo-state t
+          evil-auto-balance-w nil)
+    (evil-mode 1)
+    (message "Done Loading Evil"))
+#+end_src
+** Evil Collection
+#+begin_src emacs-lisp
+  (use-package evil-collection
+    :after evil
+    ;; (evil-set-initial-state 'calc-mode 'emacs)
+
+    :config
+    (condition-case err
+	(evil-collection-init)
+      (error (message "Error initializing evil-collection-init: %S" err))))
+
+  (use-package evil-matchit
+    :requires evil)
+
+  (use-package evil-surround
+    :requires evil
+
+    :hook ((text-mode prog-mode) . (lambda ()
+				     (evil-surround-mode)
+				     (evil-matchit-mode))))
+
+#+end_src
+** General
+#+begin_src emacs-lisp
+  (defun my/move-to-middle ()
+    (interactive)
+    (let* ((begin (line-beginning-position))
+	   (end (line-end-position))
+	   (middle (/ (+ end begin) 2)))
+      (goto-char middle)))
+
+  (use-package general
+    :after evil
+    :config
+    (general-evil-setup t)
+
+    (general-nvmap
+      "g \\" 'toggle-line-number
+      "g m" 'my/move-to-middle
+      "; ;" 'evil-buffer
+      ;; "SPC f" 'find-file
+      ;; "SPC F" 'find-file-other-window
+      "SPC b" 'consult-buffer
+      "SPC B" 'consult-buffer-other-window
+      "SPC w" (general-simulate-key "C-w")
+      "SPC x" (general-simulate-key "C-x")
+      "SPC v" (general-simulate-key "C-x v")
+      "SPC c" (general-simulate-key "C-c")
+      "SPC g" (general-simulate-key "M-g")
+      "SPC s" (general-simulate-key "M-s"))
+
+    (general-define-key
+     :keymaps '(normal visual)
+     :prefix "g SPC"
+     "x" (general-simulate-key "C-c C-c"))
+
+    (general-define-key
+     :keymaps '(transient-base-map)
+     "<escape>" 'transient-quit-one)
+
+
+    (general-define-key
+     :keymaps '(normal insert visual emacs)
+     "<C-escape>" 'keyboard-quit))
+
+#+end_src
+
+** Which-Key
+#+begin_src emacs-lisp
+  (use-package which-key
+    :init (which-key-mode)
+    :diminish which-key-mode
+    :config (setq which-key-idle-delay 0.3))
+#+end_src
+** Helper
+#+begin_src emacs-lisp
+(defun move-line-up ()
+  "Move the current line up or move the highlighted region up."
+  (interactive)
+  (if (region-active-p)
+      (let ((beg (region-beginning))
+            (end (region-end)))
+        (save-excursion
+          (goto-char beg)
+          (transpose-lines 1)
+          (forward-line -1)
+          (goto-char end)
+          (transpose-lines 1)))
+    (transpose-lines 1)
+    (forward-line -2)))
+
+(defun move-line-down ()
+  "Move the current line down or move the highlighted region down."
+  (interactive)
+  (if (region-active-p)
+      (let ((beg (region-beginning))
+            (end (region-end)))
+        (save-excursion
+          (goto-char end)
+          (forward-line 1)
+          (transpose-lines 1)
+          (forward-line -1)
+          (goto-char beg)
+          (transpose-lines 1)))
+    (forward-line 1)
+    (transpose-lines 1)
+    (forward-line -1)))
+
+(global-set-key (kbd "M-<up>") 'move-line-up)
+(global-set-key (kbd "M-<down>") 'move-line-down)
+#+end_src
+
+** Font and Windows
+#+begin_src emacs-lisp
+  ;; For current frame
+  ;; (set-frame-parameter nil 'alpha-background 100) ; not working
+
+  ;; For all new frames henceforth
+  (add-to-list 'default-frame-alist '(height . 35))
+  (add-to-list 'default-frame-alist '(width . 115))
+
+  (defun custom/display-buffer-at-bottom ()
+    (interactive)
+    (let ((buffer (current-buffer)))
+      (with-current-buffer buffer
+	(delete-window)
+	(display-buffer-at-bottom
+	 buffer '(;; (window-parameters . ((mode-line-format . (" " "%b"))))
+		  ;; (window-height . 0.25)
+		  )))))
+
+  (use-package window
+    :ensure nil
+    :bind (("<f8>" . window-toggle-side-windows))
+    :config
+    (custom-set-variables
+     '(display-buffer-base-action
+       '((display-buffer--maybe-same-window
+	  display-buffer-reuse-window
+	  display-buffer--maybe-pop-up-frame-or-window
+	  display-buffer-in-previous-window
+	  display-buffer-below-selected
+	  display-buffer-at-bottom
+	  display-buffer-pop-up-frame))))
+    (setq
+     split-width-threshold 0
+     split-height-threshold nil)
+
+    (setq display-buffer-alist '(("\\*eshell\\*"
+				  (display-buffer-in-side-window)
+				  (window-height . 0.25)
+				  (side . bottom)
+				  (slot . -1)
+				  (window-parameters (mode-line-format . none)))))
+
+
+    (setq display-buffer-alist 
+	  '(("\\*Occur\\*"
+	     (display-buffer-reuse-window display-buffer-in-side-window)
+	     (side . right)
+	     (slot . -1)
+	     (window-width . 0.5))))
+
+    (setq display-buffer-alist 
+	  '(("\\*\\(Backtrace\\|Warnings\\|Flycheck errors\\|Compile-log\\|Messages|compilation\\)\\*"
+	     (display-buffer-in-side-window)
+	     (window-height . 0.25)
+	     (side . bottom)
+	     (slot . 1)))))
+
+  ;; ;;[Hh]elp
+  ;; ("\\*help" 
+  ;;  (display-buffer-reuse-window display-buffer-in-side-window)
+  ;;  (window-width . 75))
+
+  ;; (defun efs/set-font-faces ()
+  ;;   (message "Setting faces!")
+  ;;   (set-face-attribute 'default nil :font "FiraCode Nerd Font" :height 168)
+
+  ;;   ;; Set the fixed pitch face
+  ;;   (set-face-attribute 'fixed-pitch nil :font "FiraCode Nerd Font" :height 168)
+
+  ;;   ;; Set the variable pitch face
+  ;;   (set-face-attribute 'variable-pitch nil :font "FiraCode Nerd Font" :height 168 :weight 'regular))
+
+  ;; (if (daemonp)
+  ;;     (add-hook 'after-make-frame-functions
+  ;; 	      (lambda (frame)
+  ;; 		(with-selected-frame frame
+  ;; 		  (efs/set-font-faces))))
+  ;;   (efs/set-font-faces)
 #+end_src
 
 # Local Variables:
