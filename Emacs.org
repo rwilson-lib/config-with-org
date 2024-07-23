@@ -917,29 +917,31 @@ configurating emacs build-in isearch package
 #+end_src
 ** Diff-hl
 #+begin_src emacs-lisp
-    (defun diff-hl-handle-buffer-switch ()
+  (defun diff-hl-handle-buffer-switch ()
     "Toggle `diff-hl-mode' and `diff-hl-flydiff-mode' based on VC state."
     (interactive)
     (when (buffer-file-name)
       (let ((stage (vc-state (buffer-file-name (current-buffer)))))
-	(when stage
-	  (diff-hl-mode)
-	  (diff-hl-show-hunk-mouse-mode)
-	  (diff-hl-flydiff-mode)))))
+        (when stage
+          (diff-hl-mode)
+          (diff-hl-show-hunk-mouse-mode)
+          (diff-hl-flydiff-mode)))))
 
   (use-package diff-hl
     :hook (buffer-list-update . diff-hl-handle-buffer-switch)
+
+    
     :bind
     ;; https://www.gnu.org/software/emacs/manual/html_node/use-package/Binding-to-repeat_002dmaps.html
     (:repeat-map diff-hl-command-map 
-		 ("n" . diff-hl-show-hunk-next)
-		 ("p" . diff-hl-show-hunk-previous) 
-		 ("s" . diff-hl-stage-current-hunk)
-		 ("r" . diff-hl-revert-hunk)
-		 :exit
-		 ("c" . magit-commit-create)
-		 ("C" . magit-commit)
-		 ("b" . magit-blame))
+                 ("n" . diff-hl-show-hunk-next)
+                 ("p" . diff-hl-show-hunk-previous) 
+                 ("s" . diff-hl-stage-dwim)
+                 ("r" . diff-hl-revert-hunk)
+                 :exit
+                 ("c" . magit-commit-create)
+                 ("C" . magit-commit)
+                 ("b" . magit-blame))
     :config
     (setq
      diff-hl-side "left"
@@ -1270,53 +1272,53 @@ if one already exists."
 #+end_src
 ** Eglot
 #+begin_src emacs-lisp
-      (use-package eglot
-        :ensure nil
-        :hook ((go-mode . eglot-ensure)
-               (web-mode . eglot-ensure)
-               (js-mode . eglot-ensure)
-               (python-mode . eglot-ensure)
-               (typescript-mode . eglot-ensure)
-               (rjsx-mode . eglot-ensure)
-               (sql-mode . eglot-ensure)
-               (html-mode . eglot-ensure)
-               ((c-mode-hook c-ts-mode-hook c++-mode-hook c++-ts-mode-hook) . eglot-ensure)
-               (eglot-managed-mode . (lambda ()
-                                       (flycheck-eglot-mode)
-                                       (remove-hook 'flymake-diagnostic-functions 'eglot-flymake-backend))))
-        :general
-        (:keymaps 'eglot-mode-map
-                  "C-c ." #'eglot-code-actions
-                  "C-c r" #'eglot-rename
-                  "C-c h" #'eldoc
-                  "C-c f" #'eglot-format
-                  "C-c F" #'eglot-format-buffer)
+  (use-package eglot
+    :ensure nil
+    :hook ((go-mode . eglot-ensure)
+           (web-mode . eglot-ensure)
+           (js-mode . eglot-ensure)
+           (python-mode . eglot-ensure)
+           (typescript-mode . eglot-ensure)
+           (rjsx-mode . eglot-ensure)
+           (sql-mode . eglot-ensure)
+           (html-mode . eglot-ensure)
+           ((c-mode-hook c-ts-mode-hook c++-mode-hook c++-ts-mode-hook) . eglot-ensure)
+           (eglot-managed-mode . (lambda ()
+                                   (flycheck-eglot-mode)
+                                   (remove-hook 'flymake-diagnostic-functions 'eglot-flymake-backend))))
+    :general
+    (:keymaps 'eglot-mode-map
+              "C-c ." #'eglot-code-actions
+              "C-c r" #'eglot-rename
+              "C-c h" #'eldoc
+              "C-c f" #'eglot-format
+              "C-c F" #'eglot-format-buffer)
 
-        :config
-        (add-to-list 'eglot-server-programs '(sql-mode . ("sqls")))
-        (message "eglot loaded"))
+    :config
+    (add-to-list 'eglot-server-programs '(sql-mode . ("sqls")))
+    (message "eglot loaded"))
 
-      ;;   To use the bundled libc++ please add the following LDFLAGS:
-      ;;   LDFLAGS="-L/opt/homebrew/opt/llvm/lib/c++ -Wl,-rpath,/opt/homebrew/opt/llvm/lib/c++"
+  ;;   To use the bundled libc++ please add the following LDFLAGS:
+  ;;   LDFLAGS="-L/opt/homebrew/opt/llvm/lib/c++ -Wl,-rpath,/opt/homebrew/opt/llvm/lib/c++"
 
-      ;; llvm is keg-only, which means it was not symlinked into /opt/homebrew,
-      ;; because macOS already provides this software and installing another version in
-      ;; parallel can cause all kinds of trouble.
+  ;; llvm is keg-only, which means it was not symlinked into /opt/homebrew,
+  ;; because macOS already provides this software and installing another version in
+  ;; parallel can cause all kinds of trouble.
 
-      ;; If you need to have llvm first in your PATH, run:
-      ;;   echo 'export PATH="/opt/homebrew/opt/llvm/bin:$PATH"' >> ~/.zshrc
+  ;; If you need to have llvm first in your PATH, run:
+  ;;   echo 'export PATH="/opt/homebrew/opt/llvm/bin:$PATH"' >> ~/.zshrc
 
-      ;; For compilers to find llvm you may need to set:
-      ;;   export LDFLAGS="-L/opt/homebrew/opt/llvm/lib"
-      ;;   export CPPFLAGS="-I/opt/homebrew/opt/llvm/include"
+  ;; For compilers to find llvm you may need to set:
+  ;;   export LDFLAGS="-L/opt/homebrew/opt/llvm/lib"
+  ;;   export CPPFLAGS="-I/opt/homebrew/opt/llvm/include"
 
-      (use-package consult-eglot
-        :after eglot
-        :config
-        (message "consult-eglot loaded ✔"))
+  (use-package consult-eglot
+    :after eglot
+    :config
+    (message "consult-eglot loaded ✔"))
 
-      ;; '((web-mode) . ("vscode-html-language-server" "--node-ipc"))
-      ;; '((R-mode) . ("R" "--slave" "-e" "languageserver::run()")))
+  ;; '((web-mode) . ("vscode-html-language-server" "--node-ipc"))
+  ;; '((R-mode) . ("R" "--slave" "-e" "languageserver::run()")))
 #+end_src
 ** Python
 #+begin_src emacs-lisp
@@ -1390,25 +1392,12 @@ if one already exists."
            ("\\.uml\\'" . plantuml-mode)
            ("\\.puml\\'" . plantuml-mode))
     :config
-    ;; (setq org-plantuml-jar-path (expand-file-name "/usr/local/Cellar/plantuml/1.2022.5/libexec/plantuml.jar"))
-    ;; Sample executable configuration
-
-    ;; manage window layout
-    (setq display-buffer-alist '(("\\*plantuml preview\\*"
-                                  (display-buffer-reuse-window display-buffer-in-side-window)
-                                  (side . right)
-                                  (slot . -1)
-                                  (window-width . 0.5))))
-
-    (setq
-     org-plantuml-exec-mode 'plantuml
-     org-plantuml-executable-path "/usr/local/bin/plantuml")
-
-    (setq
-     plantuml-executable-path "/usr/local/bin/plantuml"
-     plantuml-default-exec-mode 'executable
-     plantuml-indent-level 2
-     plantuml-output-type "png"))
+    (setq org-plantuml-exec-mode 'plantuml
+          org-plantuml-executable-path "/opt/homebrew/bin/plantuml"
+          plantuml-executable-path "/opt/homebrew/bin/plantuml"
+          plantuml-default-exec-mode 'executable
+          plantuml-indent-level 2
+          plantuml-output-type "png"))
 #+end_src
 ** SQL  
 #+begin_src emacs-lisp 
@@ -1452,15 +1441,16 @@ if one already exists."
 #+end_src
 ** Rest Client
 #+begin_src emacs-lisp
-    (use-package restclient
-      :commands (restclient-mode)
-      :mode ("\\.http\\'"  . restclient-mode)
-	      
-      ;; :hook (restclient-mode . company-mode)
-      :bind (:map restclient-mode-map
-		  ("C-c C-f" . json-mode-beautify))
-      :config
-      (message "restclient loaded ✔"))
+  (use-package restclient
+    :commands (restclient-mode)
+    :mode ("\\.http\\'"  . restclient-mode)
+      
+    ;; :hook (restclient-mode . company-mode)
+    :bind (:map restclient-mode-map
+    ("C-c C-f" . json-mode-beautify))
+    :config
+    (message "restclient loaded ✔"))
+  
 #+end_src
 ** Yaml
 #+begin_src emacs-lisp
