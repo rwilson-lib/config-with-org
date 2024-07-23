@@ -411,7 +411,7 @@ File-related customizations.
       :commands (doom-modeline-mode)
       :hook (after-init . doom-modeline-mode)
       :custom    
-      (doom-modeline-height 25)
+      (doom-modeline-height 12)
       (doom-modeline-bar-width 1)
       (doom-modeline-icon t)
       (doom-modeline-major-mode-icon t)
