@@ -230,7 +230,6 @@ File-related customizations.
    (set-exec-path-from-shell-PATH)
 #+end_src
 
-
 * Environment
 ** Dried
 #+begin_src emacs-lisp
