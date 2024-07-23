@@ -2269,7 +2269,7 @@ if one already exists."
 		(org-babel-do-load-languages
 		 'org-babel-load-languages
 		 '((R . t)
-		   ;; (C . t)
+		   (C . t)
 		   ;; (lua . t)
 		   ;; (sql . t)
 		   (sqlite . t)
@@ -2741,80 +2741,108 @@ if one already exists."
 
 ** Font and Windows
 #+begin_src emacs-lisp
-  ;; For current frame
-  ;; (set-frame-parameter nil 'alpha-background 100) ; not working
+    ;; For current frame
+    ;; (set-frame-parameter nil 'alpha-background 100) ; not working
 
-  ;; For all new frames henceforth
-  (add-to-list 'default-frame-alist '(height . 35))
-  (add-to-list 'default-frame-alist '(width . 115))
+    ;; For all new frames henceforth
+    (add-to-list 'default-frame-alist '(height . 35))
+    (add-to-list 'default-frame-alist '(width . 115))
 
-  (use-package window
-    :ensure nil
-    :bind (("<f8>" . window-toggle-side-windows))
-    :config
-    (custom-set-variables
-     '(display-buffer-base-action
-       '((display-buffer--maybe-same-window
-	  display-buffer-reuse-window
-	  display-buffer--maybe-pop-up-frame-or-window
-	  display-buffer-in-previous-window
-	  display-buffer-below-selected
-	  display-buffer-at-bottom
-	  display-buffer-pop-up-frame))))
-    (setq
-     split-width-threshold 0
-     split-height-threshold nil)
+    (defun my-shell-buffer-p (buffer-or-name args)
+      "Return non-nil if BUFFER-OR-NAME is a shell buffer.
+    A shell buffer is defined as one with a major mode derived from `shell-mode`, `eshell-mode`, `term-mode`, or `ansi-term-mode`.
+    ARGS is ignored."
+      (let ((buffer (get-buffer buffer-or-name)))
+        (when buffer
+          (with-current-buffer buffer
+            (derived-mode-p 'shell-mode 'eshell-mode 'term-mode 'ansi-term-mode)
+            ))))
 
-    (setq display-buffer-alist '(("\\*eshell\\*"
-				  (display-buffer-in-side-window)
-				  (window-height . 0.25)
-				  (side . bottom)
-				  (slot . -1)
-				  (window-parameters (mode-line-format . none)))))
+    (use-package window
+      :ensure nil
+      :bind (("<f8>" . window-toggle-side-windows))
+      :config
+      (custom-set-variables
+       '(display-buffer-base-action
+         '((display-buffer--maybe-same-window
+            display-buffer-reuse-window))))
+
+      (setq split-width-threshold 0
+            split-height-threshold nil)
 
 
-    (setq display-buffer-alist 
-	  '(("\\*Occur\\*"
-	     (display-buffer-reuse-window display-buffer-in-side-window)
-	     (side . right)
-	     (slot . -1)
-	     (window-width . 0.5))))
+      ;; manage window layout
+      (setq display-buffer-alist
+            '(
+              ("\\*\\(Backtrace\\|Warnings\\|Flycheck errors\\|Compile-log\\|Messages|compilation\\)\\*"
+               (display-buffer-in-side-window)
+               (window-height . 0.30)
+               (side . bottom)
+               (slot . 1)) 
 
-    (setq display-buffer-alist 
-	  '(("\\*\\(Backtrace\\|Warnings\\|Flycheck errors\\|Compile-log\\|Messages|compilation\\)\\*"
-	     (display-buffer-in-side-window)
-	     (window-height . 0.25)
-	     (side . bottom)
-	     (slot . 1)))))
+              ("\\*devdocs\\*"
+               (display-buffer-in-side-window)
+               (window-height . 0.30)
+               (side . right)
+               (slot . -1))
 
-  ;; ;;[Hh]elp
-  ;; ("\\*help" 
-  ;;  (display-buffer-reuse-window display-buffer-in-side-window)
-  ;;  (window-width . 75))
+              ("\\*plantuml preview\\*"
+               (display-buffer-reuse-window display-buffer-in-side-window)
+               (side . right)
+               (slot . -1)
+               (window-width . 0.5))
 
-  ;; (defun efs/set-font-faces ()
-  ;;   (message "Setting faces!")
-  ;;   (set-face-attribute 'default nil :font "FiraCode Nerd Font" :height 168)
+              (my-shell-buffer-p
+               (display-buffer-reuse-mode-window display-buffer-in-side-window)
+               (window-height . 0.30)
+               (side . bottom)
+               (dedicated . t)
+               (slot . -1)
+               (window-parameters (mode-line-format . none))
+               (body-function . (lambda (window)
+                                  (select-window window))))
 
-  ;;   ;; Set the fixed pitch face
-  ;;   (set-face-attribute 'fixed-pitch nil :font "FiraCode Nerd Font" :height 168)
+              ;; ("\\*e?shell\\*" display-buffer-in-direction
+              ;;  (direction . bottom)
+              ;;  (window . root)
+              ;;  (window-height . 0.3))
 
-  ;;   ;; Set the variable pitch face
-  ;;   (set-face-attribute 'variable-pitch nil :font "FiraCode Nerd Font" :height 168 :weight 'regular))
+              ("\\*Occur\\*"
+               (display-buffer-reuse-window display-buffer-in-side-window)
+               ;; Parameters
+               (dedicated . t)
+               (side . right)
+               (slot . -1)
+               (window-width . 0.5)
+               (body-function . (lambda (window)
+                                  (select-window window))))
+              )))
 
-  ;; (if (daemonp)
-  ;;     (add-hook 'after-make-frame-functions
-  ;; 	      (lambda (frame)
-  ;; 		(with-selected-frame frame
-  ;; 		  (efs/set-font-faces))))
-  ;;   (efs/set-font-faces)
+
+    ;; ;;[Hh]elp
+    ;; ("\\*help" 
+    ;;  (display-buffer-reuse-window display-buffer-in-side-window)
+    ;;  (window-width . 75))
+
+    ;; (defun efs/set-font-faces ()
+    ;;   (message "Setting faces!")
+    ;;   (set-face-attribute 'default nil :font "FiraCode Nerd Font" :height 168)
+
+    ;;   ;; Set the fixed pitch face
+    ;;   (set-face-attribute 'fixed-pitch nil :font "FiraCode Nerd Font" :height 168)
+
+    ;;   ;; Set the variable pitch face
+    ;;   (set-face-attribute 'variable-pitch nil :font "FiraCode Nerd Font" :height 168 :weight 'regular))
+
+    ;; (if (daemonp)
+    ;;     (add-hook 'after-make-frame-functions
+    ;; 	      (lambda (frame)
+    ;; 		(with-selected-frame frame
+    ;; 		  (efs/set-font-faces))))
+    ;;   (efs/set-font-faces)
 #+end_src
 
 # Local Variables:
 # org-confirm-babel-evaluate: nil
 # eval: (add-hook 'after-save-hook 'org-babel-tangle nil t)
 # End:
-
-
-
-
