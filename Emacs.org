@@ -1692,29 +1692,22 @@ if one already exists."
 #+end_src
 ** PDF Tools
 #+begin_src emacs-lisp
-  ;;   (use-package pdf-tools
-  ;;     :config
-  ;;     ;; Use brew upgrade pdf-tools instead.
-  ;;     (custom-set-variables '(pdf-tools-handle-upgrades nil)) 
+  (use-package pdf-tools
+    :config
+    ;; Use brew upgrade pdf-tools instead.
+    (custom-set-variables '(pdf-tools-handle-upgrades nil)) 
 
-  ;;     (add-hook 'pdf-tools-enabled-hook 'pdf-view-midnight-minor-mode)
-  ;;     (add-hook 'LaTeX-mode-hook 'TeX-PDF-mode)
-  ;;     (add-hook 'LaTeX-mode-hook 'TeX-source-correlate-mode)
-  ;;     (setq TeX-source-correlate-method 'synctex
-  ;;           TeX-source-correlate-start-server t
-  ;;           pdf-info-epdfinfo-program "/usr/local/bin/epdfinfo")
-  ;; :inti
-  ;; (pdf-loader-install))
+    (use-package saveplace-pdf-view)            ; add save-place compatibalit
 
-  ;; (use-package saveplace-pdf-view 
-  ;;     :init
-  ;;     (save-place-mode 1))
+    (add-hook 'pdf-tools-enabled-hook 'pdf-view-midnight-minor-mode)
+    (add-hook 'LaTeX-mode-hook 'TeX-PDF-mode)
+    (add-hook 'LaTeX-mode-hook 'TeX-source-correlate-mode)
+    (setq TeX-source-correlate-method 'synctex
+          TeX-source-correlate-start-server t
+          pdf-info-epdfinfo-program "/usr/local/bin/epdfinfo")
+    :init
+    (pdf-loader-install))
 
-
-  ;;   (use-package org-noter
-  ;;     :init
-  ;;     (use-package org-noter-pdftools
-  ;;       :after  pdf-tools))
 #+end_src
 ** Zotero
 #+begin_src emacs-lisp
