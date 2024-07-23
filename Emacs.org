@@ -1484,14 +1484,8 @@ if one already exists."
   (use-package devdocs
     :commands (devdocs-search devdocs-lookup)
     :hook (devdocs-mode . (lambda ()
-			    (toggle-truncate-lines nil) 
-			    (visual-line-mode t)))
-    :config
-    (setq display-buffer-alist '(("\\*devdocs\\*"
-				  (display-buffer-in-side-window)
-				  (window-height . 0.30)
-				  (side . right)
-				  (slot . -1)))))
+  		                      (toggle-truncate-lines nil) 
+  		                      (visual-line-mode t))))
 #+end_src
 * Data Science
 ** Jupyter
