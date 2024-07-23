@@ -90,10 +90,10 @@ use-package extras
   (set-fringe-mode 10)
   (display-battery-mode t)
   (column-number-mode)
-  (put 'scroll-left 'disabled nil)        ; enabled scroll left with C-x 
-  (context-menu-mode)                     ; enable context menu
-  (repeat-mode)                           ; enable repeat mode 
-  (ffap-bindings)                         ; enable thing-at-point binding
+  (put 'scroll-left 'disabled nil)       ; enabled scroll left with C-x 
+  (context-menu-mode)                    ; enable context menu
+  (repeat-mode)                          ; enable repeat mode 
+  (ffap-bindings)                        ; enable thing-at-point binding
 #+end_src
 
 File-related customizations.
