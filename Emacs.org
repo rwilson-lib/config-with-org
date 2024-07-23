@@ -112,7 +112,10 @@ File-related customizations.
     (delete-by-moving-to-trash t)       ; Move deleted files to the trash
     (trash-directory "~/.trash")        ; Set Trash director
     (mode-require-final-newline nil)    ; Don't add newlines at the end of files
-    (large-file-warning-threshold nil)) ; Open large files without requesting confirmation
+    (large-file-warning-threshold nil)  ; Open large files without requesting confirmation
+
+    (recentf-mode 1)                    ; Remeber recently open files
+    (save-place-mode 1))                ; Remeber cursor last position
   #+end_src
 
 #+begin_src emacs-lisp
