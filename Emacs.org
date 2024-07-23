@@ -602,9 +602,6 @@ File-related customizations.
 
 ** History 
 #+begin_src emacs-lisp
-  ;; Emacs remeber recently open files
-  (recentf-mode 1)
-
   ;; Remeber window layout
   (use-package winner
     :ensure nil
@@ -613,9 +610,6 @@ File-related customizations.
     :bind
     (("s-<right>" . winner-redo)         
      ("s-<left>" . winner-undo)))
-
-    ;; Emacs remeber cursor last position
-    (save-place-mode 1)
 
     ;; Emacs remeber input history
     (use-package savehist
