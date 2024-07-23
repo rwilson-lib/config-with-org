@@ -1084,6 +1084,14 @@ if one already exists."
 #+end_src
 * Programming
 #+begin_src emacs-lisp
+
+  (use-package treesit-auto
+    :custom
+    (treesit-auto-install 'prompt)
+    :config
+    (treesit-auto-add-to-auto-mode-alist 'all)
+    (global-treesit-auto-mode))
+
   (use-package direnv
     :config
     (direnv-mode)
