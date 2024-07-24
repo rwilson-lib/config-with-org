@@ -906,13 +906,14 @@ configurating emacs build-in isearch package
     (setenv "GIT_EDITOR" "emacs")
 
     :config
+    (setq magit-log-section-commit-count 100)
     (setq magit-section-initial-visibility-alist
-	  '((untracked . hide)
-	    (unstaged . hide)
-	    (staged . hide)
-	    (unpushed . hide)
-	    (unpulled . hide)
-	    (modified . hide)))
+    '((untracked . hide)
+      (unstaged . hide)
+      (staged . hide)
+      (unpushed . hide)
+      (unpulled . hide)
+      (modified . hide)))
     (message "Magit ready ✔"))
 #+end_src
 ** Diff-hl
