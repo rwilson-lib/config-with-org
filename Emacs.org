@@ -2353,12 +2353,6 @@ if one already exists."
 ** Org Roam
 #+begin_src emacs-lisp
   (use-package org-roam
-    :init
-    (setq org-roam-v2-ack t)
-    (setq org-roam-capture-templates '(("d" "default" plain "%?" :target
-                                        (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
-                                                   "#+title: ${title}\n#+date: %u\n#+lastmod: %t\n#+filetags: :emacs:note:roam: \n")
-                                        :unnarrowed t)))
     :custom
     (org-roam-directory "~/org/notes/roam")
     ;; (org-roam-completion-everywhere t)
@@ -2377,6 +2371,12 @@ if one already exists."
     :bind-keymap
     ("C-c n d" . org-roam-dailies-map)
     :config
+    (setq org-roam-v2-ack t)
+    (setq org-roam-capture-templates '(("d" "default" plain "%?" :target
+                                        (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
+                                                   "#+title: ${title}\n#+date: %u\n#+lastmod: %t\n#+filetags: :emacs:note:roam: \n")
+                                        :unnarrowed t)))
+
     (require 'org-roam-dailies) ;; Ensure the keymap is available
     (org-roam-db-autosync-mode)
     (message "org-roam loaded  ✔"))
