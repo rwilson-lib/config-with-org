@@ -55,33 +55,39 @@ use-package extras
 ** Better defaults
 #+begin_src emacs-lisp
   (setq-default
-   inhibit-startup-screen t               ; Disable the startup screen
-   initial-scratch-message nil            ; Empty the initial *scratch* buffer
-   indent-tabs-mode nil                   ; Insert space characters instead of tabs
-   tab-width 2                            ; The number of spaces a tab is equal to
-   fill-column 78                         ; Line length above which to break a line
-   cursor-type 'bar                       ; Display the cursor as a vertical bar
-   column-number-mode t                   ; Display the column number in the mode line
-   vc-follow-symlinks t                   ; Follow symlinks without requesting confirmation
-   major-mode 'text-mode                  ; Set the default major mode to text-mode
-   ring-bell-function 'ignore             ; Disable the error beep sound
-   cursor-in-non-selected-windows nil     ; Hide the cursor in non-selected windows
-   inhibit-compacting-font-caches nil     ; Prevent compacting font caches during garbage collection
-   confrim-kill-emacs 'y-or-n-p           ; change all prompts to y or n
-   auto-revert-verbose nil                ; Emacs watch file on disk for changes
-   global-auto-revert-non-file-buffers t) ; Emacs auto refresh dired buffers
+   inhibit-startup-screen t              ; Disable the startup screen
+   inhibit-startup-message t             ; Disable the Startup message
+   initial-scratch-message nil           ; Empty the initial *scratch* buffer
+   indent-tabs-mode nil                  ; Insert space characters instead of tabs
+   tab-width 2                           ; The number of spaces a tab is equal to
+   fill-column 78                        ; Line length above which to break a line
+   cursor-type 'bar                      ; Display the cursor as a vertical bar
+   column-number-mode t                  ; Display the column number in the mode line
+   vc-follow-symlinks t                  ; Follow symlinks without requesting confirmation
+   major-mode 'text-mode                 ; Set the default major mode to text-mode
+   ring-bell-function 'ignore            ; Disable the error beep sound
+   cursor-in-non-selected-windows nil    ; Hide the cursor in non-selected windows
+   inhibit-compacting-font-caches nil    ; Prevent compacting font caches during garbage collection
+   confrim-kill-emacs 'y-or-n-p          ; change all prompts to y or n
+   auto-revert-verbose nil               ; Emacs watch file on disk for changes
+   global-auto-revert-non-file-buffers t ; Emacs auto refresh dired buffers
+   show-paren-context-when-offscreen 'overlay
+   set-mark-command-repeat-pop t         ; mark ring
+   enable-recursive-minibuffers nil     ; Enable recursive minibuffers
+   display-time-day-and-date t
+   display-time-24hr-format t)
 
-  (savehist-mode t)                       ; Save the minibuffer history
-  (global-auto-revert-mode 1)             ; auto-Refresh file
-  (show-paren-mode t)                     ; Enable visualization of matching parens
-  (save-place-mode t)                     ; Jump to the last known position when reopening a file
-  (electric-pair-mode t)                  ; Enable automatic brackets pairing
-  (global-hl-line-mode t)                 ; Enable line highlighting in all buffers
-  (delete-selection-mode t)               ; Replace selected text when typing
-  (global-auto-revert-mode t)             ; Automatically reload externally modified files
-  (fset 'yes-or-no-p 'y-or-n-p)           ; Replace "yes/no" prompts with "y/n"
-  (prefer-coding-system 'utf-8)           ; Set default encoding to UTF-8
-  (set-language-environment 'utf-8)       ; Set default language environment to UTF-8
+  (savehist-mode t)                      ; Save the minibuffer history
+  (global-auto-revert-mode 1)            ; auto-Refresh file
+  (show-paren-mode t)                    ; Enable visualization of matching parens
+  (save-place-mode t)                    ; Jump to the last known position when reopening a file
+  (electric-pair-mode t)                 ; Enable automatic brackets pairing
+  (global-hl-line-mode t)                ; Enable line highlighting in all buffers
+  (delete-selection-mode t)              ; Replace selected text when typing
+  (global-auto-revert-mode t)            ; Automatically reload externally modified files
+  (fset 'yes-or-no-p 'y-or-n-p)          ; Replace "yes/no" prompts with "y/n"
+  (prefer-coding-system 'utf-8)          ; Set default encoding to UTF-8
+  (set-language-environment 'utf-8)      ; Set default language environment to UTF-8
 
   ;; (menu-bar-mode 1)
   (scroll-bar-mode -1)
@@ -371,11 +377,6 @@ File-related customizations.
 ** Themes and Mode-line
 *** Modus Theme Config
 #+begin_src emacs-lisp
-  (setq display-time-day-and-date t
-        display-time-24hr-format t)
-
-  (display-time)
-
   ;; Add all your customizations prior to loading the themes
   ;; Configure the Modus Themes' appearance
   (setq modus-themes-fringes 'subtle
