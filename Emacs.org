@@ -2587,7 +2587,10 @@ if one already exists."
     (setq evil-ex-search-case "insensitive"
           evil-echo-state t
           evil-auto-balance-w nil)
+
     (evil-mode 1)
+    (global-evil-surround-mode)
+    (global-evil-matchit-mode)
     (message "Done Loading Evil"))
 #+end_src
 ** Evil Collection
@@ -2598,20 +2601,14 @@ if one already exists."
 
     :config
     (condition-case err
-	(evil-collection-init)
+        (evil-collection-init)
       (error (message "Error initializing evil-collection-init: %S" err))))
 
   (use-package evil-matchit
     :requires evil)
 
   (use-package evil-surround
-    :requires evil
-
-    :hook ((text-mode prog-mode) . (lambda ()
-                                     (eglot-ensure)    
-                                     (outline-minor-mode)
-                                     (evil-surround-mode)
-                                     (evil-matchit-mode))))
+    :requires evil)
 #+end_src
 ** General
 #+begin_src emacs-lisp
