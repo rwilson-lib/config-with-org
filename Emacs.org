@@ -1460,6 +1460,10 @@ if one already exists."
   		                      (toggle-truncate-lines nil) 
   		                      (visual-line-mode t))))
 #+end_src
+** Elisp
+#+begin_src emacs-lisp
+  (use-package erk)
+#+end_src
 * Data Science
 ** Jupyter
 #+begin_src emacs-lisp
