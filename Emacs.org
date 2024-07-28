@@ -119,10 +119,12 @@ File-related customizations.
     (trash-directory "~/.trash")        ; Set Trash director
     (mode-require-final-newline nil)    ; Don't add newlines at the end of files
     (large-file-warning-threshold nil)  ; Open large files without requesting confirmation
-
     (recentf-mode 1)                    ; Remeber recently open files
-    (save-place-mode 1))                ; Remeber cursor last position
-  #+end_src
+    (save-place-mode 1)                 ; Remeber cursor last position
+    (default-directory "~/tmp/")        ; open emacs in tmp folder on startup
+    (custom-file                        ; customization ui conf-file location
+     (concat user-emacs-directory "custom.el")))     
+    #+end_src
 
 #+begin_src emacs-lisp
   (use-package emacs
@@ -221,6 +223,8 @@ File-related customizations.
       (load custom-file))
     (setq treesit-extra-load-path '("~/.lib/tree-sitter-langs/")))
 #+end_src
+
+Set Exec path
 
 #+begin_src emacs-lisp
    (setq comint-terminfo-terminal "eterm-256color")
@@ -353,6 +357,7 @@ File-related customizations.
     (setq codeium/document/text 'my-codeium/document/text)
     (setq codeium/document/cursor_offset 'my-codeium/document/cursor_offset))
 #+end_src
+
 * User Interface Improvements
 ** Toggle Line Number
 #+begin_src emacs-lisp
@@ -1298,6 +1303,7 @@ if one already exists."
   (use-package python
     :bind (:map python-mode-map
                 ("C-c TAB ." . python-import-symbol-at-point))
+
     :config
     (setq-local pyvenv-mode 1)
 
@@ -1466,7 +1472,6 @@ if one already exists."
 ** ESS
 #+begin_src emacs-lisp
   (use-package ess
-    ;; :hook (R-mode . eglot-ensure)
     :commands (ess-mode)
     :custom
     (inferior-ess-fix-misaligned-output t)
