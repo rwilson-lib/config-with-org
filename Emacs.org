@@ -286,7 +286,7 @@ Set Exec path
     (message "try ready ✔"))
 #+end_src
 ** LLM
-*** Gptel
+Gptel
 #+begin_src emacs-lisp
   (use-package gptel
 
@@ -305,7 +305,7 @@ Set Exec path
 		   :key (gptel-api-key-from-auth-source "generativelanguage.googleapis.com")
 		   :stream t)))
 #+end_src
-*** Codeium.el
+ Codeium.el
 #+begin_src emacs-lisp
   (use-package codeium
     :ensure nil
