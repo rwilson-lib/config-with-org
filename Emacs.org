@@ -1142,6 +1142,8 @@ if one already exists."
                          (electric-pair-local-mode)
                          (rainbow-delimiters-mode)
                          (display-line-numbers-mode 1)
+                         (eglot-ensure)
+                         (outline-minor-mode)
                          ;; (yas-minor-mode)
                          (flycheck-mode)	
                          (setq-local completion-at-point-functions
