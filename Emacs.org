@@ -100,6 +100,8 @@ use-package extras
   (context-menu-mode)                    ; enable context menu
   (repeat-mode)                          ; enable repeat mode 
   (ffap-bindings)                        ; enable thing-at-point binding
+  (display-time)                         ; display clock in mode-line
+
 #+end_src
 
 File-related customizations.
