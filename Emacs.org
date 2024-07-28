@@ -432,13 +432,6 @@ File-related customizations.
     (doom-modeline-irc-stylize 'identity)
     (doom-modeline-github-timer nil)
     (doom-modeline-gnus-timer nil))
-
-  (defun my-doom-modeline--font-height ()
-    "Calculate the actual char height of the mode-line."
-    (+ (frame-char-height) 0))
-
-  (advice-add #'doom-modeline--font-height :override #'my-doom-modeline--font-height)
-
 #+end_src
 ** Avy
 #+begin_src emacs-lisp
