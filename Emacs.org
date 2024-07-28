@@ -73,9 +73,11 @@ use-package extras
    global-auto-revert-non-file-buffers t ; Emacs auto refresh dired buffers
    show-paren-context-when-offscreen 'overlay
    set-mark-command-repeat-pop t         ; mark ring
-   enable-recursive-minibuffers nil     ; Enable recursive minibuffers
+   enable-recursive-minibuffers nil      ; Enable recursive minibuffers
    display-time-day-and-date t
-   display-time-24hr-format t)
+   display-time-24hr-format t
+   visible-bell t)                       ; (set-frame-parameter nil 'fullscreen 'fullboth)
+
 
   (savehist-mode t)                      ; Save the minibuffer history
   (global-auto-revert-mode 1)            ; auto-Refresh file
