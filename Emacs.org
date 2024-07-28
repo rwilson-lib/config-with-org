@@ -2000,7 +2000,7 @@ if one already exists."
 				  (flyspell-mode)))
 #+end_src
 * Org Mode
-** Custom function
+Custom function
 #+begin_src emacs-lisp
 
   ;; Org Mode Configuration ------------------------------------------------------
@@ -2019,7 +2019,7 @@ if one already exists."
     (auto-fill-mode)
 
     (setq-local visual-fill-column-width 100
-		visual-fill-column-center-text t)
+  	visual-fill-column-center-text t)
 
     (variable-pitch-mode 1))
 
@@ -2032,13 +2032,13 @@ if one already exists."
 
     ;; Set faces for heading levels
      (dolist (face '((org-level-1 . 1.2)
-		  (org-level-2 . 1.1)
-		  (org-level-3 . 1.05)
-		  (org-level-4 . 1.0)
-		  (org-level-5 . 1.1)
-		  (org-level-6 . 1.1)
-		  (org-level-7 . 1.1)
-		  (org-level-8 . 1.1)))
+  	  (org-level-2 . 1.1)
+  	  (org-level-3 . 1.05)
+  	  (org-level-4 . 1.0)
+  	  (org-level-5 . 1.1)
+  	  (org-level-6 . 1.1)
+  	  (org-level-7 . 1.1)
+  	  (org-level-8 . 1.1)))
        (set-face-attribute (car face) nil :font "ETBembo" :weight 'regular :height (cdr face)))
 
     ;; Ensure that anything that should be fixed-pitch in Org files appears that way
@@ -2050,101 +2050,101 @@ if one already exists."
     (set-face-attribute 'org-meta-line nil :inherit '(font-lock-comment-face fixed-pitch))
     (set-face-attribute 'org-checkbox nil :inherit 'fixed-pitch))
 #+end_src
-* Org
+ Org
 #+begin_src emacs-lisp
-    (use-package org
+  (use-package org
 
-      :hook ((org-mode . ( lambda ()
-			   (efs/org-mode-setup)))
-	     (outline-mode . org-modern-mode))
-
-
-      :bind (("C-c l" . org-store-link)
-	     ("C-c c" . org-capture) 
-	     :map org-mode-map
-	     ("C-/" . org-comment-dwim )
-	     ("S-<backspace>" . org-table-blank-field))
-
-      :config
-      (setq org-display-remote-inline-images 'cache) ; org-version 9.5 not working
-      (setq org-use-property-inheritance t)
-      (setq org-directory (concat (getenv "HOME") "/org"))
-      (setq org-ellipsis " ⤸")
-      (setq org-log-done '(time note))
-      (setq org-startup-folded t)
-      (setq org-log-into-drawer t)
-      (setq org-startup-indented nil)
-      (setq org-hide-emphasis-markers t)
-
-      (setq my/org-latex-scale 2)
-      (setq org-preview-latex-default-process 'dvisvgm)
-      (setq org-format-latex-options (plist-put org-format-latex-options
-						:scale my/org-latex-scale))
-
-      (setq org-cite-csl-styles-dir "~/Zotero/styles")
-
-      (setq org-todo-keywords
-	    '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d!)")
-	      (sequence "BACKLOG(b)" "PLAN(p)" "READY(r)" "ACTIVE(a)" "REVIEW(v)" "WAIT(w@/!)" "HOLD(h)" "|" "COMPLETED(c)" "CANC(k@)")))
-
-      (setq org-refile-targets
-	    '((nil :maxlevel . 4)
-	      ("Archive.org" :maxlevel . 1)
-	      ("Tasks.org" :maxlevel . 1))
-	    org-refile-use-outline-path 'title)
-
-      ;; Save Org buffers after refiling!
-      (advice-add 'org-refile :after 'org-save-all-org-buffers)
-
-      (setq org-tag-alist
-	    '((:startgroup)
-	      ;; Put mutually exclusive tags here
-	      (:endgroup)
-	      ("note" . ?n)
-	      ("@home" . ?H)
-	      ("@work" . ?W)
-	      ("batch" . ?b)
-	      ("agenda" . ?a)
-	      ("publish" . ?P)
-	      ("@errand" . ?E)
-	      ("planning" . ?p)
-	      ("idea" . ?i)))
+    :hook ((org-mode . ( lambda ()
+                         (efs/org-mode-setup)))
+           (outline-mode . org-modern-mode))
 
 
-      (setq org-capture-templates
-	    '(("t" "Tasks / Projects")
-	      ("tt" "Task" entry (file+olp "~/org/beorg/org/Tasks.org" "Inbox")
-	       "* TODO %?\n  %U\n  %a\n  %i" :empty-lines 1)
+    :bind (("C-c l" . org-store-link)
+           ("C-c c" . org-capture) 
+           :map org-mode-map
+           ("C-/" . org-comment-dwim )
+           ("S-<backspace>" . org-table-blank-field))
 
-	      ("j" "Journal Entries")
-	      ("jj" "Journal" entry
-	       (file+olp+datetree "~/org/beorg/org/Journal.org")
-	       "\n* %<%I:%M %p> - Journal :journal:\n\n%?\n\n"
-	       ;; ,(dw/read-file-as-string "~/Notes/Templates/Daily.org")
-	       :clock-in :clock-resume
-	       :empty-lines 1)
-	      ("jm" "Meeting" entry
-	       (file+olp+datetree "~/org/beorg/org/Journal.org")
-	       "* %<%I:%M %p> - %a :meetings:\n\n%?\n\n"
-	       :clock-in :clock-resume
-	       :empty-lines 1)
+    :config
+    (setq org-display-remote-inline-images 'cache) 
+    (setq org-use-property-inheritance t)
+    (setq org-directory (concat (getenv "HOME") "/org"))
+    (setq org-ellipsis " ⤸")
+    (setq org-log-done '(time note))
+    (setq org-startup-folded t)
+    (setq org-log-into-drawer t)
+    (setq org-startup-indented nil)
+    (setq org-hide-emphasis-markers t)
 
-	      ("e" "Email Workflow")
-	      ("ef" "Follow Up" entry (file+olp "~/org/beorg/org/Mails.org" "Follow Up")
-	       "* TODO Follow up with %:fromname on %a\nSCHEDULED:%t\nDEADLINE: %(org-insert-time-stamp (org-read-date nil t \"+2d\"))\n\n%i" :immediate-finish t)
-	      ("er" "Read Later" entry (file+olp "~/org/beorg/org/Mails.org" "Read Later")
-	       "* TODO Read %:subject\nSCHEDULED:%t\nDEADLINE: %(org-insert-time-stamp (org-read-date nil t \"+2d\"))\n\n%a\n\n%i" :immediate-finish t)
+    (setq my/org-latex-scale 2)
+    (setq org-preview-latex-default-process 'dvisvgm)
+    (setq org-format-latex-options (plist-put org-format-latex-options
+  				                                    :scale my/org-latex-scale))
 
-	      ("w" "Workflows")
-	      ("we" "Checking Email" entry (file+olp+datetree "~/org/beorg/org/Journal.org")
-	       "* Checking Email :email:\n\n%?" :clock-in :clock-resume :empty-lines 1)
+    (setq org-cite-csl-styles-dir "~/Zotero/styles")
 
-	      ("m" "Metrics Capture")
-	      ("mw" "Weight" table-line (file+headline "~/org/beorg/org/Metrics.org" "Weight")
-	       "| %U | %^{Weight} | %^{Notes} |" :kill-buffer t)))
-      (message "org ready ✔"))
+    (setq org-todo-keywords
+          '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d!)")
+            (sequence "BACKLOG(b)" "PLAN(p)" "READY(r)" "ACTIVE(a)" "REVIEW(v)" "WAIT(w@/!)" "HOLD(h)" "|" "COMPLETED(c)" "CANC(k@)")))
+
+    (setq org-refile-targets
+          '((nil :maxlevel . 4)
+            ("Archive.org" :maxlevel . 1)
+            ("Tasks.org" :maxlevel . 1))
+          org-refile-use-outline-path 'title)
+
+    ;; Save Org buffers after refiling!
+    (advice-add 'org-refile :after 'org-save-all-org-buffers)
+
+    (setq org-tag-alist
+          '((:startgroup)
+            ;; Put mutually exclusive tags here
+            (:endgroup)
+            ("note" . ?n)
+            ("@home" . ?H)
+            ("@work" . ?W)
+            ("batch" . ?b)
+            ("agenda" . ?a)
+            ("publish" . ?P)
+            ("@errand" . ?E)
+            ("planning" . ?p)
+            ("idea" . ?i)))
+
+
+    (setq org-capture-templates
+          '(("t" "Tasks / Projects")
+            ("tt" "Task" entry (file+olp "~/org/beorg/org/Tasks.org" "Inbox")
+             "* TODO %?\n  %U\n  %a\n  %i" :empty-lines 1)
+
+            ("j" "Journal Entries")
+            ("jj" "Journal" entry
+             (file+olp+datetree "~/org/beorg/org/Journal.org")
+             "\n* %<%I:%M %p> - Journal :journal:\n\n%?\n\n"
+             ;; ,(dw/read-file-as-string "~/Notes/Templates/Daily.org")
+             :clock-in :clock-resume
+             :empty-lines 1)
+            ("jm" "Meeting" entry
+             (file+olp+datetree "~/org/beorg/org/Journal.org")
+             "* %<%I:%M %p> - %a :meetings:\n\n%?\n\n"
+             :clock-in :clock-resume
+             :empty-lines 1)
+
+            ("e" "Email Workflow")
+            ("ef" "Follow Up" entry (file+olp "~/org/beorg/org/Mails.org" "Follow Up")
+             "* TODO Follow up with %:fromname on %a\nSCHEDULED:%t\nDEADLINE: %(org-insert-time-stamp (org-read-date nil t \"+2d\"))\n\n%i" :immediate-finish t)
+            ("er" "Read Later" entry (file+olp "~/org/beorg/org/Mails.org" "Read Later")
+             "* TODO Read %:subject\nSCHEDULED:%t\nDEADLINE: %(org-insert-time-stamp (org-read-date nil t \"+2d\"))\n\n%a\n\n%i" :immediate-finish t)
+
+            ("w" "Workflows")
+            ("we" "Checking Email" entry (file+olp+datetree "~/org/beorg/org/Journal.org")
+             "* Checking Email :email:\n\n%?" :clock-in :clock-resume :empty-lines 1)
+
+            ("m" "Metrics Capture")
+            ("mw" "Weight" table-line (file+headline "~/org/beorg/org/Metrics.org" "Weight")
+             "| %U | %^{Weight} | %^{Notes} |" :kill-buffer t)))
+    (message "org ready ✔"))
 #+end_src
-** Org-Agenda
+Org-Agenda
 #+begin_src emacs-lisp
   (use-package org-agenda
     :ensure nil
@@ -2210,7 +2210,7 @@ if one already exists."
 
     (message "org-agenda ready ✔"))
 #+end_src
-** Org Protocol
+ Org Protocol
 #+begin_src emacs-lisp
   (use-package org-protocol
     :ensure nil
@@ -2218,7 +2218,7 @@ if one already exists."
     :config
     (message "org-protocol ready ✔"))
 #+end_src
-** Org Habit
+ Org Habit
 #+begin_src emacs-lisp
   (use-package org-habit
     :ensure nil
@@ -2229,7 +2229,7 @@ if one already exists."
 	      (setq org-habit-graph-column 60))
     (message "org-habit ready ✔"))
 #+end_src
-** Org Babel 
+ Org Babel 
 #+begin_src emacs-lisp
     (use-package ob-napkin
       :after ob
@@ -2270,8 +2270,7 @@ if one already exists."
 		;;       org-babel-default-header-args:python '((:results . "output replace")))
 		(add-to-list 'org-src-lang-modes (quote ("plantuml" . plantuml)))))
 #+end_src
-
-** Org Tempo
+ Org Tempo
 #+begin_src emacs-lisp
   (use-package org-tempo
     :ensure nil
@@ -2292,7 +2291,7 @@ if one already exists."
 	      ;;(add-to-list 'org-structure-template-alist '("npp". "src napkin-puml"))
 	      (add-to-list 'org-structure-template-alist '("sql". "src sql-mode"))))
 #+end_src
-** Org Modern
+ Org Modern
 #+begin_src emacs-lisp
   (use-package org-modern
     :after org
@@ -2300,7 +2299,7 @@ if one already exists."
     ;; (setq org-modern-star '("" "" "" "" "" "" ""))
     (setq org-modern-hide-star t))
 #+end_src
-** Ox Reveal
+ Ox Reveal
 #+begin_src emacs-lisp
   (use-package ox-reveal
     :defer 5
@@ -2308,7 +2307,7 @@ if one already exists."
     :config
     (message "ox-reveal ready"))
 #+end_src
-** Org Present
+ Org Present
 #+begin_src emacs-lisp
   (use-package dslide 
     :bind ((:map dslide-mode-map 
@@ -2320,7 +2319,7 @@ if one already exists."
     :config
     (message "dslide loaded"))
 #+end_src
-** Org Pandoc
+ Org Pandoc
 #+begin_src emacs-lisp
   (use-package ox-pandoc
     :ensure-system-package
