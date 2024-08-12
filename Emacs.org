@@ -2388,7 +2388,7 @@ Org Pandoc
 ** Consult-Org-Roam
 #+begin_src emacs-lisp
   (use-package consult-org-roam
-    :after (consult org-roam)
+    :requires (consult org-roam)
     :bind
     ("C-c n e" . consult-org-roam-file-find)
     ("C-c n b" . consult-org-roam-backlinks)
