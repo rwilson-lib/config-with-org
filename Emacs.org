@@ -2020,7 +2020,6 @@ Custom function
     (visual-fill-column-mode 1)
     ;; (hl-todo-mode)
     (setq-local truncate-lines t)
-    (setq-local truncate-lines t)
 
     (setq org-hide-leading-stars t)
 
