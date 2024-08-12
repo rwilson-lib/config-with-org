@@ -1472,15 +1472,15 @@ configurating emacs build-in isearch package
 * Data Science
 ** Jupyter
 #+begin_src emacs-lisp
-  (use-package jupyter
-    ;; :requires (zmq org python)
-    :commands (jupyter-run-server-repl
-               jupyter-run-repl
-               jupyter-server-list-kernels)
-    :init (eval-after-load 'jupyter-org-extensions ; conflicts with my helm config, I use <f2 #>
-            '(unbind-key "C-c h" jupyter-org-interaction-mode-map))
-    :config
-    (message "jupyter ready ✔"))
+  ;; (use-package jupyter
+  ;; :requires (zmq org python)
+  ;; :commands (jupyter-run-server-repl
+  ;; jupyter-run-repl
+  ;; jupyter-server-list-kernels)
+  ;; :init (eval-after-load 'jupyter-org-extensions ; conflicts with my helm config, I use <f2 #>
+  ;; '(unbind-key "C-c h" jupyter-org-interaction-mode-map))
+  ;; :config
+  ;; (message "jupyter ready ✔"))
 #+end_src
 ** ESS
 #+begin_src emacs-lisp
@@ -2270,8 +2270,8 @@ Org Babel
                  ;; (gnuplot . t)
                  (plantuml . t)
                  (restclient . t)
-                 (emacs-lisp . t)
-                 (jupyter . t)))
+                 ;; (jupyter . t)
+                 (emacs-lisp . t)))
               ;; (setq org-babel-default-header-args:sh    '((:results . "output replace"))
               ;;       org-babel-default-header-args:bash  '((:results . "output replace"))
               ;;       org-babel-default-header-args:shell '((:results . "output replace"))
