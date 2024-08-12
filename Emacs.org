@@ -158,7 +158,7 @@ Emacs
     ;; Completion at point
     ;; Enable indentation+completion using the TAB key.
     (setq tab-always-indent 'complete        ; `completion-at-point' is often bound to M-TAB.
-          completion-cycle-threshold 3)      ; TAB cycle if there are only few candidates
+          completion-cycle-threshold 1)      ; TAB cycle if there are only few candidates
 
 
     ;; Add prompt indicator to `completing-read-multiple'.
