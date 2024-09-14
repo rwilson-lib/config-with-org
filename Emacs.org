@@ -289,6 +289,11 @@ Goto Address
   (use-package dired-rsync-transient
     :commands (dired-rsync)
     :after dired)
+
+  (use-package dired-sidebar
+    :commands (dired-sidebar-toggle-sidebar)
+    :config
+    (setq dired-sidebar-use-custom-font t))
 #+end_src
 ** Undo Fu
 #+begin_src emacs-lisp 
@@ -664,22 +669,6 @@ Codeium.el
                  ("<escape>" . iedit--quit))))
   ;; iedit-goto-last-occurrences
   ;; iedit-goto-first-occurrences
-#+end_src
-** Tree-Macs
-#+begin_src emacs-lisp
-  (use-package treemacs
-    :commands (treemacs))
-
-  (use-package treemacs-icons-dired
-    :after (treemacs dired)
-    :hook (dired-mode . treemacs-icons-dired-enable-once)
-    :config
-    (message "treemacs-projectile ready"))
-
-  (use-package treemacs-magit
-    :after (treemacs magit)
-    :config
-    (message "treemacs-magit ready"))
 #+end_src
 ** Key-cast
 #+begin_src emacs-lisp
