@@ -792,7 +792,7 @@ Cape
   (use-package visual-fill-column
     :defer t
     :config
-    (setq-default visual-fill-column-width 200
+    (setq-default visual-fill-column-width 250
                   visual-fill-column-center-text t))
 
 #+end_src
@@ -2020,9 +2020,6 @@ Custom function
 
     (setq-local fill-column 80)
     (auto-fill-mode)
-
-    (setq-local visual-fill-column-width 100
-  	            visual-fill-column-center-text t)
 
     (variable-pitch-mode 1))
 
