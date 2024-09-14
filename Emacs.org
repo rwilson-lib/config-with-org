@@ -89,6 +89,7 @@ Defaults
   (global-hl-line-mode t)                ; Enable line highlighting in all buffers
   (delete-selection-mode t)              ; Replace selected text when typing
   (global-auto-revert-mode t)            ; Automatically reload externally modified files
+  (global-completion-preview-mode t)     ; Show inline suggestions
   (fset 'yes-or-no-p 'y-or-n-p)          ; Replace "yes/no" prompts with "y/n"
   (prefer-coding-system 'utf-8)          ; Set default encoding to UTF-8
   (set-language-environment 'utf-8)      ; Set default language environment to UTF-8
@@ -687,59 +688,57 @@ Codeium.el
     :config
     (message "keycast loaded ✔"))
 #+end_src
-** Cape
+** CAPF
+Corfu
 #+begin_src emacs-lisp
-  (use-package corfu
-    :config
-    (setq corfu-auto nil
-          corfu-auto-prefix 1
-          corfu-quit-no-match nil
-          corfu-popupinfo-delay 0.3
-          corfu-popupinfo-max-width 70
-          corfu-popupinfo-max-height 20)
+    (use-package corfu
+      :config
+      (setq corfu-auto nil
+            corfu-auto-prefix 1
+            corfu-quit-no-match nil
+            corfu-popupinfo-delay 0.3
+            corfu-popupinfo-max-width 70
+            corfu-popupinfo-max-height 20))
 
-    (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
+    (use-package nerd-icons-corfu
+      :after corfu
+      :config
+      (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
 
-  (use-package corfu-candidate-overlay
-    :init
-    (corfu-popupinfo-mode 1)
-    (corfu-candidate-overlay-mode 1))
+  #+end_src
 
+Cape
+      #+begin_src emacs-lisp
+    (use-package cape
+      :requires evil
+      :config
+      ;; Bind dedicated completion commands
+      (general-define-key
+       :states '(insert)
+       :prefix "C-x C-x"			 ; vim i_Ctr-x
+       "C-l" 'cape-line
+       "C-o" 'completion-at-point          ; vim omni completion 
+       "C-k" 'cape-dict
+       "C-]" 'complete-tag                 ; etags
+       "C-i" 'cape-dabbrev                 ; or dabbrev-completion
+       "C-f" 'cape-file
+       "C-a" 'cape-abbrev
+       "C-s" 'cape-ispell
+       "C-&" 'cape-sgml
+       "C-e" 'evil-scroll-line-down
+       "C-y" 'evil-scroll-line-up)
 
-  (use-package nerd-icons-corfu)
+      :init
+      ;; https://karthinks.com/software/it-bears-repeating/
+      (defvar evil-insert-state-repeat-map 
+        (let ((map (make-sparse-keymap)))
+          (define-key map (kbd "C-e") 'evil-scroll-line-down)
+          (define-key map (kbd "C-y") 'evil-scroll-line-up)
+          map))
 
-
-  (use-package cape
-    :requires evil
-    :config
-    ;; Bind dedicated completion commands
-    (general-define-key
-     :states '(insert)
-     :prefix "C-x C-x"			 ; vim i_Ctr-x
-     "C-l" 'cape-line
-     "C-o" 'completion-at-point          ; vim omni completion 
-     "C-k" 'cape-dict
-     "C-]" 'complete-tag                 ; etags
-     "C-i" 'cape-dabbrev                 ; or dabbrev-completion
-     "C-f" 'cape-file
-     "C-a" 'cape-abbrev
-     "C-s" 'cape-ispell
-     "C-&" 'cape-sgml
-     "C-e" 'evil-scroll-line-down
-     "C-y" 'evil-scroll-line-up)
-
-    :init
-    ;; https://karthinks.com/software/it-bears-repeating/
-    (defvar evil-insert-state-repeat-map 
-      (let ((map (make-sparse-keymap)))
-        (define-key map (kbd "C-e") 'evil-scroll-line-down)
-        (define-key map (kbd "C-y") 'evil-scroll-line-up)
-        map))
-
-    (dolist (cmd '(evil-scroll-line-down evil-scroll-line-up))
-      (put cmd 'repeat-map 'evil-insert-state-repeat-map))
-
-    (setq cape-dict-file "/usr/share/dict/words"))
+      (dolist (cmd '(evil-scroll-line-down evil-scroll-line-up))
+        (put cmd 'repeat-map 'evil-insert-state-repeat-map))
+      (setq cape-dict-file "/usr/share/dict/words"))
 #+end_src
 ** IBuffer
 #+begin_src emacs-lisp
