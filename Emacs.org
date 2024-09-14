@@ -258,12 +258,15 @@ Set Exec path
 Goto Address
 
 #+begin_src emacs-lisp
-  (setq goto-address-url-face 'link
-        goto-address-url-mouse-face 'highlight
-        goto-address-mail-face 'link
-        goto-address-mail-mouse-face 'highlight)
+  (use-package goto-addr
+    :ensure nil
+    :config
+    (setq goto-address-url-face 'link
+          goto-address-url-mouse-face 'highlight
+          goto-address-mail-face 'link
+          goto-address-mail-mouse-face 'highlight)
 
-  (global-goto-address-mode)
+    (global-goto-address-mode))
 #+end_src
 
 * Environment
