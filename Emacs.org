@@ -1135,29 +1135,35 @@ configurating emacs build-in isearch package
 
     :hook (prog-mode . ( lambda ()
                          ;; (flyspell-prog-mode)
-                         ;; (company-mode)	; completion UI
+                         ;; (my/prog-mode-heading-button)
+                         (dape-breakpoint-global-mode)
                          (corfu-mode)
                          (hl-todo-mode)
                          (rainbow-mode)
                          (electric-pair-local-mode)
                          (rainbow-delimiters-mode)
                          (display-line-numbers-mode 1)
+                         (yas-minor-mode 1)
                          (eglot-ensure)
                          (outline-minor-mode)
-                         ;; (yas-minor-mode)
                          (flycheck-mode)	
                          (setq-local completion-at-point-functions
                                      (cape-capf-super
-                                      ;; #'codeium-completion-at-point
-                                      #'tempel-complete
+                                      #'yasnippet-capf
                                       #'cape-keyword ))))
     :config
     (setq-local visual-fill-column-width 200
-                visual-fill-column-center-text t)
-    (setq-local fill-column 79))
+                visual-fill-column-center-text t
+                fill-column 79))
 #+end_src
 ** DevOps
 #+begin_src emacs-lisp
+  (use-package docker
+    :commands (docker docker-compose)
+    :config
+    (setq docker-compose-command "docker compose")
+    (message "docker loaded ✔"))
+
   (use-package terraform-mode)
   (use-package dockerfile-mode)
 #+end_src
@@ -1185,9 +1191,48 @@ configurating emacs build-in isearch package
 #+end_src
 *** Tempel
 #+begin_src emacs-lisp
-  (use-package tempel)
+    (use-package tempel
+      :disabled)
 #+end_src
 
+*** Yas-Snippet
+#+begin_src emacs-lisp
+  (use-package yasnippet
+    :hook
+    (yas-minor-mode . (lambda ()
+  		                  (define-key yas-minor-mode-map (kbd "<tab>") nil)
+  		                  (define-key yas-minor-mode-map (kbd "TAB") nil)
+  		                  ;; Bind 'SPC' to 'yas-expand' when snippet expansion available (it
+  		                  ;; will still call 'self-insert-command' otherwise).
+  		                  (define-key yas-minor-mode-map (kbd "SPC") yas-maybe-expand)
+  		                  ;; Bind `C-c y' to 'yas-expand' ONLY.
+  		                  (define-key yas-minor-mode-map
+  			                            (kbd "C-c y") #'yas-expand))))
+
+  (use-package yasnippet-capf
+    :after yasnippet cape
+    :config
+    (add-to-list 'completion-at-point-functions #'yasnippet-capf))
+
+
+  (use-package yasnippet-snippets
+    :after yasnippet
+    :config
+    (message "yasnippet loaded  ✔"))
+
+  (use-package auto-yasnippet
+    :commands (aya-create
+               aya-expand
+               aya-expand-from-history
+               aya-delete-from-history
+               aya-clear-history
+               aya-next-in-history
+               aya-previous-in-history
+               aya-persist-snippet
+               aya-open-line)
+    :config
+    (message "auto-yasnippet loaded  ✔"))
+#+end_src
 ** Web Mode
 #+begin_src emacs-lisp
   (use-package web-mode
@@ -1276,12 +1321,17 @@ configurating emacs build-in isearch package
   ;; (require 'dap-firefox)
   ;; (require 'dap-node)
 #+end_src
-** Eglot
+* Eglot
 #+begin_src emacs-lisp
   (use-package eglot
     :hook (eglot-managed-mode . (lambda ()
                                   (flycheck-eglot-mode)
-                                  (remove-hook 'flymake-diagnostic-functions 'eglot-flymake-backend)))
+                                  (remove-hook 'flymake-diagnostic-functions 'eglot-flymake-backend)
+                                  (setq-local completion-at-point-functions
+                                              (cape-capf-super
+                                               #'eglot-completion-at-point
+                                               #'yasnippet-capf))))
+
     :general
     (:keymaps 'eglot-mode-map
               "C-c ." #'eglot-code-actions
