@@ -290,6 +290,8 @@ Goto Address
   			                        auto-mode-alist)))
 
   (use-package dired-rsync-transient
+    :ensure-system-package
+    (rsync . rsync)
     :commands (dired-rsync)
     :after dired)
 
@@ -1476,6 +1478,8 @@ configurating emacs build-in isearch package
 ** ESS
 #+begin_src emacs-lisp
   (use-package ess
+    :ensure-system-package
+    (r . r)
     :commands (ess-mode)
     :custom
     (inferior-ess-fix-misaligned-output t)
@@ -2429,8 +2433,9 @@ Org Pandoc
   (use-package mpv
     :ensure-system-package
     (mpv . mpv)
-    :commands (mpv-start mpv-play mpv-play-url)
+    :commands (mpv-play mpv-play-url)
     :config
+    (setq-default mpv-start-timeout 10)
     (add-to-list 'mpv-default-options "--idle")
     (message "mpv loaded  ✔"))
 #+end_src
