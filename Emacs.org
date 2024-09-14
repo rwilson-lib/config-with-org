@@ -139,12 +139,13 @@ Emacs
 
 #+begin_src emacs-lisp
   (use-package emacs
-    :bind (("C-S-u" . universal-argument)
+    :bind (("C-S-u"    . universal-argument)
            ("<f12>"    . tmm-menubar)
            ("C-x |"    . display-fill-column-indicator-mode)
            ("s-."      . context-menu-open)
            ("s-<up>"   . scroll-other-window)
-           ("s-<down>" . scroll-other-window-down))
+           ("s-<down>" . scroll-other-window-down)
+           ("s-p"      . execute-extended-command))
 
     :hook (xwidget-webkit-mode . (lambda ()
                                    (goto-address-mode 0 )))
@@ -201,8 +202,7 @@ Emacs
     (setq backup-enable-predicate
           (lambda (name) (and (normal-backup-enable-predicate name)
                               (not (let ((method (file-remote-p name 'method)))
-                                     (when (stringp method) (member method '("su" "sudo" "doas"))))))))
-    )
+                                     (when (stringp method) (member method '("su" "sudo" "doas")))))))))
 #+end_src
 
 Ediff
@@ -247,7 +247,7 @@ Set Exec path
      apps are not started from a shell."
     (interactive)
     (let ((path-from-shell (replace-regexp-in-string
-                            "[ \t\n]*$" "" (shell-command-to-string
+                            "[ \t\n]*$" ""  (shell-command-to-string
                                             "$SHELL --login -c 'echo $PATH'"))))
       (setenv "PATH" path-from-shell)
       (setq exec-path (split-string path-from-shell path-separator))))
@@ -748,7 +748,6 @@ Cape
 ** Term
 #+begin_src emacs-lisp
   (defun my-term-handle-exit (&optional process-name msg)
-    (message "%s | %s" process-name msg)
     (kill-buffer (current-buffer)))
 
   (advice-add 'term-handle-exit :after 'my-term-handle-exit)
