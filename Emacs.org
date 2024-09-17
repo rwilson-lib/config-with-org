@@ -607,19 +607,12 @@ Gptel
     :init
     (marginalia-mode))
 #+end_src
-** IEdit
+** Multiple-Cursor
 #+begin_src emacs-lisp
-  (global-set-key (kbd "C-*") 'iedit-mode)
-  (global-set-key (kbd "M-*") 'iedit-mode-toggle-on-function)
-  (use-package iedit
-    :bind ((:map iedit-occurrence-keymap-default
-                 ("M-u" . iedit-downcase-occurrences)
-                 ("M-U" . iedit-upcase-occurrences)
-                 ("<tab>" . iedit-next-occurrence)
-                 ("<S-tab>" . iedit-prev-occurrence)
-                 ("<escape>" . iedit--quit))))
-  ;; iedit-goto-last-occurrences
-  ;; iedit-goto-first-occurrences
+  (use-package multiple-cursors
+    :config
+    (setq mc/always-run-for-all nil
+          mc/always-repeat-command nil))
 #+end_src
 ** Key-cast
 #+begin_src emacs-lisp
@@ -2807,14 +2800,42 @@ Org Pandoc
             ("\\*devdocs\\*"
              (display-buffer-in-side-window)
              (window-height . 0.30)
+             (dedicated . t)
              (side . right)
              (slot . -1))
+
+            ("*Gemini*"
+             (display-buffer-in-side-window)
+             (window-height . 0.30)
+             (dedicated . t)
+             (side . right)
+             (slot . 1))
+
 
             ("\\*plantuml preview\\*"
              (display-buffer-reuse-window display-buffer-in-side-window)
              (side . right)
+             (dedicated . t)
              (slot . -1)
              (window-width . 0.5))
+
+            
+            ;; ("\\*e?shell\\*" display-buffer-in-direction
+            ;;  (direction . bottom)
+            ;;  (window . root)
+            ;;  (window-height . 0.3))
+
+
+            ;;  ("\\*\\(vterm\\|shell\\|term\\)[^*]*\\*"
+            ;; ("\\*vterm\\*"
+            ;;  (display-buffer-reuse-mode-window display-buffer-in-side-window)
+            ;;  (window-height . 0.30)
+            ;;  (side . bottom)
+            ;;  (dedicated . t)
+            ;;  (slot . -1)
+            ;;  ;; (window-parameters (mode-line-format . none))
+            ;;  (body-function . (lambda (window)
+            ;;                     (select-window window))))
 
             (my-shell-buffer-p
              (display-buffer-reuse-mode-window display-buffer-in-side-window)
@@ -2822,14 +2843,17 @@ Org Pandoc
              (side . bottom)
              (dedicated . t)
              (slot . -1)
-             (window-parameters (mode-line-format . none))
+             ;; (window-parameters (mode-line-format . none))
              (body-function . (lambda (window)
                                 (select-window window))))
 
-            ;; ("\\*e?shell\\*" display-buffer-in-direction
-            ;;  (direction . bottom)
-            ;;  (window . root)
-            ;;  (window-height . 0.3))
+
+            ("\\*compilation\\*"
+             (display-buffer-reuse-mode-window display-buffer-in-side-window)
+             (window-height . 0.30)
+             (side . bottom)
+             (dedicated . t)
+             (slot . 1))
 
             ("\\*Occur\\*"
              (display-buffer-reuse-window display-buffer-in-side-window)
