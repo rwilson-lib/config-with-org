@@ -53,6 +53,7 @@ use-package extras
 
 * General configuration
 ** Better defaults
+
 Defaults
 
 #+begin_src emacs-lisp
@@ -1581,17 +1582,10 @@ configurating emacs build-in isearch package
     ;; (ess-smart-S-assign-key nil)
     ;; (ess-indent-with-fancy-comments nil)
     :config
-    (setq ess-use-company t)
     (setq ess-can-eval-in-background nil)
-
     (setq ess--command-default-timeout 1)
 
     (message "ESS loaded ✔"))
-
-  (use-package ess-view-data
-    :after (ess)
-    :config
-    (message "ESS View loaded ✔"))
 #+end_src
 ** Gnuplot
 #+begin_src emacs-lisp
@@ -2643,14 +2637,6 @@ Org Pandoc
     (message "hledger loaded  ✔"))
 #+end_src
 
-** Docker
-#+begin_src emacs-lisp
-  (use-package docker
-    :commands (docker)
-    :config
-    (message "docker loaded ✔"))
-#+end_src
-
 * Key binding
 ** Evil
 #+begin_src emacs-lisp
@@ -2713,14 +2699,6 @@ Org Pandoc
   (use-package evil-surround
     :requires evil)
 #+end_src
-** General
-#+begin_src emacs-lisp
-  (defun my/move-to-middle ()
-    (interactive)
-    (let* ((begin (line-beginning-position))
-           (end (line-end-position))
-           (middle (/ (+ end begin) 2)))
-      (goto-char middle)))
 
 ** Which-Key
 #+begin_src emacs-lisp
@@ -2940,3 +2918,4 @@ Org Pandoc
 # org-confirm-babel-evaluate: nil
 # eval: (add-hook 'after-save-hook 'org-babel-tangle nil t)
 # End:
+
