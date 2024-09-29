@@ -2645,6 +2645,21 @@ Org Pandoc
 * Key binding
 ** Evil
 #+begin_src emacs-lisp
+  (defcustom evil-ex-no-jump nil
+    "If non-nil, prevent cursor from jumping after executing evil-ex commands."
+    :type 'boolean
+    :group 'evil)
+
+
+  (defun my-evil-ex-no-jump (orig-fun &rest args)
+  "Prevent cursor from jumping after executing evil-ex commands if `evil-ex-no-jump` is non-nil."
+  (if evil-ex-no-jump
+      (save-excursion
+        (apply orig-fun args))  ;; Execute the original evil-ex function and return cursor to original position
+    (apply orig-fun args)))  ;; If `evil-ex-no-jump` is nil, execute the command normally
+
+  (advice-add 'evil-ex :around #'my-evil-ex-no-jump)
+
   (defun custom/force-normal-state-or-exit ()
     (interactive)
     (cond
