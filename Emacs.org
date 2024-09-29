@@ -283,6 +283,46 @@ Goto Address
     (global-goto-address-mode))
 #+end_src
 
+** General
+#+begin_src emacs-lisp
+  (defun my/move-to-middle ()
+    (interactive)
+    (let* ((begin (line-beginning-position))
+           (end (line-end-position))
+           (middle (/ (+ end begin) 2)))
+      (goto-char middle)))
+
+  (use-package general
+    :after evil
+    :config
+    (general-evil-setup t)
+
+    (general-nvmap
+      "g \\" 'toggle-line-number
+      "g m" 'my/move-to-middle
+      "; ;" 'evil-buffer
+      "SPC /" (general-simulate-key "M-o")
+      "SPC w" (general-simulate-key "C-w")
+      "SPC c" (general-simulate-key "C-c")
+      "SPC g" (general-simulate-key "M-g")
+      "SPC s" (general-simulate-key "M-s"))
+
+    (general-define-key
+     :keymaps '(normal visual)
+     :prefix "g SPC"
+     "x" (general-simulate-key "C-c C-c"))
+
+    (general-define-key
+     :keymaps '(transient-base-map)
+     "<escape>" 'transient-quit-one)
+
+
+    (general-define-key
+     :keymaps '(normal insert visual emacs)
+     "<C-escape>" 'keyboard-quit))
+
+#+end_src
+
 * Environment
 ** Dried
 #+begin_src emacs-lisp
@@ -2665,42 +2705,6 @@ Org Pandoc
            (end (line-end-position))
            (middle (/ (+ end begin) 2)))
       (goto-char middle)))
-
-  (use-package general
-    :after evil
-    :config
-    (general-evil-setup t)
-
-    (general-nvmap
-      "g \\" 'toggle-line-number
-      "g m" 'my/move-to-middle
-      "; ;" 'evil-buffer
-      ;; "SPC f" 'find-file
-      ;; "SPC F" 'find-file-other-window
-      "SPC b" 'consult-buffer
-      "SPC B" 'consult-buffer-other-window
-      "SPC w" (general-simulate-key "C-w")
-      "SPC x" (general-simulate-key "C-x")
-      "SPC v" (general-simulate-key "C-x v")
-      "SPC c" (general-simulate-key "C-c")
-      "SPC g" (general-simulate-key "M-g")
-      "SPC s" (general-simulate-key "M-s"))
-
-    (general-define-key
-     :keymaps '(normal visual)
-     :prefix "g SPC"
-     "x" (general-simulate-key "C-c C-c"))
-
-    (general-define-key
-     :keymaps '(transient-base-map)
-     "<escape>" 'transient-quit-one)
-
-
-    (general-define-key
-     :keymaps '(normal insert visual emacs)
-     "<C-escape>" 'keyboard-quit))
-
-#+end_src
 
 ** Which-Key
 #+begin_src emacs-lisp
