@@ -1600,6 +1600,8 @@ configurating emacs build-in isearch package
     (message "gnuplot loaded"))
 
   (use-package gnuplot-mode
+    :ensure-system-package
+    (gnuplot . gnuplot)
     :commands (gnuplot-mode)
     :mode ("\\.gplot\\'" . gnuplot-mode)
     :config
