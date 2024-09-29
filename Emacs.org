@@ -443,7 +443,6 @@ Gptel
           (3 . (rainbow bold 1.2))
           (t . (semilight 1.1))))
 
-  (load-theme 'modus-vivendi t)
 #+end_src
 
 ** Dimmer
@@ -463,11 +462,14 @@ Gptel
 #+begin_src emacs-lisp
   (use-package doom-themes)
 
+    (load-theme 'doom-dark+  t)
+
+
   (use-package doom-modeline
     :commands (doom-modeline-mode)
     :hook (after-init . doom-modeline-mode)
     :custom    
-    (doom-modeline-height 12)
+    (doom-modeline-height 15)
     (doom-modeline-bar-width 1)
     (doom-modeline-icon t)
     (doom-modeline-major-mode-icon t)
