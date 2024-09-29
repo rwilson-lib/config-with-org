@@ -139,13 +139,13 @@ Emacs
 
 #+begin_src emacs-lisp
   (use-package emacs
-    :bind (("C-S-u"    . universal-argument)
-           ("<f12>"    . tmm-menubar)
-           ("C-x |"    . display-fill-column-indicator-mode)
-           ("s-."      . context-menu-open)
-           ("s-<up>"   . scroll-other-window)
-           ("s-<down>" . scroll-other-window-down)
-           ("s-p"      . execute-extended-command))
+    :bind (("C-S-u"        . universal-argument)
+           ("<f10>"           . tmm-menubar)
+           ("C-x |"             . display-fill-column-indicator-mode)
+           ("s-."                . context-menu-open)
+           ("s-<up>"         . scroll-other-window)
+           ("s-<down>"     . scroll-other-window-down)
+           ("s-P"               . execute-extended-command))
 
     :hook (xwidget-webkit-mode . (lambda ()
                                    (goto-address-mode 0 )))
