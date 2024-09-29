@@ -236,9 +236,6 @@ Treesit
     :ensure nil
     :if (treesit-available-p) 		           ; check if Emacs is built with tree-sitter library
     :config
-    ;; auto-load custom-file when is exist
-    (when (file-exists-p custom-file)
-      (load custom-file))
     (setq treesit-extra-load-path '("~/.lib/tree-sitter-langs/")))
 
 
