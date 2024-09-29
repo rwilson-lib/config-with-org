@@ -747,6 +747,7 @@ Cape
 ** Link hint
 #+begin_src emacs-lisp
   (use-package link-hint
+    :disabled
     :commands (link-hint-open-link link-hint-copy-link)
     :config
     (message "link-hint ready ✔"))
