@@ -112,7 +112,7 @@ Defaults
 
 #+end_src
 
-File-related customizations.
+System fonts
 
 #+begin_src emacs-lisp
 
@@ -200,8 +200,8 @@ Emacs
 
     ;; Emacs 28: Hide commands in M-x which do not work in the current mode.
     ;; Vertico commands are hidden in normal buffers.
-    (setq read-extended-command-predicate
-          #'command-completion-default-include-p)
+    ;; (setq read-extended-command-predicate
+    ;;      #'command-completion-default-include-p)
 
     ;; Case in-sensitivie-search
     (setq read-file-name-completion-ignore-case t
@@ -407,8 +407,28 @@ Gptel
 #+end_src
 ** NerdFont
 #+begin_src emacs-lisp
-  (use-package nerd-icons)
-  (use-package nerd-icons-completion)
+  (use-package nerd-icons
+    :config
+    (use-package nerd-icons-corfu
+      :after corfu
+      :config
+      (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter)
+      (setq nerd-icons-corfu-mapping
+            '((array :style "cod" :icon "symbol_array" :face font-lock-type-face)
+              (boolean :style "cod" :icon "symbol_boolean" :face font-lock-builtin-face)
+              (t :style "cod" :icon "code" :face font-lock-warning-face)))) ; load other default
+    
+
+    (use-package nerd-icons-completion
+      :after marginalia
+      :config
+      (nerd-icons-completion-mode)
+      (add-hook 'marginalia-mode-hook #'nerd-icons-completion-marginalia-setup))
+
+
+    (use-package nerd-icons-dired
+      :hook
+      (dired-mode . nerd-icons-dired-mode)))
 #+end_src
 ** Themes and Mode-line
 *** Modus Theme Config
@@ -501,96 +521,107 @@ Gptel
   (message "avy loaded! ✔"))
 #+end_src
 
-** Order-less
+** Mini-buffer
+
+General Customization
 #+begin_src emacs-lisp
-  (use-package orderless
+  (general-define-key
+   :keymaps '(minibuffer-local-map
+              minibuffer-local-must-match-map)
+   "C-j" 'next-line-or-history-element
+   "C-k" 'previous-line-or-history-element)
+
+    ;; Emacs remeber input history
+  (use-package savehist
     :init
-    (setq completion-styles '(orderless)
-          completion-category-default nil
-          completion-category-overrides '((file (styles . (partial-completion))))))
-#+end_src
-
-** Vertico
-#+begin_src emacs-lisp
-  (use-package vertico
-    :ensure-system-package
-    (fd . fd)
-    :demand t 
-    :general
-    (:keymaps 'vertico-map
-              "<tab>" #'vertico-insert        ; Insert selected candidate into text area
-              "<S-tab>" #'vertico-previous  ; Insert selected candidate into text area
-              "C-j" #'vertico-next
-              "C-k" #'vertico-previous
-              "C-f" 'vertico-exit
-              "<escape>" #'abort-minibuffers ; Close minibuffer
-              "C-SPC" #'vertico-quick-exit
-              "C-S-SPC" #'vertico-quick-insert
-
-              ;; NOTE 2022-02-05: Cycle through candidate groups
-              "C-M-j" #'vertico-next-group
-              "C-M-k" #'vertico-previous-group
-
-              ;; Toggle Vertico multiforms in active minibuffer
-              "C-l" #'vertico-multiform-grid
-              "M-F" #'vertico-multiform-flat
-              "C-;" #'vertico-multiform-vertical
-              "M-U" #'vertico-multiform-unobtrusive)
-
-    (:keymaps 'minibuffer-local-map
-              "<tab>" #'completion-at-point        ; Insert selected candidate into text area
-              "<escape>" #'abort-minibuffers ; Close minibuffer
-              "C-u"  #'delete-minibuffer-contents
-              "C-w"  #'backward-kill-word)
-
+    (savehist-mode)
     :config
-    ;; Use 'consult-completion-in-region' if Vertico is enabled.
-    ;; Otherwise use the default 'completion--in-region' function.
-    (setq completion-in-region-function
-          (lambda (&rest args)
-            (apply (if vertico-mode
-  	                   #'consult-completion-in-region
-  	                 #'completion--in-region)
-  	               args)))
+    (setq history-length 150))
 
-    (defun kb/vertico-quick-embark (&optional arg)
-      "Embark on candidate using quick keys."
-      (interactive)
-      (when (vertico-quick-jump)
-        (embark-act arg)))
+  #+end_src
 
-    ;;(advice-add #'completing-read-multiple
-    ;;            :override #'consult-completing-read-multiple)
+Vertico
+  #+begin_src emacs-lisp
 
-    ;; Configure the display per command.
-    ;; Use a buffer with indices for imenu
-    ;; and a flat (Ido-like) menu for M-x.
-    (setq vertico-multiform-commands
-          '((consult-imenu buffer indexed)
-            (consult-grep buffer indexed)
-            (consult-fd buffer indexed)
-            (consult-buffer flat indexed)))
-    ;; (execute-extended-command flat indexed)))
+    (use-package vertico
+      :ensure-system-package
+      (fd . fd)
+      :demand t 
+      :general
+      (:keymaps 'vertico-map
+                "<tab>" #'vertico-insert        ; Insert selected candidate into text area
+                "<S-tab>" #'vertico-previous  ; Insert selected candidate into text area
+                "C-j" #'vertico-next
+                "C-k" #'vertico-previous
+                "C-f" 'vertico-exit
+                "<escape>" #'abort-minibuffers ; Close minibuffer
+                "C-SPC" #'vertico-quick-exit
+                "C-S-SPC" #'vertico-quick-insert
 
-    ;; Configure the display per completion category.
-    ;; Use the grid display for files and a buffer
-    ;; for the consult-grep commands.
-    (setq vertico-multiform-categories
-          '((file grid indexed)
-            ;;(t reverse)
-            ))
-    :custom
-    (vertico-cycle t)
-    :init
-    (vertico-mode)
-    ;; Enable vertico-multiform
-    (vertico-multiform-mode))
+                ;; NOTE 2022-02-05: Cycle through candidate groups
+                "C-M-j" #'vertico-next-group
+                "C-M-k" #'vertico-previous-group
+
+                ;; Toggle Vertico multiforms in active minibuffer
+                "C-l" #'vertico-multiform-grid
+                "M-F" #'vertico-multiform-flat
+                "C-;" #'vertico-multiform-vertical
+                "M-U" #'vertico-multiform-unobtrusive)
+
+      (:keymaps 'minibuffer-local-map
+                "<tab>" #'completion-at-point        ; Insert selected candidate into text area
+                "<escape>" #'abort-minibuffers ; Close minibuffer
+                "C-u"  #'delete-minibuffer-contents
+                "C-w"  #'backward-kill-word)
+
+      :config
+      ;; Use 'consult-completion-in-region' if Vertico is enabled.
+      ;; Otherwise use the default 'completion--in-region' function.
+      (setq completion-in-region-function
+            (lambda (&rest args)
+              (apply (if vertico-mode
+                         #'consult-completion-in-region
+                       #'completion--in-region)
+                     args)))
+
+      (defun kb/vertico-quick-embark (&optional arg)
+        "Embark on candidate using quick keys."
+        (interactive)
+        (when (vertico-quick-jump)
+          (embark-act arg)))
+
+      ;;(advice-add #'completing-read-multiple
+      ;;            :override #'consult-completing-read-multiple)
+
+      ;; Configure the display per command.
+      ;; Use a buffer with indices for imenu
+      ;; and a flat (Ido-like) menu for M-x.
+      (setq vertico-multiform-commands
+            '((consult-imenu buffer indexed)
+              (consult-grep buffer indexed)
+              (consult-fd buffer indexed)
+              (consult-buffer flat indexed)))
+      ;; (execute-extended-command flat indexed)))
+
+      ;; Configure the display per completion category.
+      ;; Use the grid display for files and a buffer
+      ;; for the consult-grep commands.
+      (setq vertico-multiform-categories
+            '((file grid indexed)
+              ;;(t reverse)
+              ))
+      :custom
+      (vertico-cycle t)
+      :init
+      (vertico-mode)
+      ;; Enable vertico-multiform
+      (vertico-multiform-mode))
 #+end_src
-*** Vertico Extension
+
+Vertico Extension
 #+begin_src emacs-lisp
   (use-package vertico-posframe
-    ;; :hook (vertico-posframe-mode .
-    ;; 			       (lambda () (set-frame-parameter (selected-frame) 'alpha '(85 . 50))))
+    ;; :hook (vertico-posframe-mode . (lambda () (set-frame-parameter (selected-frame) 'alpha '(85 . 50))))
 
     :config
     (setq vertico-multiform-commands
@@ -637,26 +668,16 @@ Gptel
             )))
 #+end_src
 
-** History 
+Orderless Completion style
 #+begin_src emacs-lisp
-  ;; Remeber window layout
-  (use-package winner
-    :ensure nil
+  (use-package orderless
     :init
-    (winner-mode)
-    :bind
-    (("s-<right>" . winner-redo)         
-     ("s-<left>" . winner-undo)))
-
-  ;; Emacs remeber input history
-  (use-package savehist
-    :init
-    (savehist-mode)
-    :config
-    (setq history-length 150))
-
+    (setq completion-styles '(orderless)
+          completion-category-default nil
+          completion-category-overrides '((file (styles . (partial-completion))))))
 #+end_src
-** Marginalia
+
+ Marginalia
 #+begin_src emacs-lisp
   (use-package marginalia 
     :after vertico
@@ -665,12 +686,42 @@ Gptel
 #+end_src
 ** Multiple-Cursor
 #+begin_src emacs-lisp
-  (use-package multiple-cursors
-    :config
-    (setq mc/always-run-for-all nil
-          mc/always-repeat-command nil))
+  (defvar-local expand-treesit-last-node nil
+    "The last node selected in treesit expansion.")
+
+  (defun expand-treesit-selection-progressively ()
+    "Expand the selection to the current treesit node, or its parent progressively."
+    (interactive)
+    (let* ((node (or expand-treesit-last-node (treesit-node-at (point)))))
+      (when node
+        (let ((start (treesit-node-start node))
+              (end (treesit-node-end node)))
+          (set-mark start)
+          (goto-char end)
+          ;; Store the parent node for the next call
+          (setq expand-treesit-last-node (treesit-node-parent node))))))
+
+
+  (defun reset-treesit-expansion ()
+    "Reset the treesit node selection."
+    (interactive)
+    (setq expand-treesit-last-node nil))
+
+
+  (add-hook 'deactivate-mark-hook #'reset-treesit-expansion)
+
+  (general-define-key
+   :keymaps '(visual)
+   "RET" 'expand-treesit-selection-progressively
+   "-" 'expand-treesit-selection-progressively)
 #+end_src
 ** Key-cast
+
+#+begin_src emacs-lisp
+  (general-define-key
+   :keymaps '(normal-evil visual-evil)
+   "C-c d" 'kc/display-key-castings)
+#+end_src
 #+begin_src emacs-lisp
   (use-package keycast
     :commands (keycast-mode keycast-tab-bar)
@@ -730,8 +781,6 @@ Cape
               map))
           (dolist (cmd '(evil-scroll-line-down evil-scroll-line-up))
             (put cmd 'repeat-map 'evil-insert-state-repeat-map)))
-
-
 #+end_src
 ** IBuffer
 #+begin_src emacs-lisp
@@ -741,36 +790,51 @@ Cape
     :config
     (message "IBuffer loaded ✔"))
 #+end_src
-** Link hint
-#+begin_src emacs-lisp
-  (use-package link-hint
-    :disabled
-    :commands (link-hint-open-link link-hint-copy-link)
-    :config
-    (message "link-hint ready ✔"))
-#+end_src
-
 * Window Management
-** Winum Mode
+
+Winum Mode
 #+begin_src emacs-lisp
   (use-package winum
     :config 
     (winum-mode)
     (message "winum ready ✔"))
 #+end_src
-** Ace Windows
+
+Remember Windows layout history
+#+begin_src emacs-lisp
+  (use-package winner
+    :ensure nil
+    :init
+    (winner-mode)
+    :bind
+    (("s-<right>" . winner-redo)         
+     ("s-<left>" . winner-undo)))
+#+end_src
+
+Ace Windows
 #+begin_src emacs-lisp
   (use-package ace-window
     :after evil
+
+    :bind
+    (:repeat-map evil-window-repeat-map
+                 ("+" . evil-window-increase-height)
+                 ("-" . evil-window-decrease-height)
+                 (">" . evil-window-increase-width)
+                 ("<" . evil-window-decrease-width))
+
     :init
     (progn
       (global-set-key [remap other-window] 'ace-window)
       (custom-set-faces
        '(aw-leading-char-face
          ((t (:inhert ace-jump-face-background :height 1.5))))))
+
+
     :config
     (setq aw-dispatch-always t
           aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
+
 
     (general-define-key
      :states '(normal insert)
@@ -789,14 +853,14 @@ Cape
     (message "ace window ready ✔"))
 
 #+end_src
-** Visual fill column
+
+Visual fill column
 #+begin_src emacs-lisp
   (use-package visual-fill-column
     :defer t
     :config
     (setq-default visual-fill-column-width 250
                   visual-fill-column-center-text t))
-
 #+end_src
 * Terminal
 ** Term
@@ -875,6 +939,9 @@ Cape
 
            ;; Isearch integration
            ("M-s e" . consult-isearch-history))
+    :init
+    (setq xref-show-xrefs-function #'consult-xref
+          xref-show-definitions-function #'consult-xref)
     :config
 
     ;; Evil Mode Hack for yank-pop
@@ -894,12 +961,14 @@ configurating emacs build-in isearch package
 #+begin_src emacs-lisp
   (use-package isearch
     :ensure nil
+    :bind
+    (("C-;" . evil-avy-goto-char-timer))
+
     :bind (:map isearch-mode-map
                 ("<tab>" . isearch-complete)
                 ("C-j" . avy-isearch)
-                ("C-e" . iedit-mode-from-isearch)
-                ("M-e" . consult-isearch-history)         ;; orig. isearch-edit-string
-                ("M-s e" . consult-isearch-history)))     ;; orig. isearch-edit-string
+                ;; ("C-e" . iedit-mode-from-isearch)
+                ("M-e" . consult-isearch-history)))         ;; orig. isearch-edit-string
 #+end_src
 
 * Version Control
@@ -911,7 +980,7 @@ configurating emacs build-in isearch package
     :custom (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1)
 
     :init
-    (setenv "GIT_EDITOR" "emacs")
+    (setenv "GIT_EDITOR" "vim")
 
     :config
     (setq magit-log-section-commit-count 100)
@@ -1093,6 +1162,7 @@ configurating emacs build-in isearch package
 
     (use-package project
       :bind (:map project-prefix-map
+                  ("b" . consult-project-buffer) 
                   ("v" . magit-dispatch)
                   ("t" . project-vterm ))
       :config
@@ -1102,7 +1172,7 @@ configurating emacs build-in isearch package
                       (project-vterm "Vterm")))))
 
 #+end_src
-* Programming
+** Programming
 #+begin_src emacs-lisp
 
   (use-package direnv
@@ -1111,6 +1181,7 @@ configurating emacs build-in isearch package
     (message "direnv loaded ✔"))
 
 
+  ;; flymake-show-diagnostics-at-end-of-line
   (use-package flycheck
     :commands (flycheck-mode global-flycheck-mode))
 
@@ -1138,6 +1209,35 @@ configurating emacs build-in isearch package
     :commands (rainbow-delimiters-mode)
     :config
     (message "rainbow-delimiters loaded ✔"))
+
+  (defun my/prog-mode-heading-button()
+    (setq-local header-line-format
+                `(""
+                  ;; Spacer to push buttons to the right
+                  (:eval (propertize " " 'display '(space :align-to (- right-fringe 30))))
+                  ;; Build button
+                  (:eval  (propertize
+                           (buttonize
+                            "Build"
+                            (lambda (&rest _) (message "Build button clicked")))
+                           'mouse-face 'highlight
+                           'help-echo "GPT model in use"))
+                  "  " ;; Spacer between buttons
+                  ;; Run button
+                  (:eval  (propertize
+                           (buttonize
+                            "Run"
+                            (lambda (&rest _) (message "Build button clicked")))
+                           'mouse-face 'highlight
+                           'help-echo "GPT model in use"))
+                  "  " ;; Spacer between buttons
+                  ;; Debug button
+                  (:eval  (propertize
+                           (buttonize
+                            "Debug"
+                            (lambda (&rest _) (message "Build button clicked")))
+                           'mouse-face 'highlight
+                           'help-echo "GPT model in use")))))
 
   (use-package prog-mode
     :ensure nil
@@ -1179,7 +1279,7 @@ configurating emacs build-in isearch package
   (use-package dockerfile-mode)
 #+end_src
 ** Snippet
-*** Emmet
+ Emmet
 #+begin_src emacs-lisp
   (use-package emmet-mode
     :hook
@@ -1200,13 +1300,13 @@ configurating emacs build-in isearch package
     :config
     (message "emmet loaded  ✔"))   ;; expand with ctrl-enter
 #+end_src
-*** Tempel
+ Tempel
 #+begin_src emacs-lisp
     (use-package tempel
       :disabled)
 #+end_src
 
-*** Yas-Snippet
+ Yas-Snippet
 #+begin_src emacs-lisp
   (use-package yasnippet
     :hook
@@ -1312,13 +1412,6 @@ configurating emacs build-in isearch package
   (use-package typescript-mode
     :config
     (setq typescript-indent-level 2))
-
-  (use-package rjsx-mode
-    :mode "\\.js\\'"
-    :bind (:map rjsx-mode-map
-                ("<" . self-insert-command))
-    :config
-    (setq js-jsx-indent-level 2))
 
   (use-package json-mode
     :mode "\\.json\\'"
@@ -1550,6 +1643,10 @@ configurating emacs build-in isearch package
 ** Elisp
 #+begin_src emacs-lisp
   (use-package erk)
+#+end_src
+** Lua
+#+begin_src emacs-lisp
+(use-package lua-mode)
 #+end_src
 * Data Science
 ** Jupyter
@@ -2417,7 +2514,7 @@ Org Pandoc
 #+begin_src emacs-lisp
   (use-package org-roam
     :custom
-    (org-roam-directory "~/org/notes/roam")
+    (org-roam-directory "~/Documents/org/notes/roam")
     ;; (org-roam-completion-everywhere t)
     :bind (("C-c n f" . org-roam-node-find)
            ("C-c n r" . org-roam-node-random)		    
@@ -2483,7 +2580,8 @@ Org Pandoc
     (message "consult-org roam loaded  ✔"))
 #+end_src
 * Media
-** Vuiet 
+
+ Vuiet 
 #+begin_src emacs-lisp
   (use-package  vuiet
     :requires lastfm
@@ -2495,12 +2593,11 @@ Org Pandoc
 
     (setq vuiet-update-mode-line-automatically t)
     (setq vuiet-update-mode-line-interval 1)
-    (add-to-list 'mpv-default-options "--idle")
-    (setq mpv-start-timeout 10)
 
     (message "vuiet loaded  ✔"))
 #+end_src
-** MPC
+
+ MPC
 #+begin_src emacs-lisp
   (use-package mpc
     :ensure-system-package
@@ -2512,7 +2609,8 @@ Org Pandoc
     :config
     (message "mpc loaded  ✔"))
 #+end_src
-** MPV
+
+ MPV
 #+begin_src emacs-lisp
   (use-package mpv
     :ensure-system-package
@@ -2812,19 +2910,37 @@ Org Pandoc
   (add-to-list 'default-frame-alist '(height . 35))
   (add-to-list 'default-frame-alist '(width . 115))
 
-  (defun my-shell-buffer-p (buffer-or-name args)
+  ;; (defun my-shell-buffer-p (buffer-or-name args)
+  ;;   "Return non-nil if BUFFER-OR-NAME is a shell buffer.
+  ;;     A shell buffer is defined as one with a major mode derived from `shell-mode`, `eshell-mode`, `term-mode`, or `ansi-term-mode`.
+  ;;     ARGS is ignored."
+  ;;   (let ((buffer (get-buffer buffer-or-name)))
+  ;;     (when buffer
+  ;;       (with-current-buffer buffer
+  ;;         (derived-mode-p 'shell-mode )))))
+
+
+
+  (defun gptel-buffer-p (buffer-or-name args)
     "Return non-nil if BUFFER-OR-NAME is a shell buffer.
-  A shell buffer is defined as one with a major mode derived from `shell-mode`, `eshell-mode`, `term-mode`, or `ansi-term-mode`.
-  ARGS is ignored."
+      A shell buffer is defined as one with a major mode derived from `shell-mode`, `eshell-mode`, `term-mode`, or `ansi-term-mode`.
+      ARGS is ignored."
     (let ((buffer (get-buffer buffer-or-name)))
       (when buffer
         (with-current-buffer buffer
-          (derived-mode-p 'shell-mode 'eshell-mode 'term-mode 'ansi-term-mode)
-          ))))
+          (and (derived-mode-p 'org-mode ) gptel-mode )))))
+
+  (defun my-shell-buffer-p (buffer _args)
+    "Return non-nil if BUFFER is a shell-like buffer.
+  A shell-like buffer is one with a major mode that is `shell-mode`,
+  `eshell-mode`, `term-mode`, `ansi-term-mode`, or `vterm-mode`."
+    (with-current-buffer buffer
+      ;; (message "Checking buffer: %s with mode: %s" (buffer-name) major-mode) 
+      (memq major-mode '(shell-mode eshell-mode term-mode ansi-term-mode vterm-mode))))
 
   (use-package window
     :ensure nil
-    :bind (("<f8>" . window-toggle-side-windows))
+    :bind (("<f7>" . window-toggle-side-windows))
     :config
     (custom-set-variables
      '(display-buffer-base-action
@@ -2845,19 +2961,33 @@ Org Pandoc
              (slot . 1)) 
 
             ("\\*devdocs\\*"
-             (display-buffer-in-side-window)
+             (display-buffer-reuse-mode-window display-buffer-in-side-window)
              (window-height . 0.30)
              (dedicated . t)
              (side . right)
-             (slot . -1))
+             (slot . 0)
+             (window-parameters . ((no-other-window . t)))
+             (body-function . (lambda (window)
+                                (select-window window))))
+
 
             ("*Gemini*"
+             (display-buffer-reuse-mode-window display-buffer-in-side-window)
+             (window-height . 0.30)
+             (dedicated . t)
+             (side . right)
+             (slot . 1)
+             (window-parameters . ((no-other-window . t)))
+             (body-function . (lambda (window)
+                                (select-window window))))
+
+
+            ("*LLM response*"
              (display-buffer-in-side-window)
              (window-height . 0.30)
              (dedicated . t)
              (side . right)
-             (slot . 1))
-
+             (slot . 0))
 
             ("\\*plantuml preview\\*"
              (display-buffer-reuse-window display-buffer-in-side-window)
