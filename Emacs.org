@@ -148,6 +148,10 @@ System fonts
       (default-directory "~/tmp/")                                                 ; open emacs in tmp folder on startup
       (custom-file
        (concat user-emacs-directory "custom.el")))                     ; customization ui conf-file location
+
+
+    (when (file-exists-p custom-file)
+      (load custom-file))                                                              ; ensure that emacs load custom file if exist
 #+end_src
 
 Emacs
@@ -237,7 +241,6 @@ Treesit
     :if (treesit-available-p) 		           ; check if Emacs is built with tree-sitter library
     :config
     (setq treesit-extra-load-path '("~/.lib/tree-sitter-langs/")))
-
 
   (use-package treesit-auto
     :after treesit
