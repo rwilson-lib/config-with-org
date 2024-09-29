@@ -445,6 +445,20 @@ Gptel
 
   (load-theme 'modus-vivendi t)
 #+end_src
+
+** Dimmer
+#+begin_src emacs-lisp
+  (use-package dimmer
+    :config
+    (setq dimmer-fraction 0.2)
+
+    (dimmer-configure-magit)
+    (dimmer-configure-org) 
+    (dimmer-configure-posframe)
+    (dimmer-configure-which-key )
+    (dimmer-mode))
+#+end_src
+
 *** Doom Modeline
 #+begin_src emacs-lisp
   (use-package doom-themes)
