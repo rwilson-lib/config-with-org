@@ -336,6 +336,8 @@ Goto Address
   			                          (let ((org-attach-method 'cp))
   			                            (call-interactively #'org-attach-dired-to-subtree))))))
 
+    :hook
+    (dired-mode . diff-hl-dired-mode) 
     :config
     (setq-local truncate-lines t)
     (setq dired-dwim-target t
