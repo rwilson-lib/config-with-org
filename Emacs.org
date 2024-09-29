@@ -374,20 +374,17 @@ Goto Address
 Gptel
 #+begin_src emacs-lisp
   (use-package gptel
+    :bind
+    (("C--" . gptel-send))
+
     :hook (gptel-mode . (lambda ()
                           (toggle-truncate-lines nil) 
                           (visual-line-mode t)))
     :config
-    (general-define-key
-     :states '(normal visual)
-     "g RET" 'gptel-send
-     "g -" 'gptel)
-
     (setq-default gptel-default-mode 'org-mode
   	              gptel-post-response-functions #'gptel-end-of-response
   	              gptel-model "gemini-pro" ; Pick your default model
-                  gptel-backend (gptel-make-gemini
-                                    "Gemini"
+                  gptel-backend (gptel-make-gemini "Gemini"
                                   :key (gptel-api-key-from-auth-source "generativelanguage.googleapis.com")
                                   :stream t)))
 #+end_src
