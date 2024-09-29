@@ -699,36 +699,40 @@ Corfu
 
 Cape
       #+begin_src emacs-lisp
-    (use-package cape
-      :requires evil
-      :config
-      ;; Bind dedicated completion commands
-      (general-define-key
-       :states '(insert)
-       :prefix "C-x C-x"			 ; vim i_Ctr-x
-       "C-l" 'cape-line
-       "C-o" 'completion-at-point          ; vim omni completion 
-       "C-k" 'cape-dict
-       "C-]" 'complete-tag                 ; etags
-       "C-i" 'cape-dabbrev                 ; or dabbrev-completion
-       "C-f" 'cape-file
-       "C-a" 'cape-abbrev
-       "C-s" 'cape-ispell
-       "C-&" 'cape-sgml
-       "C-e" 'evil-scroll-line-down
-       "C-y" 'evil-scroll-line-up)
+        (use-package cape
+          :requires evil
+          :config
+          ;; Bind dedicated completion commands
+          (general-define-key
+           :states '(insert)
+           :prefix "C-x C-x"			 ; vim i_Ctr-x
+           "C-l" 'cape-line
+           "C-o" 'completion-at-point          ; vim omni completion 
+           "C-k" 'cape-dict
+           "C-]" 'complete-tag                 ; etags
+           "C-i" 'cape-dabbrev                 ; or dabbrev-completion
+           "C-f" 'cape-file
+           "C-a" 'cape-abbrev
+           "C-s" 'cape-ispell
+           "C-&" 'cape-sgml
+           "C-e" 'evil-scroll-line-down
+           "C-y" 'evil-scroll-line-up)
 
-      :init
-      ;; https://karthinks.com/software/it-bears-repeating/
-      (defvar evil-insert-state-repeat-map 
-        (let ((map (make-sparse-keymap)))
-          (define-key map (kbd "C-e") 'evil-scroll-line-down)
-          (define-key map (kbd "C-y") 'evil-scroll-line-up)
-          map))
+          (setq evil-search-module 'evil-search)
+          (setq cape-dict-file "/usr/share/dict/words")
 
-      (dolist (cmd '(evil-scroll-line-down evil-scroll-line-up))
-        (put cmd 'repeat-map 'evil-insert-state-repeat-map))
-      (setq cape-dict-file "/usr/share/dict/words"))
+
+          :config
+          ;; https://karthinks.com/software/it-bears-repeating/
+          (defvar evil-insert-state-repeat-map 
+            (let ((map (make-sparse-keymap)))
+              (define-key map (kbd "C-e") 'evil-scroll-line-down)
+              (define-key map (kbd "C-y") 'evil-scroll-line-up)
+              map))
+          (dolist (cmd '(evil-scroll-line-down evil-scroll-line-up))
+            (put cmd 'repeat-map 'evil-insert-state-repeat-map)))
+
+
 #+end_src
 ** IBuffer
 #+begin_src emacs-lisp
