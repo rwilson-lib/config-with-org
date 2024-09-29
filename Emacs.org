@@ -2715,6 +2715,34 @@ Org Pandoc
 #+end_src
 ** Helper
 #+begin_src emacs-lisp
+
+  (defvar my-fuzzy-interface-keymap (make-sparse-keymap)
+    "A custom keymap for my custom commands.")
+
+  (define-key my-fuzzy-interface-keymap (kbd "d") 'consult-fd)
+  (define-key my-fuzzy-interface-keymap (kbd "f") 'consult-grep)
+  (define-key my-fuzzy-interface-keymap (kbd "i") 'consult-imenu)
+  (define-key my-fuzzy-interface-keymap (kbd "s") 'consult-eglot-symbols)
+  (define-key my-fuzzy-interface-keymap (kbd "b") 'consult-buffer)
+  (define-key my-fuzzy-interface-keymap (kbd "l") 'consult-line)
+
+  (global-set-key (kbd "s-p") my-fuzzy-interface-keymap)
+
+  (general-define-key
+     :states '(normal visual)
+     "g/l" 'consult-line
+     "g/L" 'consult-line-multi
+     "g/b" 'consult-buffer
+     "g/B" 'consult-buffer-other-window
+     "g/f" 'find-file-at-point
+     "g/F" 'find-file-other-window
+     "g/i" 'consult-imenu
+     "g/I" 'consult-imenu-multi
+     "g/s" 'consult-eglot-symbols
+     "g/d" 'consult-fd
+     "g/'" 'consult-mark
+     "g/\"" 'consult-register)
+
   (defun custom/display-buffer-at-bottom ()
     (interactive)
     (let ((buffer (current-buffer)))
