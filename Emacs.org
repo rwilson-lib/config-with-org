@@ -114,25 +114,39 @@ Defaults
 File-related customizations.
 
 #+begin_src emacs-lisp
-  (use-package files
-    :ensure nil
-    :custom
-    (backup-directory-alist '(("." . "~/.emacs.d/backup-dir")))
-    (backup-by-copying t)               ; Always use copying to create backup files
-    (delete-old-versions t)             ; Delete excess backup versions
-    (kept-new-versions 6)               ; Number of newest versions to keep when a new backup is made
-    (kept-old-versions 2)               ; Number of oldest versions to keep when a new backup is made
-    (version-control t)                 ; Make numeric backup versions unconditionally
-    (auto-save-default nil)             ; Stop creating #autosave# files
-    (delete-by-moving-to-trash t)       ; Move deleted files to the trash
-    (trash-directory "~/.trash")        ; Set Trash director
-    (mode-require-final-newline nil)    ; Don't add newlines at the end of files
-    (large-file-warning-threshold nil)  ; Open large files without requesting confirmation
-    (recentf-mode 1)                    ; Remeber recently open files
-    (save-place-mode 1)                 ; Remeber cursor last position
-    (default-directory "~/tmp/")        ; open emacs in tmp folder on startup
-    (custom-file                        ; customization ui conf-file location
-     (concat user-emacs-directory "custom.el")))     
+
+  (cond
+   ((eq system-type 'windows-nt)
+    (set-frame-font "Cascadia Code-14" nil t))
+   ((eq system-type 'gnu/linux)
+    (set-frame-font "Cascadia Code-14" nil t))
+   ((eq system-type 'darwin)  
+    (set-frame-font "Cascadia Code-14" nil t)))
+
+  #+end_src
+
+  File-related customizations.
+
+  #+begin_src emacs-lisp
+    (use-package files
+      :ensure nil
+      :custom
+      (backup-directory-alist '(("." . "~/.emacs.d/backup-dir")))  ; Backup file path
+      (backup-by-copying t)                                                       ; Always use copying to create backup files
+      (delete-old-versions t)                                                       ; Delete excess backup versions
+      (kept-new-versions 6)                                                       ; Number of newest versions to keep when a new backup is made
+      (kept-old-versions 2)                                                         ; Number of oldest versions to keep when a new backup is made
+      (version-control t)                                                              ; Make numeric backup versions unconditionally
+      (auto-save-default nil)                                                       ; Stop creating #autosave# files
+      (delete-by-moving-to-trash t)                                            ; Move deleted files to the trash
+      (trash-directory "~/.trash")                                                 ; Set Trash director
+      (mode-require-final-newline nil)                                         ; Don't add newlines at the end of files
+      (large-file-warning-threshold nil)                                        ; Open large files without requesting confirmation
+      (recentf-mode 1)                                                                ; Remeber recently open files
+      (save-place-mode 1)                                                          ; Remeber cursor last position
+      (default-directory "~/tmp/")                                                 ; open emacs in tmp folder on startup
+      (custom-file
+       (concat user-emacs-directory "custom.el")))                     ; customization ui conf-file location
 #+end_src
 
 Emacs
