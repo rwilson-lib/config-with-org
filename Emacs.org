@@ -116,6 +116,10 @@ System fonts
 
 #+begin_src emacs-lisp
 
+  ;; For all new frames henceforth
+  (add-to-list 'default-frame-alist '(height . 35))
+  (add-to-list 'default-frame-alist '(width . 140))
+
   (cond
    ((eq system-type 'windows-nt)
     (set-frame-font "Cascadia Code-14" nil t))
@@ -2908,10 +2912,6 @@ Org Pandoc
 #+begin_src emacs-lisp
   ;; For current frame
   ;; (set-frame-parameter nil 'alpha-background 100) ; not working
-
-  ;; For all new frames henceforth
-  (add-to-list 'default-frame-alist '(height . 35))
-  (add-to-list 'default-frame-alist '(width . 115))
 
   ;; (defun my-shell-buffer-p (buffer-or-name args)
   ;;   "Return non-nil if BUFFER-OR-NAME is a shell buffer.
