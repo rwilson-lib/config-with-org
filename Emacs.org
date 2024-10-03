@@ -475,6 +475,7 @@ Gptel
 ** Dimmer
 #+begin_src emacs-lisp
   (use-package dimmer
+    :disabled
     :config
     (setq dimmer-fraction 0.2)
 
