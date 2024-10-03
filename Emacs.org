@@ -487,10 +487,21 @@ Gptel
 
 *** Doom Modeline
 #+begin_src emacs-lisp
-  (use-package doom-themes)
+  (use-package doom-themes
+    :config
+    (setq doom-themes-enable-bold t
+          doom-themes-enable-italic t)
 
-    (load-theme 'doom-dark+  t)
+    (set-face-attribute 'mode-line-inactive nil
+                        :background "#3e3e3e"
+                        :foreground "#b2b2b2"
+                        :box nil)
 
+    ;; Set background color
+    (set-face-background 'default "#1c1c1c"))
+
+
+  (load-theme 'doom-dark+  t)
 
   (use-package doom-modeline
     :commands (doom-modeline-mode)
