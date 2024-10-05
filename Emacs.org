@@ -1046,10 +1046,8 @@ configurating emacs build-in isearch package
                  ("b" . magit-blame))
     :config
     (general-nvmap
-      "[ c" 'diff-hl-show-hunk-next
       "gc;" 'diff-hl-show-hunk-next
-      "gc," 'diff-hl-show-hunk-previous
-      "] c" 'diff-hl-show-hunk-previous)
+      "gc," 'diff-hl-show-hunk-previous)
 
     (setq
      diff-hl-side "left"
