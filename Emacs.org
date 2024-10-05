@@ -1033,8 +1033,11 @@ configurating emacs build-in isearch package
     ;; https://www.gnu.org/software/emacs/manual/html_node/use-package/Binding-to-repeat_002dmaps.html
     (:repeat-map diff-hl-command-map 
                  ("." . diff-hl-show-hunk)
+                 :continue
                  ("n" . diff-hl-show-hunk-next)
+                 ("j" . diff-hl-show-hunk-next)
                  ("p" . diff-hl-show-hunk-previous) 
+                 ("k" . diff-hl-show-hunk-previous) 
                  ("s" . diff-hl-stage-dwim)
                  ("r" . diff-hl-revert-hunk)
                  :exit
@@ -1042,8 +1045,10 @@ configurating emacs build-in isearch package
                  ("C" . magit-commit)
                  ("b" . magit-blame))
     :config
-     (general-nvmap
+    (general-nvmap
       "[ c" 'diff-hl-show-hunk-next
+      "gc;" 'diff-hl-show-hunk-next
+      "gc," 'diff-hl-show-hunk-previous
       "] c" 'diff-hl-show-hunk-previous)
 
     (setq
