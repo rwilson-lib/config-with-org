@@ -777,7 +777,7 @@ Cape
           ;; Bind dedicated completion commands
           (general-define-key
            :states '(insert)
-           :prefix "C-x C-x"			 ; vim i_Ctr-x
+           :prefix "C-x"			 ; vim i_Ctr-x
            "C-l" 'cape-line
            "C-o" 'completion-at-point          ; vim omni completion 
            "C-k" 'cape-dict
@@ -790,11 +790,7 @@ Cape
            "C-e" 'evil-scroll-line-down
            "C-y" 'evil-scroll-line-up)
 
-          (setq evil-search-module 'evil-search)
           (setq cape-dict-file "/usr/share/dict/words")
-
-
-          :config
           ;; https://karthinks.com/software/it-bears-repeating/
           (defvar evil-insert-state-repeat-map 
             (let ((map (make-sparse-keymap)))
