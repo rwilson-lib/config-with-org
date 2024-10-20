@@ -353,10 +353,19 @@ Goto Address
   			                          (interactive)
   			                          (let ((org-attach-method 'cp))
   			                            (call-interactively #'org-attach-dired-to-subtree))))))
-
     :hook
     (dired-mode . diff-hl-dired-mode) 
     :config
+    (cond
+     ((eq system-type 'windows-nt)
+      (setq insert-directory-program "ls"))
+     ((eq system-type 'gnu/linux)
+      (setq insert-directory-program "ls"))
+     ((eq system-type 'darwin)  
+      (setq insert-directory-program "gls")))
+
+    (setq dired-guess-shell-alist-user
+          '(("\\.\\(mp4\\|mkv\\|avi\\|webm\\)$" "mpv")))
     (setq-local truncate-lines t)
     (setq dired-dwim-target t
           dired-listing-switches "-alh")
