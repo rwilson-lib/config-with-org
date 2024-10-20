@@ -2881,7 +2881,9 @@ Org Pandoc
     :config
     (setq evil-ex-search-case "insensitive"
           evil-echo-state t
-          evil-auto-balance-w nil)
+          evil-auto-balance-w nil
+          select-enable-clipboard t  ;; Sync with the system clipboard
+          evil-want-register-synchronization t)  ;; Synchronize registers
 
     (evil-mode 1)
     (global-evil-surround-mode)
