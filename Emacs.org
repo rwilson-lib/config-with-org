@@ -732,6 +732,8 @@ Orderless Completion style
  Marginalia
 #+begin_src emacs-lisp
   (use-package marginalia 
+     :bind (:map minibuffer-local-map
+         ("M-A" . marginalia-cycle))
     :after vertico
     :init
     (marginalia-mode))
