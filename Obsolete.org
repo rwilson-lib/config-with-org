@@ -938,43 +938,6 @@
 #+end_src
 
 * Embark
-** Embark
-#+begin_src emacs-lisp
-  (use-package embark
-    :bind
-    (("M-o" . embark-act)         ;; pick some comfortable binding
-     ("M-O" . embark-dwim)        ;; good alternative: M-.
-     ("C-h B" . embark-bindings) ;; alternative for `describe-bindings'
-
-     :map minibuffer-local-map
-     ("C-b" . embark-become)) 
-
-    :init
-    ;; Optionally replace the key help with a completing-read interface
-    (setq prefix-help-command #'embark-prefix-help-command)
-
-    :config
-    ;; Hide the mode line of the Embark live/completions buffers
-    (add-to-list 'display-buffer-alist
-		 '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
-		   nil
-		   (window-parameters (mode-line-format . none)))))
-  ;; use C-u to perform multiple action
-
-  (use-package avy-embark-collect
-    :after embark)
-
-  (use-package citar-embark
-    :after  citar-embark)
-
-  ;; "C-." #'embark-act
-  ;; "C-M-o" #'kb/vertico-quick-embark
-  ;; (defun kb/vertico-quick-embark (&optional arg)
-  ;;   "Embark on candidate using quick keys."
-  ;;   (interactive)
-  ;;   (when (vertico-quick-jump)
-  ;;     (embark-act arg)))
-#+end_src
 
 ** Lang tools
 #+begin_src emacs-lisp
