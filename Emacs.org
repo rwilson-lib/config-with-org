@@ -51,6 +51,24 @@ use-package extras
           system-packages-use-sudo nil))
 #+end_src
 
+System fonts
+
+#+begin_src emacs-lisp
+
+  ;; For all new frames henceforth
+  (add-to-list 'default-frame-alist '(height . 40))
+  (add-to-list 'default-frame-alist '(width . 150))
+
+  (cond
+   ((eq system-type 'windows-nt)
+    (set-frame-font "Cascadia Code-14" nil t))
+   ((eq system-type 'gnu/linux)
+    (set-frame-font "Cascadia Code-14" nil t))
+   ((eq system-type 'darwin)  
+    (set-frame-font "Cascadia Code-14" nil t)))
+
+  #+end_src
+
 * General configuration
 ** Better defaults
 
@@ -109,26 +127,16 @@ Defaults
   (display-time)                         ; display clock in mode-line
 
 
+  ;; don't use desktop mode for terminal
+  (when (display-graphic-p)
+    (desktop-save-mode 1);; is x window
+    (add-to-list 'desktop-globals-to-save 'register-alist)
+    (setq desktop-save 't))
+
+
 
 #+end_src
 
-System fonts
-
-#+begin_src emacs-lisp
-
-  ;; For all new frames henceforth
-  (add-to-list 'default-frame-alist '(height . 35))
-  (add-to-list 'default-frame-alist '(width . 140))
-
-  (cond
-   ((eq system-type 'windows-nt)
-    (set-frame-font "Cascadia Code-14" nil t))
-   ((eq system-type 'gnu/linux)
-    (set-frame-font "Cascadia Code-14" nil t))
-   ((eq system-type 'darwin)  
-    (set-frame-font "Cascadia Code-14" nil t)))
-
-  #+end_src
 
   File-related customizations.
 
